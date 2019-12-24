@@ -1,0 +1,18 @@
+extends ../layout/common
+block custom
+    h1 Đăng nhập
+        if erorrs 
+            each erorr in erorrs 
+                .alert.alert-danger= erorr 
+
+        form(action="/login",method="POST")
+            .form-group
+            label(for="username") UserName
+            input#username.form-control(type="text",name ="username", value=values ? values.username : "")
+
+            .form-group
+            label(for="pass") Pass
+            input#pass.form-control(type="text",name ="pass",value=values ? values.pass : "")
+
+
+            button.btn.btn-danger.mt-2 Login
