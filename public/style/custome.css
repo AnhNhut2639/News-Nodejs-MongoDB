@@ -1,4 +1,5 @@
 .abc{
     color: red;
-    background-color: aqua;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 100px;
 }
