@@ -9,6 +9,7 @@ var admin = require('./routes/admin.route');
 var client = require('./routes/client.route');
 //var middlewareLogin = require('./middlewares/login.middleware'); // làm middleware để yêu cầu đăng nhập
 //var middlewareLogin = require('./middlewares/checkLogin.middleware');
+var middlewareLogin = require('./middlewares/checkLogin.middleware');
 app.set('view engine', 'pug');
 app.set('views', './views');
 
@@ -18,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //var router = express.Router();
 var mongoose = require('mongoose'); // use mongoose db
 mongoose.connect(process.env.MONGO_URL);
+app.use(cookieParser(process.env.SESSION_SECRET));
 //mongoose.connect('mongodb://localhost/ITNews');
 
 // app.get('/', function(req,res){ //endpoint này sẽ viết trang cho người dùng là đọc giả
@@ -30,7 +32,7 @@ app.use('/login',login); // endpoint này sẽ dùng để làm middleware đăn
 
 //app.use('/admin',admin); // phân quyên quản lý của admin(dòng nay để test)
 //app.use('/admin',middlewareLogin.checkLogin,admin); // dùng dòng này để  chạy cuối cùng khi hoàn thành dùng middleware để yêu cầu đăng nhập
-app.use('/admin',admin); // dùng middleware trước của controller của endpoint
+app.use('/admin',middlewareLogin.checkLogin,admin); // dùng middleware xét cookie 
 
 
 app.listen(port, () => console.log(`Deployed ${port}!`))
