@@ -4,7 +4,7 @@ var router = express.Router();
 var authController = require('../controllers/auth.controller.js');
 //var validate = require('../validate/validate.city');
 
-router.get('/login',authController.requireLogin);
-router.post('/login',authController.postLogin); // đường dẫn trong action form để viết action trong form đăng nhập 
+router.get('/',authController.requireLogin);
+router.post('/',authController.postLogin); // đường dẫn trong action form để viết action trong form đăng nhập 
 
 module.exports = router;

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon babel-node index.js",
+    "start": "nodemon index.js --exec babel-node",
     "migrate-create": "migrate create --compiler=\"js:@babel/register\"",
     "migrate-up": "migrate up --compiler=\"js:@babel/register\"",
     "migrate-down": "migrate down --compiler=\"js:@babel/register\"",
