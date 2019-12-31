@@ -16,15 +16,22 @@ module.exports.postLogin=  async function(req,res,next){
             res.render('admin/manager');
         }
     }
-    throw new Error('sai tài khoản hoặc mật khẩu');
+   // throw new Error('sai tài khoản hoặc mật khẩu');
+   res.render('auth/login',{
+       erorrs:[
+        'Sai tài khoản hoặc mật khẩu'
+       ],
+       values: req.body
+       
+   });
 
 };
 
 
 
-module.exports.adminCreate= function(req,res){
-    res.render('admin/create.pug');
-};
-module.exports.manager= function(req,res){
-    res.render('admin/manager.pug');
-}
+// module.exports.adminCreate= function(req,res){
+//     res.render('admin/create.pug');
+// };
+// module.exports.manager= function(req,res){
+//     res.render('admin/manager.pug');
+// }
