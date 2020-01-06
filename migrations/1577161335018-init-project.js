@@ -1,17 +1,18 @@
 import mongoose from 'mongoose';
 //const mongoose = require('mongoose');
 import { MALE } from "../enums/userGender";
-import Users from '../model/users'
-
+import Users from '../model/usersModel';
 
 
 const systemUser = {
   username: 'admin',
   password: '123456',
-  full_name:'Le Anh Nhut',
-  email: 'ITNews.admin@gmail.com',
-  gender: MALE,
-  birth_day: '19/10/1998',
+  sdt: '01653948141',
+  email: 'lanhut3926@gmail.com',
+  tenDayDu: 'Le Anh Nhut',
+  ngaySinh:'26/12/1998',
+  gioiTinh: MALE
+
 };
 
 const insertSystemUser = () => new Users(systemUser).save();

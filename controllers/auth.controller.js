@@ -1,5 +1,5 @@
 //import userModel from '../model/users';
-var userModel = require('../model/users');
+var userModel = require('../model/usersModel');
 module.exports.requireLogin= function(req,res){
     res.render('auth/login');
 };

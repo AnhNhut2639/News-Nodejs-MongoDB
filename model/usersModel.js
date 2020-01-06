@@ -16,30 +16,38 @@ const userSchema = Schema({
         type: String,
         required: true
         },
-    full_name:{
+    sdt:{
         type: String,
         required: true
-    },
-    birth_day:{
-        type: String,
-        required: true
-    },
-    gender: Number,
+      },
     email:{
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
-    created_at:{
-        type:Date,
-        default: Date.now,
-        required:true
+    tenDayDu:{
+      type: String,
+      required: true
     },
+    ngaySinh:{
+      type: String,
+      required: true
+    },
+  gioiTinh:{
+    type: Number,
+    required: true
+  },
+  ngayTao:{
+    type: Date,
+    default: Date.now,
+    required: true
+  },
+  idNguoiTao:{
+    type: String
+  },
+  idPQ:{
+    type: String
+  }
 
-    updated_at:{
-        type:Date,
-        default: Date.now,
-        required:true
-    }
 
 });
 
