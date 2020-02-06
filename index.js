@@ -1,38 +1,56 @@
-require('dotenv').config();
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
+const handlebars = require("express-handlebars");
 const app = express();
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
+var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
 const port = 3000;
-var login = require('./routes/auth.route'); //login sẽ làm midffleware khi ai đó muốn đăng nhập vào hệ thống (localhost:3000/login)
-var admin = require('./routes/admin.route');
-var client = require('./routes/client.route');
+const routers = require("./routers");
+
+// var login = require("./routes/auth.route"); //login sẽ làm midffleware khi ai đó muốn đăng nhập vào hệ thống (localhost:3000/login)
+
 //var middlewareLogin = require('./middlewares/login.middleware'); // làm middleware để yêu cầu đăng nhập
 //var middlewareLogin = require('./middlewares/checkLogin.middleware');
-var middlewareLogin = require('./middlewares/checkLogin.middleware');
-app.set('view engine', 'pug');
-app.set('views', './views');
+var middlewareLogin = require("./middlewares/checkLogin.middleware");
+// app.set("view engine", "pug");
+// app.set("views", "./views");
 
-app.use(bodyParser.json()); 
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.engine(
+  "handlebars",
+  handlebars({
+    extname: "handlebars",
+    defaultLayout: "main",
+    layoutsDir: __dirname + "/views/layouts",
+    partialsDir: __dirname + "/views/partials"
+  })
+);
+app.set("view engine", "handlebars");
+app.set("views", __dirname + "/views");
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //var router = express.Router();
-var mongoose = require('mongoose'); // use mongoose db
-mongoose.connect(process.env.MONGO_URL);
-app.use(cookieParser(process.env.SESSION_SECRET));
+// var mongoose = require("mongoose"); // use mongoose db
+// mongoose.connect(process.env.MONGO_URL);
+// app.use(cookieParser(process.env.SESSION_SECRET));
 //mongoose.connect('mongodb://localhost/ITNews');
 
 // app.get('/', function(req,res){ //endpoint này sẽ viết trang cho người dùng là đọc giả
 //     res.render('index.pug');
 // })
 
-app.use('/',client);//endpoint này sẽ viết trang cho người dùng là đọc giả
+// app.use("/", client); //endpoint này sẽ viết trang cho người dùng là đọc giả
 
-app.use('/login',login); // endpoint này sẽ dùng để làm middleware đăng nhập
+// app.use("/login", login); // endpoint này sẽ dùng để làm middleware đăng nhập
+
+// WebRouter -->
+app.use("/", routers.web);
+app.use(express.static(__dirname + "/public"));
+// <-- WebRouter
 
 //app.use('/admin',admin); // phân quyên quản lý của admin(dòng nay để test)
 //app.use('/admin',middlewareLogin.checkLogin,admin); // dùng dòng này để  chạy cuối cùng khi hoàn thành dùng middleware để yêu cầu đăng nhập
-app.use('/admin',middlewareLogin.checkLogin,admin); // dùng middleware xét cookie 
+// app.use("/admin", middlewareLogin.checkLogin, admin); // dùng middleware xét cookie
 
-
-app.listen(port, () => console.log(`Deployed ${port}!`))
+app.listen(port, () => console.log(`Deployed ${port}!`));
