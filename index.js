@@ -31,9 +31,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //var router = express.Router();
-// var mongoose = require("mongoose"); // use mongoose db
-// mongoose.connect(process.env.MONGO_URL);
-// app.use(cookieParser(process.env.SESSION_SECRET));
+var mongoose = require("mongoose"); // use mongoose db
+mongoose.connect(process.env.MONGO_URL);
+app.use(cookieParser(process.env.SESSION_SECRET));
 //mongoose.connect('mongodb://localhost/ITNews');
 
 // app.get('/', function(req,res){ //endpoint này sẽ viết trang cho người dùng là đọc giả
