@@ -1,5 +1,7 @@
 const WebRouter = require("./web");
+const AdminRouter = require("./admin");
 
 module.exports = {
-  web: WebRouter
+  web: WebRouter,
+  admin: AdminRouter
 };
