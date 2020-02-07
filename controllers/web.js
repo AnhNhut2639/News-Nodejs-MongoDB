@@ -10,12 +10,7 @@ function post(req, res) {
   return res.render("post", {});
 }
 
-function admin(req, res) {
-  return res.render("admin", { layout: "admin" });
-}
-
 module.exports = {
   home,
-  post,
-  admin
+  post
 };
