@@ -48,6 +48,7 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 app.use("/", routers.web);
 app.use("/admin", routers.admin);
 app.use("/editor", routers.editor);
+app.use("/login", routers.login);
 app.use(express.static(__dirname + "/public"));
 // <-- WebRouter
 
