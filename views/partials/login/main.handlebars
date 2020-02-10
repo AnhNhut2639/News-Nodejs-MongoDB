@@ -8,13 +8,14 @@
                         <h5>Đăng Nhập</h5>
                     </div>
 
-                    <form action="#" method="post">
+
+                    <form action="/login" method="post">
                         <div class="form-group">
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                placeholder="Vui lòng nhập tài khoản">
+                            <input type="text" class="form-control" name="username" id="exampleInputEmail1"
+                                placeholder="Vui lòng nhập tài khoản" value={{values}}>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" id="exampleInputPassword1"
+                            <input type="password" class="form-control" name="password" id="exampleInputPassword1"
                                 placeholder="Mật khẩu">
                         </div>
                         <div class="form-group">
@@ -24,8 +25,17 @@
                                     nhập</label>
                             </div>
                         </div>
+                        <p>
+                            {{#each erorrs}}
+                            <div class="alert alert-danger" role="alert">
+                                {{erorr}}
+                            </div>
+                            {{/each}}
+                        </p>
+
                         <button type="submit" class="btn mag-btn mt-30">Đăng Nhập</button>
                     </form>
+
                 </div>
             </div>
         </div>

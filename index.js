@@ -4,7 +4,7 @@ const handlebars = require("express-handlebars");
 const app = express();
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
-const port = 3000;
+const port = 8000;
 const routers = require("./routers");
 
 // var login = require("./routes/auth.route"); //login sẽ làm midffleware khi ai đó muốn đăng nhập vào hệ thống (localhost:3000/login)
@@ -46,7 +46,7 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 
 // WebRouter -->
 app.use("/", routers.web);
-app.use("/admin", routers.admin);
+app.use("/admin", middlewareLogin.checkLogin, routers.admin);
 app.use("/editor", routers.editor);
 app.use("/login", routers.login);
 app.use(express.static(__dirname + "/public"));
