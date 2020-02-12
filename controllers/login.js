@@ -17,8 +17,8 @@ async function authLogin(req, res) {
         // cần phải sửa chỗ này
         return res.render("admin", {
           //render ra file o view
-          layout: "admin",
-          name: username
+          layout: "admin"
+          //name: username
         });
       } else if (user.username === "editor") {
         return res.render("editor", {

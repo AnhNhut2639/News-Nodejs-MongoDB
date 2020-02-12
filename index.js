@@ -8,7 +8,7 @@ const port = 3000;
 const routers = require("./routers");
 
 // var login = require("./routes/auth.route"); //login sẽ làm midffleware khi ai đó muốn đăng nhập vào hệ thống (localhost:3000/login)
-let middlewareLogin = require("./middlewares/checkLogin.middleware");
+let check = require("./middlewares/check.middleware");
 // app.set("view engine", "pug");
 // app.set("views", "./views");
 
@@ -43,8 +43,8 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 
 // WebRouter -->
 app.use("/", routers.web);
-app.use("/admin", middlewareLogin.checkLogin, routers.admin);
-app.use("/editor", middlewareLogin.checkLogin, routers.editor);
+app.use("/admin", check.checkCookies, routers.admin);
+app.use("/editor", check.checkCookies, routers.editor);
 app.use("/login", routers.login);
 app.use(express.static(__dirname + "/public"));
 // <-- WebRouter

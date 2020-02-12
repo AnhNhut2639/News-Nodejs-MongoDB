@@ -21,7 +21,9 @@
 <body data-spy="scroll" data-target="#navbar-example">
 
     <div id="preloader"></div>
-    {{> admin/header }}
+    {{#if username}}
+    {{> admin/header}}
+    {{/if}}
     {{{ body }}}
     {{> admin/admin-footer }}
 
