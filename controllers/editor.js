@@ -51,7 +51,7 @@ function editorNewPost(req, res) {
 //     tacGia: req.body.author,
 //     nguon: req.body.sources,
 //     noiDung: req.body.editor,
-//     //  idNguoiDang:,
+//     idNguoiDang: res.locals.user.id,
 //     ngayDang: createdDate,
 //     hashtag: req.body.themes,
 //     // idchuDe:,

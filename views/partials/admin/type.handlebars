@@ -1,3 +1,80 @@
 <div class="section-heading">
     <h5>Thể Loại</h5>
 </div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Thể Loại</th>
+            <th scope="col">Chủ Đề</th>
+            <th scope="col">Xóa</th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+        <tr>
+            <th scope="row">1</th>
+            <td colspan="2">Thể Thao</td>
+            <td>xóa</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>Bóng Đá Nam</td>
+            <td>xóa</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>Bóng Đá Nữ</td>
+            <td>xóa</td>
+        </tr>
+
+
+
+
+    </tbody>
+</table>
+
+
+
+
+<div class="section-heading">
+    <h5> Thêm Thể Loại</h5>
+</div>
+<form action="" method="GET">
+    <div class="form-group">
+        <label>Thể Loại</label>
+        <input type="text" class="form-control" name="addType">
+    </div>
+
+    <button type="submit" class="btn btn-info">Thêm Thể Loại</button>
+
+</form>
+<br>
+<br>
+<br>
+
+<div class="section-heading">
+    <h5> Thêm Chủ Đề</h5>
+</div>
+
+<form action="" method="GET">
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="typeSelect">Thể Loại</label>
+        </div>
+        <select class="custom-select" id="typeSelect" name="typeSelected" required="true">
+            <option selected>Choose...</option>
+            <option value="1">One</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Chủ Đề</label>
+        <input type="text" class="form-control" name="addTheme">
+    </div>
+
+    <button type="submit" class="btn btn-info">Thêm Chủ Đề</button>
+
+</form>
