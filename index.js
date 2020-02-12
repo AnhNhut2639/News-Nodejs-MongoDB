@@ -4,14 +4,11 @@ const handlebars = require("express-handlebars");
 const app = express();
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
-const port = 8000;
+const port = 3000;
 const routers = require("./routers");
 
 // var login = require("./routes/auth.route"); //login sẽ làm midffleware khi ai đó muốn đăng nhập vào hệ thống (localhost:3000/login)
-
-//var middlewareLogin = require('./middlewares/login.middleware'); // làm middleware để yêu cầu đăng nhập
-//var middlewareLogin = require('./middlewares/checkLogin.middleware');
-var middlewareLogin = require("./middlewares/checkLogin.middleware");
+let middlewareLogin = require("./middlewares/checkLogin.middleware");
 // app.set("view engine", "pug");
 // app.set("views", "./views");
 
@@ -47,7 +44,7 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 // WebRouter -->
 app.use("/", routers.web);
 app.use("/admin", middlewareLogin.checkLogin, routers.admin);
-app.use("/editor", routers.editor);
+app.use("/editor", middlewareLogin.checkLogin, routers.editor);
 app.use("/login", routers.login);
 app.use(express.static(__dirname + "/public"));
 // <-- WebRouter

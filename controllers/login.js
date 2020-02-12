@@ -13,21 +13,20 @@ async function authLogin(req, res) {
       res.cookie("ID", user.id, {
         signed: true
       });
-      return res.render("admin", {
-        layout: "admin",
-        name: username
-      });
+      if (user.username === "admin") {
+        // cần phải sửa chỗ này
+        return res.render("admin", {
+          //render ra file o view
+          layout: "admin",
+          name: username
+        });
+      } else if (user.username === "editor") {
+        return res.render("editor", {
+          layout: "editor"
+        });
+      }
     }
   }
-  // throw new Error("sai tài khoản hoặc mật khẩu");
-  // if (!user) {
-  //   return res.render("login", {
-  //     layout: "login",
-  //     erorrs: [{ error: "Sai Tài Khoản hoặc Mật Khẩu" }],
-  //     value: req.body
-  //   });
-  //   return;
-  // }
   if (user.password !== password) {
     return res.render("login", {
       layout: "login",
