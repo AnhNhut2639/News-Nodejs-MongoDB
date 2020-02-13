@@ -6,14 +6,15 @@ function admin(req, res) {
   // var username = res.locals.user.username; // từ middleware checkCookie sang
   return res.render("admin", {
     layout: "admin",
-    username: res.locals.user.username
+    username: res.locals.user.tenDayDu
   });
 }
 
 function adminApprove(req, res) {
+  console.log(res.locals.user.tenDayDu);
   return res.render("admin-approve", {
     layout: "admin",
-    username: res.locals.user.username
+    username: res.locals.user.tenDayDu
   });
 }
 async function adminType(req, res) {
@@ -21,7 +22,7 @@ async function adminType(req, res) {
   //console.log(type);
   return res.render("admin-type", {
     layout: "admin",
-    username: res.locals.user.username, //load dữ liệu lên trang thể loại và chủ đề
+    username: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
     types: type
   });
 }
@@ -43,41 +44,41 @@ async function adminAddType(req, res) {
 function adminProfile(req, res) {
   return res.render("admin-profile", {
     layout: "admin",
-    username: res.locals.user.username
+    username: res.locals.user.tenDayDu
   });
 }
 
 function adminAccount(req, res) {
   return res.render("admin-account", {
     layout: "admin",
-    username: res.locals.user.username
+    username: res.locals.user.tenDayDu
   });
 }
 
 function adminRegister(req, res) {
   return res.render("admin-register", {
     layout: "admin",
-    username: res.locals.user.username
+    username: res.locals.user.tenDayDu
   });
 }
 
 function adminChangePass(req, res) {
   return res.render("admin-changePass", {
     layout: "admin",
-    username: res.locals.user.username
+    username: res.locals.user.tenDayDu
   });
 }
 
 function adminAdvertise(req, res) {
   return res.render("admin-advertise", {
     layout: "admin",
-    username: res.locals.user.username
+    username: res.locals.user.tenDayDu
   });
 }
 function adminBanner(req, res) {
   return res.render("admin-banner", {
     layout: "admin",
-    username: res.locals.user.username
+    username: res.locals.user.tenDayDu
   });
 }
 

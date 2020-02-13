@@ -8,19 +8,20 @@ async function authLogin(req, res) {
   const password = req.body.password;
 
   const user = await userModel.findOne({ username });
+  //console.log(user.PQ);
   if (user) {
     if (await user.comparePassword(password)) {
       res.cookie("ID", user.id, {
         signed: true
       });
-      if (user.username === "admin") {
+      if (user.PQ === "admin") {
         // cần phải sửa chỗ này
         return res.render("admin", {
           //render ra file o view
           layout: "admin"
           //name: username
         });
-      } else if (user.username === "editor") {
+      } else if (user.PQ === "editor") {
         return res.render("editor", {
           layout: "editor"
         });
