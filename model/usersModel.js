@@ -1,8 +1,13 @@
-import { model, Types, Schema } from "mongoose";
-import bcrypt from "bcryptjs";
-import uuid from "uuid";
+//import { model, Types, Schema } from "mongoose";
+var model = require("mongoose");
+var mongoose = require("mongoose");
+//var Schema = require("Schema");
+//import bcrypt from "bcryptjs";
+var bcrypt = require("bcryptjs");
+//import uuid from "uuid";
+var uuid = require("uuid");
 
-const userSchema = Schema(
+const userSchema = mongoose.Schema(
   {
     id: {
       type: String,
@@ -34,8 +39,16 @@ const userSchema = Schema(
       required: true
     },
     gioiTinh: {
-      type: Number,
+      type: String,
       required: true
+    },
+    cmnd: {
+      type: String,
+      required: true
+    },
+    khoa:{
+      type:Boolean,
+      default: false
     },
     ngayTao: {
       type: Date,
@@ -45,7 +58,7 @@ const userSchema = Schema(
     idNguoiTao: {
       type: String
     },
-    idPQ: {
+    PQ: {
       type: String
     }
   },
@@ -82,5 +95,5 @@ userSchema.methods.comparePassword = function(password) {
     return err;
   }
 };
-const Users = model("Users", userSchema);
+const Users = mongoose.model("Users", userSchema);
 module.exports = Users;

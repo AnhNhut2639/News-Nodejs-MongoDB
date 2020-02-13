@@ -1,4 +1,5 @@
 var typesModel = require("../model/typesNewsModel");
+var themesModel = require("../model/themesModel");
 
 function admin(req, res) {
   //console.log(res.locals.user.username);
@@ -17,17 +18,25 @@ function adminApprove(req, res) {
 }
 async function adminType(req, res) {
   var type = await typesModel.find({});
-  console.log(type);
+  //console.log(type);
   return res.render("admin-type", {
     layout: "admin",
-    username: res.locals.user.username,
+    username: res.locals.user.username, //load dữ liệu lên trang thể loại và chủ đề
     types: type
   });
 }
-function adminAddType(req, res) {
+async function adminAddType(req, res) {
+  var idType = "1f1ce022-4e66-4f97-a03a-3f64b7c60f8b";
+  // const theme = await themesModel.findOne({idType});
   typesModel.create({
     tenTheLoai: req.body.addType
   });
+
+  themesModel.create({
+    tenChuDe: req.body.addTheme,
+    idTheLoai: idType
+  });
+
   return res.redirect("/admin/type");
 }
 
