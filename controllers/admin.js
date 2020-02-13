@@ -1,5 +1,6 @@
 var typesModel = require("../model/typesNewsModel");
 var themesModel = require("../model/themesModel");
+var usersModel = require("../model/usersModel");
 
 function admin(req, res) {
   //console.log(res.locals.user.username);
@@ -11,7 +12,7 @@ function admin(req, res) {
 }
 
 function adminApprove(req, res) {
-  console.log(res.locals.user.tenDayDu);
+  // console.log(res.locals.user.tenDayDu);
   return res.render("admin-approve", {
     layout: "admin",
     username: res.locals.user.tenDayDu
@@ -62,6 +63,22 @@ function adminRegister(req, res) {
   });
 }
 
+function adminAddAccount(req, res) {
+  usersModel.create({
+    username: req.body.userName,
+    password: req.body.passWord,
+    sdt: req.body.phone,
+    email: req.body.email,
+    tenDayDu: req.body.fullName,
+    ngaySinh: req.body.bday,
+    gioiTinh: req.body.checkedGender,
+    cmnd: req.body.CMND,
+    idNguoiTao: res.locals.user.id,
+    PQ: req.body.permission
+  });
+  res.redirect("/admin/register");
+}
+
 function adminChangePass(req, res) {
   return res.render("admin-changePass", {
     layout: "admin",
@@ -92,5 +109,6 @@ module.exports = {
   adminChangePass,
   adminAdvertise,
   adminBanner,
-  adminAddType
+  adminAddType,
+  adminAddAccount
 };

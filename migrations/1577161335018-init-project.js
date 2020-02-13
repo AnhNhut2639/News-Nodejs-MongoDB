@@ -10,7 +10,7 @@ const systemUser = {
   password: "123456",
   sdt: "01653948141",
   email: "lanhut3926@gmail.com",
-  tenDayDu: "Le Anh Nhut",
+  tenDayDu: "Lê Anh Nhựt",
   ngaySinh: "26/12/1998",
   gioiTinh: "Nam",
   cmnd: "342187164",
