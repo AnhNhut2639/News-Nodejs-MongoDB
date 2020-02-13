@@ -1,14 +1,17 @@
 import { model, Types, Schema } from "mongoose";
-import uuid from 'uuid';
+import uuid from "uuid";
 
-const advertiseSchema = Schema({
-    idQC:{type:String , default: uuid , required: true},
-    motaQC:{type: String , required: true},
-    urlHinhQC:{type: String , required: true},
+const advertiseSchema = Schema(
+  {
+    idQC: { type: String, default: uuid, required: true },
+    motaQC: { type: String, required: true },
+    urlHinhQC: { type: String, required: true },
     luotXem: Number,
-    ngayDang:{type: String , required: true},
-    idNguoiDang:{type: String , required: true},
-});
+    ngayDang: { type: String, required: true },
+    idNguoiDang: { type: String, required: true }
+  },
+  { versionKey: false }
+);
 
-const Advertise = model('Advertise',advertiseSchema);
+const Advertise = model("Advertise", advertiseSchema);
 module.exports = Advertise;

@@ -8,27 +8,27 @@
             <th scope="col">STT</th>
             <th scope="col">Thể Loại</th>
             <th scope="col">Chủ Đề</th>
-            <th scope="col">Xóa</th>
+            <th scope="col"> &emsp; &emsp; Xóa</th>
         </tr>
     </thead>
     <tbody>
-
-
+        {{#each types}}
         <tr>
             <th scope="row">1</th>
-            <td colspan="2">Thể Thao</td>
-            <td>xóa</td>
+            <td colspan="2">{{types.tenTheLoai}}</td>
+            <td><a href="#"><i class="fa fa-trash ml-5"></td>
         </tr>
-        <tr>
+        {{/each}}
+        {{!-- <tr>
             <td colspan="2"></td>
             <td>Bóng Đá Nam</td>
-            <td>xóa</td>
+            <td><a href="#"><i class="fa fa-trash ml-5"></td>
         </tr>
         <tr>
             <td colspan="2"></td>
             <td>Bóng Đá Nữ</td>
-            <td>xóa</td>
-        </tr>
+            <td><a href="#"><i class="fa fa-trash ml-5"></td>
+        </tr> --}}
 
 
 
@@ -42,7 +42,7 @@
 <div class="section-heading">
     <h5> Thêm Thể Loại</h5>
 </div>
-<form action="" method="GET">
+<form action="" method="POST">
     <div class="form-group">
         <label>Thể Loại</label>
         <input type="text" class="form-control" name="addType">
@@ -59,7 +59,7 @@
     <h5> Thêm Chủ Đề</h5>
 </div>
 
-<form action="" method="GET">
+<form action="" method="POST">
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -67,7 +67,7 @@
         </div>
         <select class="custom-select" id="typeSelect" name="typeSelected" required="true">
             <option selected>Choose...</option>
-            <option value="1">One</option>
+            <option value="Xe">Xe</option>
         </select>
     </div>
     <div class="form-group">

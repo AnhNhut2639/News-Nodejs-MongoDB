@@ -1,3 +1,5 @@
+var typesModel = require("../model/typesNewsModel");
+
 function admin(req, res) {
   //console.log(res.locals.user.username);
   // var username = res.locals.user.username; // từ middleware checkCookie sang
@@ -13,8 +15,20 @@ function adminApprove(req, res) {
     username: res.locals.user.username
   });
 }
-function adminType(req, res) {
-  return res.render("admin-type", { layout: "admin" });
+async function adminType(req, res) {
+  var type = await typesModel.find({});
+  console.log(type);
+  return res.render("admin-type", {
+    layout: "admin",
+    username: res.locals.user.username,
+    types: type
+  });
+}
+function adminAddType(req, res) {
+  typesModel.create({
+    tenTheLoai: req.body.addType
+  });
+  return res.redirect("/admin/type");
 }
 
 function adminProfile(req, res) {
@@ -67,5 +81,6 @@ module.exports = {
   adminRegister,
   adminChangePass,
   adminAdvertise,
-  adminBanner
+  adminBanner,
+  adminAddType
 };

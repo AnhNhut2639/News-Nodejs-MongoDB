@@ -5,6 +5,7 @@ const adminRouter = express.Router();
 adminRouter.get("/", controllers.admin.admin);
 adminRouter.get("/approve", controllers.admin.adminApprove);
 adminRouter.get("/type", controllers.admin.adminType);
+adminRouter.post("/type", controllers.admin.adminAddType);
 adminRouter.get("/profile", controllers.admin.adminProfile);
 adminRouter.get("/account", controllers.admin.adminAccount);
 adminRouter.get("/register", controllers.admin.adminRegister);
