@@ -8,7 +8,7 @@ async function authLogin(req, res) {
   const password = req.body.password;
 
   const user = await userModel.findOne({ username });
-  //console.log(user.PQ);
+  //console.log(user.password);
   if (user) {
     if (await user.comparePassword(password)) {
       res.cookie("ID", user.id, {

@@ -85,6 +85,55 @@ function adminChangePass(req, res) {
     username: res.locals.user.tenDayDu
   });
 }
+async function adminChange(req, res) {
+  let id = res.locals.user.id;
+  let currentPassword = req.body.oldPassword;
+  let newPassword = req.body.newPassword;
+  let confirmNewPassword = req.body.confirmNewPassword;
+  let condition = { id: id };
+  let query = { $set: { password: confirmNewPassword } };
+  let username = res.locals.user.username;
+
+  const user = await usersModel.findOne({ id });
+
+  if (user) {
+    if (await user.comparePassword(currentPassword)) {
+      //check new match password
+      if (newPassword != confirmNewPassword) {
+        return res.render("admin-changePass", {
+          layout: "admin",
+          username: res.locals.user.tenDayDu,
+          errConfirm: "Mật khẩu không trùng khớp"
+        });
+      }
+      user.password = confirmNewPassword;
+      await user.save();
+    } else {
+      return res.render("admin-changePass", {
+        layout: "admin",
+        username: res.locals.user.tenDayDu,
+        err: "Mật khẩu cu không chính xác"
+      });
+    }
+  }
+
+  // if (user) {
+  //   if (await user.comparePassword(currentPassword)) {
+  //     if (newPassword === confirmNewPassword) {
+  //       console.log(user);
+  //       user.updateOne({ id: user.id }, { password: confirmNewPassword });
+  //       await user.save();
+  //       // usersModel.updateOne(condition, query, function(err, res) {
+  //       //   if (err) throw err;
+  //       // });
+  //       res.redirect("/admin");
+  //     }
+  //   }
+  // }
+
+  // chuyen password hien tai sang brcypt
+  //sau do so sanh currentPassword vs res.locals.user.password
+}
 
 function adminAdvertise(req, res) {
   return res.render("admin-advertise", {
@@ -110,5 +159,6 @@ module.exports = {
   adminAdvertise,
   adminBanner,
   adminAddType,
-  adminAddAccount
+  adminAddAccount,
+  adminChange
 };

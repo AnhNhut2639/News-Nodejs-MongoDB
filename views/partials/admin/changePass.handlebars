@@ -7,11 +7,16 @@
 <!-- >>>>>>>>>>>>>>>>>>>>
              Profile Area
         <<<<<<<<<<<<<<<<<<<<< -->
-<form>
+<form method="POST">
     <div class="form-group">
         <label>Mật Khẩu Cũ</label>
         <input type="password" class="form-control" name="oldPassword">
     </div>
+    {{#if err}}
+    <div class="alert alert-danger" role="alert">
+        {{err}}
+    </div>
+    {{/if}}
     <div class="form-group">
         <label>Mật Khẩu Mới</label>
         <input type="password" class="form-control" name="newPassword">
@@ -20,6 +25,10 @@
         <label>Nhập Lại Mật Khẩu Mới</label>
         <input type="password" class="form-control" name="confirmNewPassword">
     </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
+    {{#if errConfirm}}
+    <div class="alert alert-danger" role="alert">
+        {{errConfirm}}
+    </div>
+    {{/if}}
+    <button type="submit" class="btn btn-primary">Đổi Mật Khẩu</button>
 </form>

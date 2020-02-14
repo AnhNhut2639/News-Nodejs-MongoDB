@@ -11,6 +11,7 @@ adminRouter.get("/account", controllers.admin.adminAccount);
 adminRouter.get("/register", controllers.admin.adminRegister);
 adminRouter.post("/register", controllers.admin.adminAddAccount);
 adminRouter.get("/changepass", controllers.admin.adminChangePass);
+adminRouter.post("/changepass", controllers.admin.adminChange);
 adminRouter.get("/advertise", controllers.admin.adminAdvertise);
 adminRouter.get("/banner", controllers.admin.adminBanner);
 module.exports = adminRouter;
