@@ -98,7 +98,6 @@ async function adminChange(req, res) {
 
   if (user) {
     if (await user.comparePassword(currentPassword)) {
-      //check new match password
       if (newPassword != confirmNewPassword) {
         return res.render("admin-changePass", {
           layout: "admin",
@@ -108,15 +107,19 @@ async function adminChange(req, res) {
       }
       user.password = confirmNewPassword;
       await user.save();
+      return res.render("admin-changePass", {
+        layout: "admin",
+        username: res.locals.user.tenDayDu,
+        success: "Đổi Mật Khẩu Thành Công"
+      });
     } else {
       return res.render("admin-changePass", {
         layout: "admin",
         username: res.locals.user.tenDayDu,
-        err: "Mật khẩu cu không chính xác"
+        err: "Mật khẩu cũ không chính xác"
       });
     }
   }
-
   // if (user) {
   //   if (await user.comparePassword(currentPassword)) {
   //     if (newPassword === confirmNewPassword) {
@@ -130,9 +133,6 @@ async function adminChange(req, res) {
   //     }
   //   }
   // }
-
-  // chuyen password hien tai sang brcypt
-  //sau do so sanh currentPassword vs res.locals.user.password
 }
 
 function adminAdvertise(req, res) {
