@@ -38,10 +38,16 @@ function deleteSign(str) {
 // }
 
 function editor(req, res) {
-  return res.render("editor", { layout: "editor" });
+  return res.render("editor", {
+    layout: "editor",
+    fullname: res.locals.user.tenDayDu
+  });
 }
 function editorNewPost(req, res) {
-  return res.render("editor-newPost", { layout: "editor" });
+  return res.render("editor-newPost", {
+    layout: "editor",
+    fullname: res.locals.user.tenDayDu
+  });
 }
 // function editorWriteNews(req, res) {
 //   let createdDate = getDateTime();
@@ -60,13 +66,22 @@ function editorNewPost(req, res) {
 //   res.redirect("/editor/posted");
 // }
 function editorPosted(req, res) {
-  return res.render("editor-posted", { layout: "editor" });
+  return res.render("editor-posted", {
+    layout: "editor",
+    fullname: res.locals.user.tenDayDu
+  });
 }
 function editorProfile(req, res) {
-  return res.render("editor-profile", { layout: "editor" });
+  return res.render("editor-profile", {
+    layout: "editor",
+    fullname: res.locals.user.tenDayDu
+  });
 }
 function editorChangePass(req, res) {
-  return res.render("editor-changePass", { layout: "editor" });
+  return res.render("editor-changePass", {
+    layout: "editor",
+    fullname: res.locals.user.tenDayDu
+  });
 }
 module.exports = {
   editor,
