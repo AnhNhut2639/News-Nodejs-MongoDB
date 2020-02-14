@@ -1,4 +1,5 @@
 const newsModel = require("../model/newsModel");
+const usersModel = require("../model/usersModel");
 function getDateTime() {
   let today = new Date();
   let dd = String(today.getDate()).padStart(2, "0");
@@ -83,11 +84,46 @@ function editorChangePass(req, res) {
     fullname: res.locals.user.tenDayDu
   });
 }
+async function editorChangePassword(req, res) {
+  let id = res.locals.user.id;
+  let currentPassword = req.body.oldPassword;
+  let newPassword = req.body.newPassword;
+  let confirmNewPassword = req.body.confirmNewPassword;
+
+  const user = await usersModel.findOne({ id });
+
+  if (user) {
+    if (await user.comparePassword(currentPassword)) {
+      if (newPassword != confirmNewPassword) {
+        return res.render("editor-changePass", {
+          layout: "editor",
+          fullname: res.locals.user.tenDayDu,
+          errConfirm: "Mật khẩu không trùng khớp"
+        });
+      }
+      user.password = confirmNewPassword;
+      await user.save();
+      return res.render("editor-changePass", {
+        layout: "editor",
+        fullname: res.locals.user.tenDayDu,
+        success: "Đổi Mật Khẩu Thành Công"
+      });
+    } else {
+      return res.render("editor-changePass", {
+        layout: "editor",
+        fullname: res.locals.user.tenDayDu,
+        err: "Mật khẩu cũ không chính xác"
+      });
+    }
+  }
+}
+
 module.exports = {
   editor,
   editorNewPost,
   editorPosted,
   editorProfile,
-  editorChangePass
+  editorChangePass,
+  editorChangePassword
   //editorWriteNews
 };

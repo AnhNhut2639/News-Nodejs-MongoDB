@@ -7,7 +7,7 @@ function admin(req, res) {
   // var username = res.locals.user.username; // từ middleware checkCookie sang
   return res.render("admin", {
     layout: "admin",
-    username: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu
   });
 }
 
@@ -15,7 +15,7 @@ function adminApprove(req, res) {
   // console.log(res.locals.user.tenDayDu);
   return res.render("admin-approve", {
     layout: "admin",
-    username: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu
   });
 }
 async function adminType(req, res) {
@@ -23,7 +23,7 @@ async function adminType(req, res) {
   //console.log(type);
   return res.render("admin-type", {
     layout: "admin",
-    username: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
+    fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
     types: type
   });
 }
@@ -45,21 +45,21 @@ async function adminAddType(req, res) {
 function adminProfile(req, res) {
   return res.render("admin-profile", {
     layout: "admin",
-    username: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu
   });
 }
 
 function adminAccount(req, res) {
   return res.render("admin-account", {
     layout: "admin",
-    username: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu
   });
 }
 
 function adminRegister(req, res) {
   return res.render("admin-register", {
     layout: "admin",
-    username: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu
   });
 }
 
@@ -82,7 +82,7 @@ function adminAddAccount(req, res) {
 function adminChangePass(req, res) {
   return res.render("admin-changePass", {
     layout: "admin",
-    username: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu
   });
 }
 async function adminChange(req, res) {
@@ -101,7 +101,7 @@ async function adminChange(req, res) {
       if (newPassword != confirmNewPassword) {
         return res.render("admin-changePass", {
           layout: "admin",
-          username: res.locals.user.tenDayDu,
+          fullname: res.locals.user.tenDayDu,
           errConfirm: "Mật khẩu không trùng khớp"
         });
       }
@@ -109,13 +109,13 @@ async function adminChange(req, res) {
       await user.save();
       return res.render("admin-changePass", {
         layout: "admin",
-        username: res.locals.user.tenDayDu,
+        fullname: res.locals.user.tenDayDu,
         success: "Đổi Mật Khẩu Thành Công"
       });
     } else {
       return res.render("admin-changePass", {
         layout: "admin",
-        username: res.locals.user.tenDayDu,
+        fullname: res.locals.user.tenDayDu,
         err: "Mật khẩu cũ không chính xác"
       });
     }
@@ -138,13 +138,13 @@ async function adminChange(req, res) {
 function adminAdvertise(req, res) {
   return res.render("admin-advertise", {
     layout: "admin",
-    username: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu
   });
 }
 function adminBanner(req, res) {
   return res.render("admin-banner", {
     layout: "admin",
-    username: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu
   });
 }
 
