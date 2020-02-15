@@ -20,7 +20,13 @@ function adminApprove(req, res) {
 }
 async function adminType(req, res) {
   var type = await typesModel.find({});
+
+  //const user = await usersModel.find({ id });
   //console.log(type);
+  // var name = type.filter(function(item) {
+  //   return item.tenTheLoai;
+  // });
+
   return res.render("admin-type", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
