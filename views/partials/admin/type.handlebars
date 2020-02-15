@@ -1,7 +1,9 @@
 <div class="section-heading">
     <h5>Thể Loại</h5>
 </div>
-
+{{#if message}}
+<div>{{message}}</div>
+{{/if}}
 <table class="table table-hover">
     <thead>
         <tr>
@@ -15,22 +17,26 @@
         {{#each types}}
         <tr>
             <th scope="row">1</th>
-            <td colspan="2">{{this.tenTheLoai}}</td>
-            <td><a href="#"><i class="fa fa-trash ml-5"></td>
-        </tr>
-        {{/each}}
-        {{!-- <tr>
-            <td colspan="2"></td>
-            <td>Bóng Đá Nam</td>
+            <td colspan="2">{{this}}</td>
             <td><a href="#"><i class="fa fa-trash ml-5"></td>
         </tr>
         <tr>
             <td colspan="2"></td>
-            <td>Bóng Đá Nữ</td>
+            <td>{{this}}</td>
+            <td><a href="#"><i class="fa fa-trash ml-5"></td>
+        </tr>
+        {{/each}}
+
+        {{!-- <tr>
+            <th scope="row">1</th>
+            <td colspan="2">Xe</td>
+            <td><a href="#"><i class="fa fa-trash ml-5"></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>McLaren</td>
             <td><a href="#"><i class="fa fa-trash ml-5"></td>
         </tr> --}}
-
-
 
 
     </tbody>
@@ -67,7 +73,9 @@
         </div>
         <select class="custom-select" id="typeSelect" name="typeSelected" required="true">
             <option selected>Choose...</option>
-            <option value="Xe">Xe</option>
+            {{#each types}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
         </select>
     </div>
     <div class="form-group">

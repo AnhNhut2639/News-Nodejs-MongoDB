@@ -19,30 +19,46 @@ function adminApprove(req, res) {
   });
 }
 async function adminType(req, res) {
-  var type = await typesModel.find({});
+  let type = await typesModel.find({});
+  let theme = await themesModel.find({});
+  //console.log(theme);
+  function Types(arr) {
+    let array = [];
+    for (let type of arr) {
+      array.push(type.tenTheLoai);
+    }
+    return array;
+  }
 
-  //const user = await usersModel.find({ id });
-  //console.log(type);
-  // var name = type.filter(function(item) {
-  //   return item.tenTheLoai;
-  // });
+  function Themes(arr) {
+    let array = [];
+    for (let type of arr) {
+      array.push(type.tenChuDe);
+    }
+    return array;
+  }
+  let nameOfTypes = Types(type);
+  let nameOfThemes = Themes(theme);
 
   return res.render("admin-type", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
-    types: type
+    types: nameOfTypes,
+    themes: nameOfThemes,
+    title: "Thể Loại và Chủ Đề"
   });
 }
 async function adminAddType(req, res) {
-  var idType = "1f1ce022-4e66-4f97-a03a-3f64b7c60f8b";
-  // const theme = await themesModel.findOne({idType});
+  let name = req.body.typeSelected;
+  let type = await typesModel.findOne({ tenTheLoai: name });
+
   typesModel.create({
     tenTheLoai: req.body.addType
   });
 
   themesModel.create({
     tenChuDe: req.body.addTheme,
-    idTheLoai: idType
+    idTheLoai: type.idTheLoai
   });
 
   return res.redirect("/admin/type");
@@ -96,10 +112,6 @@ async function adminChange(req, res) {
   let currentPassword = req.body.oldPassword;
   let newPassword = req.body.newPassword;
   let confirmNewPassword = req.body.confirmNewPassword;
-  let condition = { id: id };
-  let query = { $set: { password: confirmNewPassword } };
-  let username = res.locals.user.username;
-
   const user = await usersModel.findOne({ id });
 
   if (user) {
@@ -126,19 +138,6 @@ async function adminChange(req, res) {
       });
     }
   }
-  // if (user) {
-  //   if (await user.comparePassword(currentPassword)) {
-  //     if (newPassword === confirmNewPassword) {
-  //       console.log(user);
-  //       user.updateOne({ id: user.id }, { password: confirmNewPassword });
-  //       await user.save();
-  //       // usersModel.updateOne(condition, query, function(err, res) {
-  //       //   if (err) throw err;
-  //       // });
-  //       res.redirect("/admin");
-  //     }
-  //   }
-  // }
 }
 
 function adminAdvertise(req, res) {
