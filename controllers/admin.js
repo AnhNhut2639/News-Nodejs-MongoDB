@@ -65,10 +65,31 @@ async function adminAddType(req, res) {
 }
 
 function adminProfile(req, res) {
+  let gender = res.locals.user.gioiTinh;
+  let DOB = res.locals.user.ngaySinh;
+  let cmnd = res.locals.user.cmnd;
+  let email = res.locals.user.email;
+  let sdt = res.locals.user.sdt;
+
   return res.render("admin-profile", {
     layout: "admin",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    genders: gender,
+    DOB: DOB,
+    cmnd: cmnd,
+    phone: sdt,
+    email: email
   });
+}
+
+async function adminUpdateProfile(req, res) {
+  let id = res.locals.user.id;
+  let email = req.body.email;
+  let sdt = req.body.phone;
+
+  await usersModel.updateOne({ id: id }, { $set: { email: email, sdt: sdt } });
+
+  res.redirect("/admin/profile");
 }
 
 function adminAccount(req, res) {
@@ -165,5 +186,6 @@ module.exports = {
   adminBanner,
   adminAddType,
   adminAddAccount,
-  adminChange
+  adminChange,
+  adminUpdateProfile
 };
