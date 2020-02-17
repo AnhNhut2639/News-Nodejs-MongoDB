@@ -6,6 +6,8 @@ adminRouter.get("/", controllers.admin.admin);
 adminRouter.get("/approve", controllers.admin.adminApprove);
 adminRouter.get("/type", controllers.admin.adminType);
 adminRouter.post("/type", controllers.admin.adminAddType);
+adminRouter.get("/theme", controllers.admin.adminTheme);
+adminRouter.post("/theme", controllers.admin.adminAddThemes);
 adminRouter.get("/profile", controllers.admin.adminProfile);
 adminRouter.post("/profile", controllers.admin.adminUpdateProfile);
 adminRouter.get("/account", controllers.admin.adminAccount);

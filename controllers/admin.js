@@ -20,7 +20,6 @@ function adminApprove(req, res) {
 }
 async function adminType(req, res) {
   let type = await typesModel.find({});
-  let theme = await themesModel.find({});
   //console.log(theme);
   function Types(arr) {
     let array = [];
@@ -29,7 +28,34 @@ async function adminType(req, res) {
     }
     return array;
   }
+  let nameOfTypes = Types(type);
 
+  return res.render("admin-type", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
+    types: nameOfTypes,
+    title: "Thể Loại và Chủ Đề"
+  });
+}
+async function adminAddType(req, res) {
+  typesModel.create({
+    tenTheLoai: req.body.addType
+  });
+
+  return res.redirect("/admin/type");
+}
+
+async function adminTheme(req, res) {
+  let theme = await themesModel.find({});
+  let type = await typesModel.find({});
+  function Types(arr) {
+    let array = [];
+    for (let type of arr) {
+      array.push(type.tenTheLoai);
+    }
+    return array;
+  }
+  let nameOfTypes = Types(type);
   function Themes(arr) {
     let array = [];
     for (let type of arr) {
@@ -37,31 +63,27 @@ async function adminType(req, res) {
     }
     return array;
   }
-  let nameOfTypes = Types(type);
   let nameOfThemes = Themes(theme);
 
-  return res.render("admin-type", {
+  return res.render("admin-theme", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
-    types: nameOfTypes,
     themes: nameOfThemes,
-    title: "Thể Loại và Chủ Đề"
+    types: nameOfTypes,
+    title: "Chủ Đề"
   });
 }
-async function adminAddType(req, res) {
+
+async function adminAddThemes(req, res) {
   let name = req.body.typeSelected;
   let type = await typesModel.findOne({ tenTheLoai: name });
-
-  typesModel.create({
-    tenTheLoai: req.body.addType
-  });
 
   themesModel.create({
     tenChuDe: req.body.addTheme,
     idTheLoai: type.idTheLoai
   });
 
-  return res.redirect("/admin/type");
+  res.redirect("/admin/theme");
 }
 
 function adminProfile(req, res) {
@@ -187,5 +209,7 @@ module.exports = {
   adminAddType,
   adminAddAccount,
   adminChange,
-  adminUpdateProfile
+  adminUpdateProfile,
+  adminTheme,
+  adminAddThemes
 };
