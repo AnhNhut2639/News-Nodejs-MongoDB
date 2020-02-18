@@ -20,20 +20,19 @@ function adminApprove(req, res) {
 }
 async function adminType(req, res) {
   let type = await typesModel.find({});
-  //console.log(theme);
-  function Types(arr) {
-    let array = [];
-    for (let type of arr) {
-      array.push(type.tenTheLoai);
-    }
-    return array;
-  }
-  let nameOfTypes = Types(type);
+  let stt = 0;
 
+  const data = type.map(type => {
+    stt++;
+    return {
+      Type: type.tenTheLoai,
+      STT: stt
+    };
+  });
   return res.render("admin-type", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
-    types: nameOfTypes,
+    types: data,
     title: "Thể Loại và Chủ Đề"
   });
 }
