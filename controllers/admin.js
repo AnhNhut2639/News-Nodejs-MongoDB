@@ -63,13 +63,25 @@ async function adminTheme(req, res) {
     }
     return array;
   }
+
+  function count(arr) {
+    var count = [];
+    var number = 0;
+    for (let i = 0; i < arr.length; i++) {
+      number++;
+      count.push(number);
+    }
+    return count;
+  }
   let nameOfThemes = Themes(theme);
+  let stt = count(nameOfThemes);
 
   return res.render("admin-theme", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
     themes: nameOfThemes,
     types: nameOfTypes,
+    STT: stt,
     title: "Chủ Đề"
   });
 }
@@ -114,10 +126,26 @@ async function adminUpdateProfile(req, res) {
   res.redirect("/admin/profile");
 }
 
-function adminAccount(req, res) {
+async function adminAccount(req, res) {
+  const userAccount = await usersModel.find({});
+
+  const data = userAccount.map(user => {
+    return {
+      username: user.username,
+      fullName: user.tenDayDu,
+      phoneNumber: user.sdt,
+      email: user.email,
+      birthDate: user.ngaySinh,
+      gender: user.gioiTinh,
+      ID: user.cmnd
+    };
+  });
+
+  console.log(data);
   return res.render("admin-account", {
     layout: "admin",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    userAccount: data
   });
 }
 
