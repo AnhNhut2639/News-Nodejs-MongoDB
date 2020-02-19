@@ -1,5 +1,7 @@
 const express = require("express");
 const controllers = require("../controllers");
+var multer = require("multer");
+var upload = multer({ dest: "./public/uploads/" });
 
 const adminRouter = express.Router();
 adminRouter.get("/", controllers.admin.admin);
@@ -17,4 +19,9 @@ adminRouter.get("/changepass", controllers.admin.adminChangePass);
 adminRouter.post("/changepass", controllers.admin.adminChange);
 adminRouter.get("/advertise", controllers.admin.adminAdvertise);
 adminRouter.get("/banner", controllers.admin.adminBanner);
+adminRouter.post(
+  "/banner",
+  upload.single("banner"),
+  controllers.admin.adminAddBanner
+);
 module.exports = adminRouter;

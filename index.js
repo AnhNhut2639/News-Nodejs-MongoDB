@@ -40,6 +40,8 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 // app.use("/", client); //endpoint này sẽ viết trang cho người dùng là đọc giả
 
 // app.use("/login", login); // endpoint này sẽ dùng để làm middleware đăng nhập
+// public static file
+app.use(express.static("public"));
 
 // WebRouter -->
 app.use("/", routers.web);

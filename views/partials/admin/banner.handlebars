@@ -2,19 +2,14 @@
     <h5>Thêm Banner</h5>
 </div>
 
-<form>
+<form action="/admin/banner" method="POST" enctype="multipart/form-data">
     <div class="form-group">
         <label for="describeTextarea1">Mô Tả</label>
-        <textarea class="form-control" id="describeTextarea1" name="" rows="3"></textarea>
+        <textarea class="form-control" id="describeTextarea1" name="describe" rows="3"></textarea>
     </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupFileAddon01">Chọn ảnh</span>
-        </div>
-        <div class="custom-file">
-            <input type="file" id="inputGroupFile01" name="image" aria-describedby="inputGroupFileAddon01">
-            <label class="custom-file-label" for="inputGroupFile01">Chọn</label>
-        </div>
+    <div class="form-group">
+        <label for="bannera">Banner</label>
+        <input type="file" class="form-control-file" name="banner" id="bannera">
     </div>
 
 
@@ -41,27 +36,19 @@
             <th scope="col">Xóa</th>
         </tr>
     </thead>
+    {{#each banners}}
     <tbody>
         <tr>
-            <th scope="row">1</th>
-            <td>ÂCSASDASD</td>
-            <td><img src="../images/Banner/img1.jpg"></td>
-            <td>01/01/2020</td>
+            <th scope="row">{{this.STT}}</th>
+            <td>{{this.describe}}</td>
+            <td><img src={{this.url}}></td>
+            <td>{{this.date}}</td>
             <td></td>
             <td></td>
             <td><a href="#"><i class="fa fa-trash ml-5"></i></a></td>
         </tr>
     </tbody>
-    <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>ÂCSASDASD</td>
-            <td><img src="../images/Banner/img1.jpg"></td>
-            <td>01/01/2020</td>
-            <td></td>
-            <td></td>
-            <td><a href="#"><i class="fa fa-trash ml-5"></i></a></td>
-        </tr>
-    </tbody>
+    {{/each}}
+
 </table>
 <!-- ##### Banner Area End ##### -->

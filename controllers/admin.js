@@ -1,6 +1,8 @@
 var typesModel = require("../model/typesNewsModel");
 var themesModel = require("../model/themesModel");
 var usersModel = require("../model/usersModel");
+var bannersModel = require("../model/bannerModel");
+var moment = require("moment");
 
 function admin(req, res) {
   //console.log(res.locals.user.username);
@@ -118,7 +120,6 @@ async function adminAccount(req, res) {
     };
   });
 
-  console.log(data);
   return res.render("admin-account", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
@@ -236,11 +237,55 @@ function adminAdvertise(req, res) {
     fullname: res.locals.user.tenDayDu
   });
 }
-function adminBanner(req, res) {
+
+async function adminBanner(req, res) {
+  const banner = await bannersModel.find({});
+
+  function getName(arr) {
+    let array = [];
+    for (let user of arr) {
+      array.push(user.id);
+    }
+    return array;
+  }
+
+  let id = getName(banner);
+
+  // const user = await usersModel.find({ id });
+
+  // console.log(user);
+
+  let stt = 0;
+  const data = banner.map(banner => {
+    stt++;
+    return {
+      STT: stt,
+      describe: banner.motaBanner,
+      url: banner.urlHinhAnh,
+      date: moment(banner.ngayDang).format("DD[/]MM[/]YYYY")
+    };
+  });
   return res.render("admin-banner", {
     layout: "admin",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    banners: data
   });
+}
+function adminAddBanner(req, res) {
+  let describe = req.body.describe;
+  req.body.banner = req.file.path
+    .split("/")
+    .slice(2)
+    .join("/");
+  let urlBanner = req.body.banner;
+
+  bannersModel.create({
+    motaBanner: describe,
+    urlHinhAnh: urlBanner,
+    idNguoiDang: res.locals.user.id
+  });
+
+  res.redirect("/admin/banner");
 }
 
 module.exports = {
@@ -258,5 +303,6 @@ module.exports = {
   adminChange,
   adminUpdateProfile,
   adminTheme,
-  adminAddThemes
+  adminAddThemes,
+  adminAddBanner
 };
