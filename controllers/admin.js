@@ -275,9 +275,9 @@ function adminAddBanner(req, res) {
   let describe = req.body.describe;
   req.body.banner = req.file.path
     .split("/")
-    .slice(2)
+    .slice(1)
     .join("/");
-  let urlBanner = req.body.banner;
+  let urlBanner = "/" + req.body.banner;
 
   bannersModel.create({
     motaBanner: describe,
