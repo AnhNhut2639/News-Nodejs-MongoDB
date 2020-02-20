@@ -18,6 +18,12 @@ adminRouter.post("/register", controllers.admin.adminAddAccount);
 adminRouter.get("/changepass", controllers.admin.adminChangePass);
 adminRouter.post("/changepass", controllers.admin.adminChange);
 adminRouter.get("/advertise", controllers.admin.adminAdvertise);
+adminRouter.post(
+  "/advertise",
+  upload.single("advertise"),
+  controllers.admin.adminAddAdvertise
+);
+
 adminRouter.get("/banner", controllers.admin.adminBanner);
 adminRouter.post(
   "/banner",

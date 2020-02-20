@@ -2,23 +2,17 @@
     <h5>Thêm Quảng Cáo</h5>
 </div>
 
-<form>
+<form method="POST" enctype="multipart/form-data">
     <div class="form-group">
         <label for="describeTextarea1">Mô Tả</label>
-        <textarea class="form-control" id="describeTextarea1" name="" rows="3"></textarea>
+        <textarea class="form-control" id="describeTextarea1" name="describe" rows="3"></textarea>
     </div>
     <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupFileAddon01">Chọn ảnh</span>
-        </div>
-        <div class="custom-file">
-            <input type="file" id="inputGroupFile01" name="image" aria-describedby="inputGroupFileAddon01">
-            <label class="custom-file-label" for="inputGroupFile01">Chọn</label>
+        <div class="form-group">
+            <label for="advertises">Chọn ảnh </label>
+            <input type="file" class="form-control-file" name="advertise" id="advertises">
         </div>
     </div>
-
-
-
     <button type="submit" class="btn btn-primary">Đăng</button>
 
 </form>
@@ -37,20 +31,20 @@
             <th scope="col">Hình Ảnh</th>
             <th scope="col">Ngày Đăng</th>
             <th scope="col">Người Đăng</th>
-            <th scope="col">Vị Trí</th>
-            <th scope="col">Xóa</th>
+            <th scope="col">&emsp; &emsp; &emsp; Xóa</th>
         </tr>
     </thead>
+    {{#each advertise}}
     <tbody>
         <tr>
-            <th scope="row">1</th>
-            <td>ÂCSASDASD</td>
-            <td><img src=""></td>
-            <td>@mdo</td>
-            <td></td>
-            <td></td>
-            <td><a href="#"><i class="fa fa-trash ml-5"></i></a></td>
+            <th scope="row">{{this.STT}}</th>
+            <td>{{this.describe}}</td>
+            <td><img src={{this.url}} width="300px"></td>
+            <td>{{this.date}}</td>
+            <td>{{this.postedBy}}</td>
+            <td>&emsp;<a href="#"><i class="fa fa-trash ml-5"></i></a></td>
         </tr>
     </tbody>
+    {{/each}}
 </table>
 <!-- ##### Advertise Area End ##### -->

@@ -7,6 +7,7 @@ const bannersSChema = Schema(
     motaBanner: { type: String, required: true },
     urlHinhAnh: { type: String, required: true },
     idNguoiDang: { type: String, required: true },
+    tenNguoiDang: { type: String, required: true },
     ngayDang: { type: Date, default: Date.now, required: true }
   },
   { versionKey: false }

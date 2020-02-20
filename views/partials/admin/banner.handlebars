@@ -32,8 +32,7 @@
             <th scope="col">Hình Ảnh</th>
             <th scope="col">Ngày Đăng</th>
             <th scope="col">Người Đăng</th>
-            <th scope="col">Vị Trí</th>
-            <th scope="col">Xóa</th>
+            <th scope="col">&emsp;Xóa</th>
         </tr>
     </thead>
     {{#each banners}}
@@ -41,10 +40,9 @@
         <tr>
             <th scope="row">{{this.STT}}</th>
             <td>{{this.describe}}</td>
-            <td><img src={{this.url}}></td>
+            <td><img src={{this.url}} width="650px"></td>
             <td>{{this.date}}</td>
-            <td></td>
-            <td></td>
+            <td>{{this.postedBy}}</td>
             <td><a href="#"><i class="fa fa-trash ml-5"></i></a></td>
         </tr>
     </tbody>

@@ -2,6 +2,7 @@ var typesModel = require("../model/typesNewsModel");
 var themesModel = require("../model/themesModel");
 var usersModel = require("../model/usersModel");
 var bannersModel = require("../model/bannerModel");
+var advertiseModel = require("../model/advertiseModel");
 var moment = require("moment");
 
 function admin(req, res) {
@@ -231,11 +232,44 @@ async function adminChange(req, res) {
   }
 }
 
-function adminAdvertise(req, res) {
+async function adminAdvertise(req, res) {
+  const advertise = await advertiseModel.find({});
+  let stt = 0;
+  const data = advertise.map(advertise => {
+    stt++;
+    return {
+      STT: stt,
+      describe: advertise.motaQC,
+      url: advertise.urlHinhQC,
+      postedBy: advertise.tenNguoiDang,
+      date: moment(advertise.ngayDang).format("DD[-]MM[-]YYYY")
+    };
+  });
   return res.render("admin-advertise", {
     layout: "admin",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    advertise: data
   });
+}
+
+async function adminAddAdvertise(req, res) {
+  // let id = res.locals.user.id;
+  // const user = await usersModel.findOne({ id });
+  let describe = req.body.describe;
+  req.body.advertise = req.file.path
+    .split("/")
+    .slice(1)
+    .join("/");
+  let urlAdvertise = "/" + req.body.advertise;
+
+  advertiseModel.create({
+    motaQC: describe,
+    urlHinhQC: urlAdvertise,
+    tenNguoiDang: res.locals.user.tenDayDu,
+    idNguoiDang: res.locals.user.id
+  });
+
+  res.redirect("/admin/advertise");
 }
 
 async function adminBanner(req, res) {
@@ -262,7 +296,8 @@ async function adminBanner(req, res) {
       STT: stt,
       describe: banner.motaBanner,
       url: banner.urlHinhAnh,
-      date: moment(banner.ngayDang).format("DD[/]MM[/]YYYY")
+      postedBy: banner.tenNguoiDang,
+      date: moment(banner.ngayDang).format("DD[-]MM[-]YYYY")
     };
   });
   return res.render("admin-banner", {
@@ -282,7 +317,8 @@ function adminAddBanner(req, res) {
   bannersModel.create({
     motaBanner: describe,
     urlHinhAnh: urlBanner,
-    idNguoiDang: res.locals.user.id
+    idNguoiDang: res.locals.user.id,
+    tenNguoiDang: res.locals.user.tenDayDu
   });
 
   res.redirect("/admin/banner");
@@ -304,5 +340,6 @@ module.exports = {
   adminUpdateProfile,
   adminTheme,
   adminAddThemes,
-  adminAddBanner
+  adminAddBanner,
+  adminAddAdvertise
 };
