@@ -11,17 +11,17 @@ const newsSchema = Schema(
     noiDung: { type: String, required: true },
     daDuyet: { type: Boolean, default: false, required: true },
     idNguoiDuyet: { type: String },
-    ngayDuyet: { type: String },
+    ngayDuyet: { type: Date },
     idNguoiDang: { type: String, required: true },
-    ngayDang: { type: String, required: true },
-    // idNguoiCapNhat: { type: String },
-    // ngayCapNhat: { type: String },
+    ngayDang: { type: Date, default: Date.now, required: true },
+    idNguoiCapNhat: { type: String },
+    ngayCapNhat: { type: Date },
     luotXem: { type: Number, default: 0 },
     danhGia: { type: Number },
     binhLuan: { type: String },
     hashtag: { type: String },
     idChuDe: { type: String, required: true },
-    loaiTin: { type: String, required: true }
+    loaiTin: { type: String }
   },
   { versionKey: false }
 );

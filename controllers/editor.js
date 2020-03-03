@@ -1,18 +1,7 @@
 const newsModel = require("../model/newsModel");
 const usersModel = require("../model/usersModel");
-function getDateTime() {
-  let today = new Date();
-  let dd = String(today.getDate()).padStart(2, "0");
-  let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  let yyyy = today.getFullYear();
-  let hour = today.getHours();
-  let minute = today.getUTCMinutes();
-  let second = today.getUTCSeconds();
-
-  let created =
-    yyyy + "-" + mm + "-" + dd + "T" + hour + ":" + minute + ":" + second;
-  return created;
-}
+const themesModel = require("../model/themesModel");
+const typesModel = require("../model/typesNewsModel");
 
 function deleteSign(str) {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -44,28 +33,53 @@ function editor(req, res) {
     fullname: res.locals.user.tenDayDu
   });
 }
-function editorNewPost(req, res) {
+async function editorNewPost(req, res) {
+  const types = await typesModel.find({});
+  const themes = await themesModel.find({});
+
+  const dataTypes = types.map(types => {
+    return {
+      typesName: types.tenTheLoai,
+      id: types.idTheLoai
+    };
+  });
+
+  const dataThemes = themes.map(themes => {
+    return {
+      theme: themes.tenChuDe,
+      id: themes.id,
+      idTheLoai: themes.idTheLoai
+    };
+  });
+  // console.log(dataThemes);
+
   return res.render("editor-newPost", {
     layout: "editor",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    data: dataTypes,
+    arrThemes: dataThemes
   });
 }
-// function editorWriteNews(req, res) {
-//   let createdDate = getDateTime();
-//   newsModel.create({
-//     tieuDe: req.body.title,
-//     trichYEu: req.body.abstract,
-//     tacGia: req.body.author,
-//     nguon: req.body.sources,
-//     noiDung: req.body.editor,
-//     idNguoiDang: res.locals.user.id,
-//     ngayDang: createdDate,
-//     hashtag: req.body.themes,
-//     // idchuDe:,
-//     loaiTIn: req.body.themes
-//   });
-//   res.redirect("/editor/posted");
-// }
+function editorWriteNews(req, res) {
+  newsModel.create({
+    tieuDe: req.body.title,
+    trichYEu: req.body.abstract,
+    tacGia: req.body.author,
+    nguon: req.body.sources,
+    noiDung: req.body.editor,
+    idNguoiDang: res.locals.user.id,
+    ngayDang: createdDate,
+    hashtag: req.body.themes,
+    loaiTIn: req.body.themes
+  });
+  res.redirect("/editor/posted");
+}
+async function getIDtypes(req, res) {
+  var id = req.params.id;
+  const themeById = await themesModel.find({ idTheLoai: id });
+  res.json(themeById);
+}
+
 function editorPosted(req, res) {
   return res.render("editor-posted", {
     layout: "editor",
@@ -124,6 +138,7 @@ module.exports = {
   editorPosted,
   editorProfile,
   editorChangePass,
-  editorChangePassword
-  //editorWriteNews
+  editorChangePassword,
+  editorWriteNews,
+  getIDtypes
 };

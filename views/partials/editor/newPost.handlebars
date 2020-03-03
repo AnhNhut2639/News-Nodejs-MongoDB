@@ -6,58 +6,39 @@
             <h5>Bài Viết Mới</h5>
         </div>
     </div>
-    <!-- >>>>>>>>>>>>>>>>>>>>
-             Type Area
-        <<<<<<<<<<<<<<<<<<<<< -->
     <form action="" method="get" enctype="application/json">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label class="input-group-text" for="inputGroupSelect01">Thể Loại</label>
             </div>
-            <select class="custom-select" id="inputCategory" name="type">
-                <option selected>Thể Loại</option>
-                <option value="One">One</option>
+            <select class="custom-select" id="idSelect" name="type">
+                <option selected>--Chọn--</option>
+                {{#each data}}
+                <option value="{{this.id}}">{{this.typesName}}</option>
+                {{/each}}
+
             </select>
         </div>
-        <!-- >>>>>>>>>>>>>>>>>>>>
-             Theme Area
-            <<<<<<<<<<<<<<<<<<<<< -->
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <label class="input-group-text" for="inputGroupSelect02">Chủ Đề</label>
             </div>
             <select class="custom-select" id="inputThemes" name="themes">
                 <option selected>Chủ Đề</option>
-                <option value="One">One</option>
             </select>
         </div>
-        <!-- >>>>>>>>>>>>>>>>>>>>
-             Title Area
-            <<<<<<<<<<<<<<<<<<<<< -->
         <div class="form-group">
             <label for="Textarea1">Tiêu Đề</label>
             <textarea class="form-control" name="title" rows="3"></textarea>
         </div>
-        <!-- >>>>>>>>>>>>>>>>>>>>
-             abstract Area
-            <<<<<<<<<<<<<<<<<<<<< -->
         <div class="form-group">
             <label for="Textarea2">Trích Yếu</label>
             <textarea class="form-control" name="abstract" rows="3"></textarea>
         </div>
-        <!-- >>>>>>>>>>>>>>>>>>>>
-                Content Area
-             <<<<<<<<<<<<<<<<<<<<< -->
         <label for="editor">Nội Dung</label>
         <textarea class="ckeditor" name="editor"></textarea>
-        <!-- >>>>>>>>>>>>>>>>>>>>
-                Original Area
-             <<<<<<<<<<<<<<<<<<<<< -->
         <label for="Textarea2">Nguồn</label>
         <input class="form-control form-control-lg" name="sources" type="text" placeholder="Nguồn">
-        <!-- >>>>>>>>>>>>>>>>>>>>
-            Author Area
-        <<<<<<<<<<<<<<<<<<<<< -->
         <label for="Textarea2">Tác Giả</label>
         <input class="form-control form-control-lg" name="author" type="text" placeholder="Tác giả">
 
