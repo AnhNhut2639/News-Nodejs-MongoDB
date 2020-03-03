@@ -8,6 +8,7 @@ editorRouter.get("/newPost", controllers.editor.editorNewPost);
 editorRouter.get("/getTheme/:id", controllers.editor.getIDtypes);
 editorRouter.get("/posted", controllers.editor.editorPosted);
 editorRouter.get("/profile", controllers.editor.editorProfile);
+editorRouter.post("/profile", controllers.editor.editorUpdateProfile);
 editorRouter.get("/changePass", controllers.editor.editorChangePass);
 editorRouter.post("/changePass", controllers.editor.editorChangePassword);
 

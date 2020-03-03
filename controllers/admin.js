@@ -89,7 +89,7 @@ function adminProfile(req, res) {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
     genders: gender,
-    DOB: DOB,
+    DOB: moment(DOB).format("DD[-]MM[-]YYYY"),
     cmnd: cmnd,
     phone: sdt,
     email: email

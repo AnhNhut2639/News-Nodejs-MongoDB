@@ -2,6 +2,7 @@ const newsModel = require("../model/newsModel");
 const usersModel = require("../model/usersModel");
 const themesModel = require("../model/themesModel");
 const typesModel = require("../model/typesNewsModel");
+var moment = require("moment");
 
 function deleteSign(str) {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -87,10 +88,31 @@ function editorPosted(req, res) {
   });
 }
 function editorProfile(req, res) {
+  let gender = res.locals.user.gioiTinh;
+  let DOB = res.locals.user.ngaySinh;
+  let cmnd = res.locals.user.cmnd;
+  let email = res.locals.user.email;
+  let sdt = res.locals.user.sdt;
+
   return res.render("editor-profile", {
     layout: "editor",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    genders: gender,
+    DOB: moment(DOB).format("DD[-]MM[-]YYYY"),
+    cmnd: cmnd,
+    phone: sdt,
+    email: email
   });
+}
+
+async function editorUpdateProfile(req, res) {
+  let id = res.locals.user.id;
+  let email = req.body.email;
+  let sdt = req.body.phone;
+
+  await usersModel.updateOne({ id: id }, { $set: { email: email, sdt: sdt } });
+
+  res.redirect("/editor/profile");
 }
 function editorChangePass(req, res) {
   return res.render("editor-changePass", {
@@ -140,5 +162,6 @@ module.exports = {
   editorChangePass,
   editorChangePassword,
   editorWriteNews,
-  getIDtypes
+  getIDtypes,
+  editorUpdateProfile
 };
