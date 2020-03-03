@@ -1,4 +1,4 @@
-import { model, Types, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 import uuid from "uuid";
 
 const newsSchema = Schema(

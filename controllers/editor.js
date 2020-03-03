@@ -64,16 +64,16 @@ async function editorNewPost(req, res) {
 function editorWriteNews(req, res) {
   newsModel.create({
     tieuDe: req.body.title,
-    trichYEu: req.body.abstract,
+    trichYeu: req.body.abstract,
     tacGia: req.body.author,
     nguon: req.body.sources,
     noiDung: req.body.editor,
     idNguoiDang: res.locals.user.id,
-    ngayDang: createdDate,
     hashtag: req.body.themes,
-    loaiTIn: req.body.themes
+    loaiTin: req.body.themes,
+    idChuDe: req.body.themes
   });
-  res.redirect("/editor/posted");
+  res.redirect("/editor");
 }
 async function getIDtypes(req, res) {
   var id = req.params.id;
