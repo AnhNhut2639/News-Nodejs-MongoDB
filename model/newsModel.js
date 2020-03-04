@@ -10,6 +10,7 @@ const newsSchema = Schema(
     nguon: { type: String, required: true },
     noiDung: { type: String, required: true },
     daDuyet: { type: Boolean, default: false, required: true },
+    deny: { type: Boolean, default: false, required: true },
     idNguoiDuyet: { type: String },
     ngayDuyet: { type: Date },
     idNguoiDang: { type: String, required: true },

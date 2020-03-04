@@ -18,8 +18,10 @@
             <a href="post.html" class="post-title">{{this.title}}</a>
             <p>{{this.abstract}}</p>
         </div>
-        <button type="button" class="btn btn-success mt-3 mr-2" href="/abc">Duyệt</button>
-        <button type="button" class="btn btn-danger mt-3">Không Duyệt</button>
+        {{!-- <button type="button" class="btn btn-success mt-3 mr-2" href="/approve/" +{{this.id}}>Duyệt</button> --}}
+        <button type="button" class="btn btn-success mt-3 mr-2"><a href="approve/{{this.id}}">Duyệt</a></button>
+
+        <button type="button" class="btn btn-danger mt-3"><a href="deny/{{this.id}}">Không Duyệt</a></button>
     </div>
     {{/each}}
 

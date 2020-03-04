@@ -37,7 +37,7 @@ function admin(req, res) {
 }
 
 async function adminApprove(req, res) {
-  const news = await newsModel.find({ daDuyet: false });
+  const news = await newsModel.find({ daDuyet: false, deny: false });
   var arr = getFirstImage(news);
 
   const data = arr.map(news => {
@@ -45,7 +45,8 @@ async function adminApprove(req, res) {
       title: news.tieuDe,
       abstract: news.trichYeu,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
-      img: news.firstImage
+      img: news.firstImage,
+      id: news.id
     };
   });
   return res.render("admin-approve", {
@@ -54,6 +55,20 @@ async function adminApprove(req, res) {
     data: data
   });
 }
+async function approvePost(req, res) {
+  let id = req.params.id;
+  await newsModel.updateOne({ id: id }, { $set: { daDuyet: true } });
+
+  res.redirect("/admin/approve");
+}
+
+async function denyPost(req, res) {
+  let id = req.params.id;
+  await newsModel.updateOne({ id: id }, { $set: { deny: true } });
+
+  res.redirect("/admin/approve");
+}
+
 async function adminType(req, res) {
   let type = await typesModel.find({});
   let stt = 0;
@@ -358,5 +373,7 @@ module.exports = {
   adminTheme,
   adminAddThemes,
   adminAddBanner,
-  adminAddAdvertise
+  adminAddAdvertise,
+  approvePost,
+  denyPost
 };

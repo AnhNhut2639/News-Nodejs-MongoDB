@@ -9,8 +9,12 @@ function home(req, res) {
 function post(req, res) {
   return res.render("post", {});
 }
-
+function logout(req, res) {
+  res.clearCookie("ID");
+  res.redirect("/");
+}
 module.exports = {
   home,
-  post
+  post,
+  logout
 };
