@@ -3,22 +3,55 @@ var themesModel = require("../model/themesModel");
 var usersModel = require("../model/usersModel");
 var bannersModel = require("../model/bannerModel");
 var advertiseModel = require("../model/advertiseModel");
+var newsModel = require("../model/newsModel");
 var moment = require("moment");
 
+function deleteSign(str) {
+  str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+  str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+  str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+  str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+  str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+  str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+  str = str.replace(/đ/g, "d");
+  str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+  str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+  str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+  str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+  str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+  str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+  str = str.replace(/Đ/g, "D");
+  return str.toLowerCase().replace(/ /g, "+");
+}
+
+function getFirstImage(data) {
+  let regex = /<img.*?src="(.*?)"/;
+  data.forEach(item => (item.firstImage = regex.exec(item.noiDung)[1]));
+  return data;
+}
 function admin(req, res) {
-  //console.log(res.locals.user.username);
-  // var username = res.locals.user.username; // từ middleware checkCookie sang
   return res.render("admin", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu
   });
 }
 
-function adminApprove(req, res) {
-  // console.log(res.locals.user.tenDayDu);
+async function adminApprove(req, res) {
+  const news = await newsModel.find({ daDuyet: false });
+  var arr = getFirstImage(news);
+
+  const data = arr.map(news => {
+    return {
+      title: news.tieuDe,
+      abstract: news.trichYeu,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      img: news.firstImage
+    };
+  });
   return res.render("admin-approve", {
     layout: "admin",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    data: data
   });
 }
 async function adminType(req, res) {
@@ -134,23 +167,7 @@ function adminRegister(req, res) {
     fullname: res.locals.user.tenDayDu
   });
 }
-function deleteSign(str) {
-  str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-  str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-  str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-  str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-  str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-  str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-  str = str.replace(/đ/g, "d");
-  str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
-  str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
-  str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
-  str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
-  str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
-  str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
-  str = str.replace(/Đ/g, "D");
-  return str.toLowerCase().replace(/ /g, "+");
-}
+
 function getFirstCharacter(str) {
   var strArr = str.split(" ");
   var newArr = [];

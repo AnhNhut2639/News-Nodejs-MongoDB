@@ -1,67 +1,28 @@
 <div class="mag-posts-content mt-30 mb-30 p-30 box-shadow">
-    <!-- >>>>>>>>>>>>>>>>>>>>
-             Main Area
-        <<<<<<<<<<<<<<<<<<<<< -->
     <div class="section-heading">
         <h5>Xét Duyệt</h5>
     </div>
     <!-- Single Catagory Post -->
+    {{#each data}}
     <div class="single-catagory-post d-flex flex-wrap">
         <!-- Thumbnail -->
-        <div class="post-thumbnail bg-img" style="background-image: url(../images/ICT.jpg);">
+        <div class="post-thumbnail bg-img" style="background-image: url({{this.img}});">
         </div>
 
         <!-- Post Contetnt -->
         <div class="post-content">
             <div class="post-meta">
-                <a href="#">Feb 3, 2020</a>
+                <a href="#">{{this.date}}</a>
                 <a href="archive.html">lifestyle</a>
             </div>
-            <a href="post.html" class="post-title">Global Travel And Vacations Luxury Travel On A Tight Budget</a>
-            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa officia deserunt mollit anim id est
-                laborum. Sed ut perspiciatis lorem150</p>
+            <a href="post.html" class="post-title">{{this.title}}</a>
+            <p>{{this.abstract}}</p>
         </div>
         <button type="button" class="btn btn-success mt-3 mr-2" href="/abc">Duyệt</button>
         <button type="button" class="btn btn-danger mt-3">Không Duyệt</button>
     </div>
-    <!-- Single Catagory Post -->
-    <div class="single-catagory-post d-flex flex-wrap">
-        <!-- Thumbnail -->
-        <div class="post-thumbnail bg-img" style="background-image: url(../img/bg-img/42.jpg);">
-        </div>
+    {{/each}}
 
-        <!-- Post Contetnt -->
-        <div class="post-content">
-            <div class="post-meta">
-                <a href="#">Feb 3, 2020</a>
-                <a href="archive.html">lifestyle</a>
-            </div>
-            <a href="post.html" class="post-title">Global Travel And Vacations Luxury Travel On A Tight Budget</a>
-            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa officia deserunt mollit anim id est
-                laborum. Sed ut perspiciatis lorem150</p>
-        </div>
-        <button type="button" class="btn btn-success mt-3 mr-2" href="/abc">Duyệt</button>
-        <button type="button" class="btn btn-danger mt-3">Không Duyệt</button>
-    </div>
-    <!-- Single Catagory Post -->
-    <div class="single-catagory-post d-flex flex-wrap">
-        <!-- Thumbnail -->
-        <div class="post-thumbnail bg-img" style="background-image: url(../img/bg-img/42.jpg);">
-        </div>
-
-        <!-- Post Contetnt -->
-        <div class="post-content">
-            <div class="post-meta">
-                <a href="#">Feb 3, 2020</a>
-                <a href="archive.html">lifestyle</a>
-            </div>
-            <a href="post.html" class="post-title">Global Travel And Vacations Luxury Travel On A Tight Budget</a>
-            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa officia deserunt mollit anim id est
-                laborum. Sed ut perspiciatis lorem150</p>
-        </div>
-        <button type="button" class="btn btn-success mt-3 mr-2" href="/abc">Duyệt</button>
-        <button type="button" class="btn btn-danger mt-3">Không Duyệt</button>
-    </div>
     <!-- Pagination -->
     <nav>
         <ul class="pagination">
