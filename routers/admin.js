@@ -32,4 +32,6 @@ adminRouter.post(
   upload.single("banner"),
   controllers.admin.adminAddBanner
 );
+
+adminRouter.get("/:id", controllers.admin.readNews);
 module.exports = adminRouter;

@@ -356,6 +356,28 @@ function adminAddBanner(req, res) {
   res.redirect("/admin/banner");
 }
 
+async function readNews(req, res) {
+  let id = req.params.id;
+
+  const news = await newsModel.find({ id: id });
+
+  const data = news.map(news => {
+    return {
+      title: news.tieuDe,
+      abstract: news.trichYeu,
+      author: news.tacGia,
+      content: news.noiDung,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
+      time: moment(news.ngayDang).format("h:mm a")
+    };
+  });
+
+  return res.render("news", {
+    layout: "news",
+    fullname: res.locals.user.tenDayDu,
+    data: data
+  });
+}
 module.exports = {
   admin,
   adminApprove,
@@ -375,5 +397,6 @@ module.exports = {
   adminAddBanner,
   adminAddAdvertise,
   approvePost,
-  denyPost
+  denyPost,
+  readNews
 };

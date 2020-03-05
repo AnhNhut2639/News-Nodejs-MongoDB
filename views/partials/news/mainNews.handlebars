@@ -1,0 +1,35 @@
+{{#each data}}
+<div class="post-details-content bg-white mb-30 p-30 box-shadow">
+    <div class="blog-thumb mb-30">
+        <h4 class="post-title">{{this.title}}</h4>
+        <div class="post-meta">
+            <a href="">{{this.date}}</a>
+            <a href="#">{{this.time}}</a>
+
+        </div>
+        <blockquote>
+            <h6 class="quote-text">{{this.abstract}}</h6>
+        </blockquote>
+
+    </div>
+    <div class="blog-content">
+        <p>{{this.content}} </p>
+        <!-- Post Meta -->
+        <div class="post-meta-2">
+            <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 34</a>
+            <a href="#"><i class="fa far fa-star" aria-hidden="true"></i>5</a>
+
+        </div>
+
+        <!-- Post Author -->
+
+        <div class="post-author d-flex align-items-center">
+            <div class="post-author-desc pl-4">
+                <p>Tác giả</p>
+                <a class="author-name">{{this.author}}</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{{/each}}

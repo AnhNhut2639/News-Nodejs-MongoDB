@@ -1,0 +1,23 @@
+<!-- ##### Post Details Area Start ##### -->
+<section class="post-details-area">
+    {{>news/breadcrumb}}
+    {{>news/kindArea}}
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Post Details Content Area -->
+            <div class="col-12 col-xl-8">
+                {{>news/mainNews}}
+                {{#if permission}}
+                {{>news/relateNews}}
+
+                {{>news/commented}}
+
+                {{>news/comments}}
+                {{/if}}
+
+            </div>
+            {{>news/news-advertise}}
+
+        </div>
+    </div>
+</section>

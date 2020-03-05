@@ -86,7 +86,7 @@ async function getIDtypes(req, res) {
   res.json(themeById);
 }
 
-function editorPosted(req, res) {
+async function editorPosted(req, res) {
   let id = res.locals.user.id;
 
   const news = await newsModel.find({

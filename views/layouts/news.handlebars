@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+
+    <!-- Title -->
+    {{#each data}}
+    <title>{{this.title}}</title>
+    {{else}}
+    <title>VNPT An Giang</title>
+    {{/each}}
+
+    <!-- Favicon -->
+    <link rel="icon" href="/images/vnpt.jpg">
+
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+
+
+<body data-spy="scroll" data-target="#navbar-example">
+
+    <div id="preloader"></div>
+    {{> admin/header}}
+    {{{ body }}}
+    {{> admin/admin-footer }}
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="/js/active.js"></script>
+
+</body>
+
+</html>
