@@ -9,6 +9,7 @@ const routers = require("./routers");
 
 // var login = require("./routes/auth.route"); //login sẽ làm midffleware khi ai đó muốn đăng nhập vào hệ thống (localhost:3000/login)
 let check = require("./middlewares/check.middleware");
+let permission = require("./middlewares/checkPermission");
 // app.set("view engine", "pug");
 // app.set("views", "./views");
 
@@ -45,8 +46,8 @@ app.use(express.static("public"));
 
 // WebRouter -->
 app.use("/", routers.web);
-app.use("/admin", check.checkCookies, routers.admin);
-app.use("/editor", check.checkCookies, routers.editor);
+app.use("/admin", check.checkCookies, permission.checkAdmin, routers.admin);
+app.use("/editor", check.checkCookies, permission.checkEditor, routers.editor);
 app.use("/login", routers.login);
 app.use(express.static(__dirname + "/public"));
 // <-- WebRouter
