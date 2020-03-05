@@ -12,4 +12,7 @@ editorRouter.post("/profile", controllers.editor.editorUpdateProfile);
 editorRouter.get("/changePass", controllers.editor.editorChangePass);
 editorRouter.post("/changePass", controllers.editor.editorChangePassword);
 
+editorRouter.get("/wait", controllers.editor.waitingAprrove);
+editorRouter.get("/denied", controllers.editor.deniedPost);
+
 module.exports = editorRouter;

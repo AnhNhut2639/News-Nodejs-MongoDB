@@ -6,12 +6,14 @@
                 <label class="input-group-text" for="inputGroupSelect01">Trạng Thái</label>
             </div>
             <select class="custom-select" id="inputGroupSelect01" onchange="location = this.value">
-                <option value="posted">Đã Duyệt</option>
+                <option value="denied">không Được Xét Duyệt</option>
                 <option value="wait">Đang Chờ Xét Duyệt</option>
-                <option value="denied">Không Được Xét Duyệt</option>
+                <option value="posted">Đã Duyệt</option>
+
             </select>
         </div>
     </form>
+
     {{#each data}}
     <div class="single-catagory-post d-flex flex-wrap">
         <div class="post-thumbnail bg-img" style="background-image: url({{this.img}});">
@@ -27,7 +29,6 @@
         </div>
     </div>
     {{/each}}
-
 
     <!-- Pagination -->
     <nav>

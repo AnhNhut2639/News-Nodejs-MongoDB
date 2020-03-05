@@ -4,6 +4,11 @@ const themesModel = require("../model/themesModel");
 const typesModel = require("../model/typesNewsModel");
 var moment = require("moment");
 
+function getFirstImage(data) {
+  let regex = /<img.*?src="(.*?)"/;
+  data.forEach(item => (item.firstImage = regex.exec(item.noiDung)[1]));
+  return data;
+}
 function deleteSign(str) {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
   str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
@@ -82,9 +87,28 @@ async function getIDtypes(req, res) {
 }
 
 function editorPosted(req, res) {
+  let id = res.locals.user.id;
+
+  const news = await newsModel.find({
+    idNguoiDang: id,
+    daDuyet: true,
+    deny: false
+  });
+
+  var arr = getFirstImage(news);
+  const data = arr.map(news => {
+    return {
+      title: news.tieuDe,
+      abstract: news.trichYeu,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      img: news.firstImage,
+      id: news.id
+    };
+  });
   return res.render("editor-posted", {
     layout: "editor",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    data: data
   });
 }
 function editorProfile(req, res) {
@@ -154,6 +178,60 @@ async function editorChangePassword(req, res) {
   }
 }
 
+async function waitingAprrove(req, res) {
+  let id = res.locals.user.id;
+
+  const news = await newsModel.find({
+    idNguoiDang: id,
+    daDuyet: false,
+    deny: false
+  });
+
+  var arr = getFirstImage(news);
+  const data = arr.map(news => {
+    return {
+      title: news.tieuDe,
+      abstract: news.trichYeu,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      img: news.firstImage,
+      id: news.id
+    };
+  });
+
+  return res.render("editor-waiting", {
+    layout: "editor",
+    fullname: res.locals.user.tenDayDu,
+    data: data
+  });
+}
+
+async function deniedPost(req, res) {
+  let id = res.locals.user.id;
+
+  const news = await newsModel.find({
+    idNguoiDang: id,
+    daDuyet: false,
+    deny: true
+  });
+
+  var arr = getFirstImage(news);
+  const data = arr.map(news => {
+    return {
+      title: news.tieuDe,
+      abstract: news.trichYeu,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      img: news.firstImage,
+      id: news.id
+    };
+  });
+
+  return res.render("editor-denied", {
+    layout: "editor",
+    fullname: res.locals.user.tenDayDu,
+    data: data
+  });
+}
+
 module.exports = {
   editor,
   editorNewPost,
@@ -163,5 +241,7 @@ module.exports = {
   editorChangePassword,
   editorWriteNews,
   getIDtypes,
-  editorUpdateProfile
+  editorUpdateProfile,
+  waitingAprrove,
+  deniedPost
 };
