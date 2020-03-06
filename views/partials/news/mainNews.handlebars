@@ -29,6 +29,15 @@
                 <a class="author-name">{{this.author}}</a>
             </div>
         </div>
+        {{#if admin}}
+        <button type="button" class="btn btn-success mt-3 mr-2"><a href="approve/{{admin}}">Duyệt</a></button>
+        <button type="button" class="btn btn-danger mt-3"><a href="deny/{{admin}}">Không Duyệt</a></button>
+        {{/if}}
+        {{#if editor}}
+        <button type="button" class="btn btn-success mt-3 mr-2"><a href="/editor/newPost">Đăng lại</a></button>
+        <button type="button" class="btn btn-danger mt-3"><a href="#">Xóa</a></button>
+        {{/if}}
+
     </div>
 
 </div>

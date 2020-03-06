@@ -14,5 +14,7 @@ editorRouter.post("/changePass", controllers.editor.editorChangePassword);
 
 editorRouter.get("/wait", controllers.editor.waitingAprrove);
 editorRouter.get("/denied", controllers.editor.deniedPost);
-
+editorRouter.get("/:id", controllers.editor.readNews);
+editorRouter.get("/wait/:id", controllers.editor.waitNews);
+editorRouter.get("/denied/:id", controllers.editor.deniedNews);
 module.exports = editorRouter;

@@ -235,6 +235,109 @@ async function deniedPost(req, res) {
   });
 }
 
+function getIDThemes(arr) {
+  var temp;
+  for (let item of arr) {
+    temp = item.idChuDe;
+  }
+  return temp;
+}
+async function readNews(req, res) {
+  let id = req.params.id;
+  const news = await newsModel.find({ id: id });
+  var idTheme = getIDThemes(news);
+
+  const themes = await themesModel.findOne({ idChuDe: idTheme });
+  var idTheLoai = themes.idTheLoai;
+
+  const types = await typesModel.findOne({ idTheLoai: idTheLoai });
+  var theme = themes.tenChuDe;
+  var type = types.tenTheLoai;
+
+  const data = news.map(news => {
+    return {
+      title: news.tieuDe,
+      abstract: news.trichYeu,
+      author: news.tacGia,
+      content: news.noiDung,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
+      time: moment(news.ngayDang).format("h:mm a"),
+      editor: news.id
+    };
+  });
+
+  return res.render("news", {
+    layout: "news",
+    fullname: res.locals.user.tenDayDu,
+    data: data,
+    theme: theme,
+    type: type
+  });
+}
+
+async function deniedNews(req, res) {
+  let id = req.params.id;
+  const news = await newsModel.find({ id: id });
+  var idTheme = getIDThemes(news);
+
+  const themes = await themesModel.findOne({ idChuDe: idTheme });
+  var idTheLoai = themes.idTheLoai;
+
+  const types = await typesModel.findOne({ idTheLoai: idTheLoai });
+  var theme = themes.tenChuDe;
+  var type = types.tenTheLoai;
+
+  const data = news.map(news => {
+    return {
+      title: news.tieuDe,
+      abstract: news.trichYeu,
+      author: news.tacGia,
+      content: news.noiDung,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
+      time: moment(news.ngayDang).format("h:mm a"),
+      editor: news.id
+    };
+  });
+
+  return res.render("news", {
+    layout: "news",
+    fullname: res.locals.user.tenDayDu,
+    data: data,
+    theme: theme,
+    type: type
+  });
+}
+async function waitNews(req, res) {
+  let id = req.params.id;
+  const news = await newsModel.find({ id: id });
+  var idTheme = getIDThemes(news);
+
+  const themes = await themesModel.findOne({ idChuDe: idTheme });
+  var idTheLoai = themes.idTheLoai;
+
+  const types = await typesModel.findOne({ idTheLoai: idTheLoai });
+  var theme = themes.tenChuDe;
+  var type = types.tenTheLoai;
+
+  const data = news.map(news => {
+    return {
+      title: news.tieuDe,
+      abstract: news.trichYeu,
+      author: news.tacGia,
+      content: news.noiDung,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
+      time: moment(news.ngayDang).format("h:mm a")
+    };
+  });
+
+  return res.render("news", {
+    layout: "news",
+    fullname: res.locals.user.tenDayDu,
+    data: data,
+    theme: theme,
+    type: type
+  });
+}
 module.exports = {
   editor,
   editorNewPost,
@@ -246,5 +349,8 @@ module.exports = {
   getIDtypes,
   editorUpdateProfile,
   waitingAprrove,
-  deniedPost
+  deniedPost,
+  readNews,
+  deniedNews,
+  waitNews
 };
