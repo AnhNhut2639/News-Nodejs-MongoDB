@@ -100,7 +100,8 @@ async function editorPosted(req, res) {
     return {
       title: news.tieuDe,
       abstract: news.trichYeu,
-      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
+      time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
       id: news.id
     };
@@ -192,7 +193,8 @@ async function waitingAprrove(req, res) {
     return {
       title: news.tieuDe,
       abstract: news.trichYeu,
-      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
+      time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
       id: news.id
     };
@@ -219,7 +221,8 @@ async function deniedPost(req, res) {
     return {
       title: news.tieuDe,
       abstract: news.trichYeu,
-      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY "),
+      time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
       id: news.id
     };

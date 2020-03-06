@@ -4,9 +4,13 @@
             <div class="col-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#"><i class="fa fa-home" aria-hidden="true"></i> Tin
-                                Tức</a></li>
-                        <li class="breadcrumb-item"><a href="#">Tin xã hội</a></li>
+                        {{#if type}}
+                        <li class="breadcrumb-item"><a href="#"><i class="fa fa-home" aria-hidden="true"></i>
+                                {{type}}</a></li>
+                        {{/if}}
+                        {{#if theme}}
+                        <li class="breadcrumb-item"><a href="#">{{theme}}</a></li>
+                        {{/if}}
                         <li class="breadcrumb-item active" aria-current="page">...</li>
                     </ol>
                 </nav>

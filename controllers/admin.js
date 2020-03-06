@@ -29,6 +29,7 @@ function getFirstImage(data) {
   data.forEach(item => (item.firstImage = regex.exec(item.noiDung)[1]));
   return data;
 }
+
 function admin(req, res) {
   return res.render("admin", {
     layout: "admin",
@@ -44,7 +45,8 @@ async function adminApprove(req, res) {
     return {
       title: news.tieuDe,
       abstract: news.trichYeu,
-      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
+      time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
       id: news.id
     };
@@ -355,11 +357,24 @@ function adminAddBanner(req, res) {
 
   res.redirect("/admin/banner");
 }
-
+function getIDThemes(arr) {
+  var temp;
+  for (let item of arr) {
+    temp = item.idChuDe;
+  }
+  return temp;
+}
 async function readNews(req, res) {
   let id = req.params.id;
-
   const news = await newsModel.find({ id: id });
+  var idTheme = getIDThemes(news);
+
+  const themes = await themesModel.findOne({ idChuDe: idTheme });
+  var idTheLoai = themes.idTheLoai;
+
+  const types = await typesModel.findOne({ idTheLoai: idTheLoai });
+  var theme = themes.tenChuDe;
+  var type = types.tenTheLoai;
 
   const data = news.map(news => {
     return {
@@ -375,7 +390,9 @@ async function readNews(req, res) {
   return res.render("news", {
     layout: "news",
     fullname: res.locals.user.tenDayDu,
-    data: data
+    data: data,
+    theme: theme,
+    type: type
   });
 }
 module.exports = {
