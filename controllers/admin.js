@@ -30,6 +30,20 @@ function getFirstImage(data) {
   return data;
 }
 
+// function getDateTime() {
+//   let today = new Date();
+//   let dd = String(today.getDate()).padStart(2, "0");
+//   let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+//   let yyyy = today.getFullYear();
+//   let hour = today.getHours();
+//   let minute = today.getUTCMinutes();
+//   let second = today.getUTCSeconds();
+
+//   let created =
+//     yyyy + "-" + mm + "-" + dd + "T" + hour + ":" + minute + ":" + second;
+//   return created;
+// }
+
 function admin(req, res) {
   return res.render("admin", {
     layout: "admin",
@@ -59,7 +73,16 @@ async function adminApprove(req, res) {
 }
 async function approvePost(req, res) {
   let id = req.params.id;
-  await newsModel.updateOne({ id: id }, { $set: { daDuyet: true } });
+  await newsModel.updateOne(
+    { id: id },
+    {
+      $set: {
+        daDuyet: true,
+        ngayDuyet: Date.now(),
+        idNguoiDuyet: res.locals.user.id
+      }
+    }
+  );
 
   res.redirect("/admin/approve");
 }
