@@ -18,6 +18,7 @@ function getFirstImage(data) {
   return data;
 }
 async function home(req, res) {
+  const banner = await bannersModel.find({});
   const news = await newsModel.find({ daDuyet: true, deny: false });
   var arr = getFirstImage(news);
   const data = arr.map(news => {
@@ -32,8 +33,15 @@ async function home(req, res) {
     };
   });
 
+  const dataBanner = banner.map(banner => {
+    return {
+      img: banner.urlHinhAnh
+    };
+  });
+
   return res.render("home", {
-    data: data
+    data: data,
+    banner: dataBanner
   });
 }
 
