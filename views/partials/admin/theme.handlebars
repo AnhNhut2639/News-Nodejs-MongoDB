@@ -18,7 +18,7 @@
         <tr>
             <th scope="row">{{this.STT}}</th>
             <td colspan="2">{{this.theme}}</td>
-            <td><a href="#"><i class="fa fa-trash ml-5"></td>
+            <td><a href="deleteTheme/{{this.id}}"><i class="fa fa-trash ml-5"></td>
         </tr>
         {{/each}}
     </tbody>
@@ -37,7 +37,7 @@
         <select class="custom-select" id="typeSelect" name="typeSelected" required="true">
             <option selected>Choose...</option>
             {{#each types}}
-            <option value="{{this}}">{{this}}</option>
+            <option value="{{this.id}}">{{this.type}}</option>
             {{/each}}
         </select>
     </div>

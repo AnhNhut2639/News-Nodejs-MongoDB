@@ -102,6 +102,7 @@ async function adminType(req, res) {
   const data = type.map(type => {
     stt++;
     return {
+      id: type.idTheLoai,
       Type: type.tenTheLoai,
       STT: stt
     };
@@ -123,12 +124,20 @@ async function adminAddType(req, res) {
 
 async function adminTheme(req, res) {
   let theme = await themesModel.find({});
+  let types = await typesModel.find({});
   let stt = 0;
 
+  const dataTypes = types.map(type => {
+    return {
+      id: type.idTheLoai,
+      type: type.tenTheLoai
+    };
+  });
   const data = theme.map(theme => {
     stt++;
     return {
       theme: theme.tenChuDe,
+      id: theme.idChuDe,
       STT: stt
     };
   });
@@ -136,7 +145,8 @@ async function adminTheme(req, res) {
     layout: "admin",
     fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
     title: "Chủ Đề",
-    themes: data
+    themes: data,
+    types: dataTypes
   });
 }
 
@@ -420,6 +430,20 @@ async function readNews(req, res) {
     type: type
   });
 }
+async function deleteThemes(req, res) {
+  let id = req.params.id;
+  await themesModel.remove({ idChuDe: id });
+
+  res.redirect("/admin/theme");
+}
+
+async function deleteTypes(req, res) {
+  let id = req.params.id;
+  await typesModel.remove({ idTheLoai: id });
+
+  res.redirect("/admin/type");
+}
+
 module.exports = {
   admin,
   adminApprove,
@@ -440,5 +464,7 @@ module.exports = {
   adminAddAdvertise,
   approvePost,
   denyPost,
-  readNews
+  readNews,
+  deleteThemes,
+  deleteTypes
 };

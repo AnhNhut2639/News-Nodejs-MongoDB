@@ -34,4 +34,7 @@ adminRouter.post(
 );
 
 adminRouter.get("/:id", controllers.admin.readNews);
+
+adminRouter.get("/deleteTheme/:id", controllers.admin.deleteThemes);
+adminRouter.get("/deleteType/:id", controllers.admin.deleteTypes);
 module.exports = adminRouter;
