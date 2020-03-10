@@ -3,6 +3,7 @@ var themesModel = require("../model/themesModel");
 var usersModel = require("../model/usersModel");
 var bannersModel = require("../model/bannerModel");
 var advertiseModel = require("../model/advertiseModel");
+var commentsModel = require("../model/commentModel");
 var newsModel = require("../model/newsModel");
 var moment = require("moment");
 function getIDThemes(arr) {
@@ -81,6 +82,18 @@ async function readNews(req, res) {
   var theme = themes.tenChuDe;
   var type = types.tenTheLoai;
 
+  const comments = await commentsModel.find({ idBanTin: id });
+
+  const dataComments = comments.map(comment => {
+    return {
+      fullname: comment.hoTen,
+      phone: comment.sdt,
+      email: comment.email,
+      content: comment.binhLuan,
+      date: moment(comment.ngayBinhLuan).format("DD[-]MM[-]YYYY h:mm a")
+    };
+  });
+
   const data = news.map(news => {
     return {
       title: news.tieuDe,
@@ -97,13 +110,26 @@ async function readNews(req, res) {
     data: data,
     theme: theme,
     type: type,
+    comments: dataComments,
     permission: 1
   });
+}
+async function comment(req, res) {
+  let idBantin = req.params.id;
+  commentsModel.create({
+    idBanTin: idBantin,
+    hoTen: req.body.fullname,
+    email: req.body.email,
+    sdt: req.body.phone,
+    binhLuan: req.body.content
+  });
+  return res.redirect("/news/" + idBantin);
 }
 
 module.exports = {
   home,
   post,
   logout,
-  readNews
+  readNews,
+  comment
 };
