@@ -1,8 +1,12 @@
 <div class="post-sidebar-area right-sidebar mt-30 mb-30 box-shadow">
     <!-- Sidebar Widget -->
+    {{#each advertise}}
     <div class="single-sidebar-widget">
-        <a href="#" class="add-img"><img src="./images/KM.png" alt=""></a>
+        <a href="#" class="add-img"><img src="{{this.img}}" alt=""></a>
     </div>
+    <br>
+
+    {{/each}}
 
 
 </div>

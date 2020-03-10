@@ -62,6 +62,7 @@ async function adminApprove(req, res) {
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
+      theme: news.chuDe,
       id: news.id
     };
   });

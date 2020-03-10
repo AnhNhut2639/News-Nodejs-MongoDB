@@ -22,6 +22,7 @@ const newsSchema = Schema(
     binhLuan: { type: String },
     hashtag: { type: String },
     idChuDe: { type: String, required: true },
+    chuDe: { type: String, required: true },
     loaiTin: { type: String }
   },
   { versionKey: false }

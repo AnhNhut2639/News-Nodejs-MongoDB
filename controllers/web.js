@@ -19,6 +19,7 @@ function getFirstImage(data) {
 }
 async function home(req, res) {
   const banner = await bannersModel.find({});
+  const advertise = await advertiseModel.find({});
   const news = await newsModel.find({ daDuyet: true, deny: false });
   var arr = getFirstImage(news);
   const data = arr.map(news => {
@@ -29,7 +30,14 @@ async function home(req, res) {
       time: moment(news.ngayDuyet).format("h:mm a"),
       id: news.id,
       img: news.firstImage,
+      theme: news.chuDe,
       viewsCount: news.luotXem
+    };
+  });
+
+  const dataAdvertise = advertise.map(advertise => {
+    return {
+      img: advertise.urlHinhQC
     };
   });
 
@@ -41,7 +49,8 @@ async function home(req, res) {
 
   return res.render("home", {
     data: data,
-    banner: dataBanner
+    banner: dataBanner,
+    advertise: dataAdvertise
   });
 }
 
@@ -54,6 +63,7 @@ function logout(req, res) {
 }
 async function readNews(req, res) {
   let id = req.params.id;
+  await newsModel.updateOne({ id: id }, { $inc: { luotXem: +1 } });
   const news = await newsModel.find({ id: id });
   var idTheme = getIDThemes(news);
 

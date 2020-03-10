@@ -103,7 +103,9 @@ async function editorPosted(req, res) {
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
-      id: news.id
+      id: news.id,
+      theme: news.chuDe,
+      viewsCount: news.luotXem
     };
   });
   return res.render("editor-posted", {
@@ -196,6 +198,7 @@ async function waitingAprrove(req, res) {
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
+      theme: news.chuDe,
       id: news.id
     };
   });
@@ -224,6 +227,7 @@ async function deniedPost(req, res) {
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY "),
       time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
+      theme: news.chuDe,
       id: news.id
     };
   });
