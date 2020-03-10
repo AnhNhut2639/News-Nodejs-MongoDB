@@ -35,6 +35,12 @@ async function home(req, res) {
     };
   });
 
+  const mostViews = data.sort(function(a, b) {
+    return b.viewsCount - a.viewsCount;
+  });
+
+  const dataViewsCount = mostViews.slice(0, 5);
+
   const dataAdvertise = advertise.map(advertise => {
     return {
       img: advertise.urlHinhQC
@@ -50,7 +56,8 @@ async function home(req, res) {
   return res.render("home", {
     data: data,
     banner: dataBanner,
-    advertise: dataAdvertise
+    advertise: dataAdvertise,
+    mostViews: dataViewsCount
   });
 }
 
