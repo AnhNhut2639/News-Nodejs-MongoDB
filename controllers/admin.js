@@ -432,14 +432,14 @@ async function readNews(req, res) {
 }
 async function deleteThemes(req, res) {
   let id = req.params.id;
-  await themesModel.remove({ idChuDe: id });
+  await themesModel.deleteOne({ idChuDe: id });
 
   res.redirect("/admin/theme");
 }
 
 async function deleteTypes(req, res) {
   let id = req.params.id;
-  await typesModel.remove({ idTheLoai: id });
+  await typesModel.deleteOne({ idTheLoai: id });
 
   res.redirect("/admin/type");
 }

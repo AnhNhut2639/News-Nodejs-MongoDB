@@ -11,7 +11,7 @@
             <th scope="col">Thể Loại</th>
             <th scope="col">Sửa</th>
             <th scope="col"></th>
-            <th scope="col"> &emsp; &emsp; Xóa</th>
+            <th scope="col"> Xóa</th>
 
 
         </tr>
@@ -29,7 +29,12 @@
                     </button></a>
             </td>
 
-            <td><a href="deleteType/{{this.id}}"><i class="fa fa-trash ml-5"></td>
+            <td>
+                <a href="deleteType/{{this.id}}"> <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#exampleModalCenter"><i class="fa fa-trash"></i></button></a>
+
+
+            </td>
         </tr>
         {{/each}}
 
