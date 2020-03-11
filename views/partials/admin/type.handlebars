@@ -9,7 +9,11 @@
         <tr>
             <th scope="col">STT</th>
             <th scope="col">Thể Loại</th>
+            <th scope="col">Sửa</th>
+            <th scope="col"></th>
             <th scope="col"> &emsp; &emsp; Xóa</th>
+
+
         </tr>
     </thead>
     <tbody>
@@ -17,6 +21,14 @@
         <tr>
             <th scope="row">{{this.STT}}</th>
             <td scope="row">{{this.Type}}</td>
+            <td colspan="2">
+                <!-- Button trigger modal -->
+                <a href="updateType/{{this.id}}"> <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#exampleModalCenter">
+                        <i class="fa fa-edit"></i>
+                    </button></a>
+            </td>
+
             <td><a href="deleteType/{{this.id}}"><i class="fa fa-trash ml-5"></td>
         </tr>
         {{/each}}

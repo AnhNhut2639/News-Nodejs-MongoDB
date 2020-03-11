@@ -445,14 +445,34 @@ async function deleteTypes(req, res) {
 }
 async function getTheme(req, res) {
   let id = req.params.id;
-  const theme = await themesModel.findOne({ idChuDe: id });
+  const theme = await themesModel.find({ idChuDe: id });
+
+  const data = theme.map(theme => {
+    return {
+      theme: theme.tenChuDe
+    };
+  });
   return res.render("admin-update", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
-    theme: theme.tenChuDe
+    theme: data
   });
 }
+async function getType(req, res) {
+  let id = req.params.id;
+  const type = await typesModel.find({ idTheLoai: id });
 
+  const types = type.map(type => {
+    return {
+      type: type.tenTheLoai
+    };
+  });
+  return res.render("admin-updateType", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu,
+    type: types
+  });
+}
 async function updateTheme(req, res) {
   let id = req.params.id;
   await themesModel.updateOne(
@@ -460,6 +480,15 @@ async function updateTheme(req, res) {
     { $set: { tenChuDe: req.body.newNameTheme } }
   );
   res.redirect("/admin/theme");
+}
+
+async function updateType(req, res) {
+  let id = req.params.id;
+  await typesModel.updateOne(
+    { idTheLoai: id },
+    { $set: { tenTheLoai: req.body.newNameType } }
+  );
+  res.redirect("/admin/type");
 }
 module.exports = {
   admin,
@@ -485,5 +514,7 @@ module.exports = {
   deleteThemes,
   deleteTypes,
   getTheme,
-  updateTheme
+  updateTheme,
+  updateType,
+  getType
 };

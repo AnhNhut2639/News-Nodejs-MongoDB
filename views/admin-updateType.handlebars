@@ -2,22 +2,22 @@
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
             <div class="card card-signin my-5">
-                {{#each theme}}
+                {{#each type}}
                 <div class="card-body">
 
-                    <h5 class="card-title text-center">Cập nhật chủ đề</h5>
+                    <h5 class="card-title text-center">Cập nhật thể loại</h5>
 
 
 
                     <form class="form-signin" action="" method="post">
 
                         <div class="form-label-group">
-                            <input type="text" class="form-control" name="id" style="color: #333;"
-                                value="{{this.theme}}" disabled>
+                            <input type="text" class="form-control" name="id" style="color: #333;" value="{{this.type}}"
+                                disabled>
                         </div>
 
                         <div class="form-label-group">
-                            <input type="text" class="form-control" autofocus name="newNameTheme" style="color:#333;"
+                            <input type="text" class="form-control" autofocus name="newNameType" style="color:#333;"
                                 placeholder="Tên mới" required="true">
                         </div>
                         <button class="btn btn-lg btn-primary btn-block text-uppercase" data-toggle="modal"
