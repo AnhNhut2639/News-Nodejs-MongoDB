@@ -152,11 +152,11 @@ async function adminTheme(req, res) {
 
 async function adminAddThemes(req, res) {
   let name = req.body.typeSelected;
-  let type = await typesModel.findOne({ tenTheLoai: name });
+  // let type = await typesModel.findOne({ tenTheLoai: name });
 
   themesModel.create({
     tenChuDe: req.body.addTheme,
-    idTheLoai: type.idTheLoai
+    idTheLoai: req.body.typeSelected
   });
 
   res.redirect("/admin/theme");
@@ -443,7 +443,24 @@ async function deleteTypes(req, res) {
 
   res.redirect("/admin/type");
 }
+async function getTheme(req, res) {
+  let id = req.params.id;
+  const theme = await themesModel.findOne({ idChuDe: id });
+  return res.render("admin-update", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu,
+    theme: theme.tenChuDe
+  });
+}
 
+async function updateTheme(req, res) {
+  let id = req.params.id;
+  await themesModel.updateOne(
+    { idChuDe: id },
+    { $set: { tenChuDe: req.body.newNameTheme } }
+  );
+  res.redirect("/admin/theme");
+}
 module.exports = {
   admin,
   adminApprove,
@@ -466,5 +483,7 @@ module.exports = {
   denyPost,
   readNews,
   deleteThemes,
-  deleteTypes
+  deleteTypes,
+  getTheme,
+  updateTheme
 };

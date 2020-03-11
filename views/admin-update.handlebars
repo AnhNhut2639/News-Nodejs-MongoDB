@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    {{#if theme}}
+                    <h5 class="card-title text-center">Cập nhật chủ đề</h5>
+                    {{/if}}
+
+
+                    <form class="form-signin" action="" method="post">
+                        {{#if theme}}
+                        <div class="form-label-group">
+                            <input type="text" class="form-control" name="id" style="color: #333;" value="{{theme}}"
+                                disabled>
+                        </div>
+                        {{/if}}
+                        <div class="form-label-group">
+                            <input type="text" class="form-control" autofocus name="newNameTheme" style="color:#333;"
+                                placeholder="Tên mới" required="true">
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" data-toggle="modal"
+                            data-target="#exampleModalCenter" type="submit">Cập Nhật</button>
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

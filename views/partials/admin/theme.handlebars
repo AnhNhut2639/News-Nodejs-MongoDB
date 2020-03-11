@@ -10,7 +10,9 @@
             <th scope="col">STT</th>
             <th scope="col">Chủ Đề</th>
             <th scope="col">Thể Loại</th>
-            <th scope="col"> &emsp; &emsp; Xóa</th>
+            <th scope="col">Sửa</th>
+            <th scope="col"></th>
+            <th scope="col"> Xóa</th>
         </tr>
     </thead>
     <tbody>
@@ -18,7 +20,15 @@
         <tr>
             <th scope="row">{{this.STT}}</th>
             <td colspan="2">{{this.theme}}</td>
-            <td><a href="deleteTheme/{{this.id}}"><i class="fa fa-trash ml-5"></td>
+
+            <td colspan="2">
+                <!-- Button trigger modal -->
+                <a href="update/{{this.id}}"> <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#exampleModalCenter">
+                        <i class="fa fa-edit"></i>
+                    </button></a>
+            </td>
+            <td><a href="deleteTheme/{{this.id}}"><i class="fa fa-trash ml-3"></td>
         </tr>
         {{/each}}
     </tbody>
