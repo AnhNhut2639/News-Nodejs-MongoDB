@@ -19,6 +19,18 @@ function getFirstImage(data) {
   return data;
 }
 async function home(req, res) {
+  let userCookie = req.signedCookies.ID;
+  if (userCookie) {
+    var user = await usersModel.findOne({ id: userCookie });
+    var name = user.tenDayDu;
+    if (user.PQ == "admin") {
+      var adminHeader = 1;
+    } else if (user.PQ == "editor") {
+      var editorHeader = 1;
+    }
+  } else {
+    var normal = 1;
+  }
   const banner = await bannersModel.find({});
   const advertise = await advertiseModel.find({});
   const news = await newsModel.find({ daDuyet: true, deny: false });
@@ -58,7 +70,11 @@ async function home(req, res) {
     data: data,
     banner: dataBanner,
     advertise: dataAdvertise,
-    mostViews: dataViewsCount
+    mostViews: dataViewsCount,
+    adminHeader: adminHeader,
+    editorHeader: editorHeader,
+    homeHeader: normal,
+    fullname: name
   });
 }
 
