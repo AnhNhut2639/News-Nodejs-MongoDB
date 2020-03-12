@@ -5,8 +5,13 @@ const themesSchema = Schema(
   {
     idChuDe: { type: String, default: uuid, required: true },
     tenChuDe: { type: String, required: true },
-    viTri: { type: Number },
-    idTheLoai: { type: String, required: true }
+    idTheLoai: { type: String, required: true },
+    idNguoiTao: { type: String, required: true },
+    tenNguoiTao: { type: String, required: true },
+    ngayTao: { type: Date, default: Date.now, required: true },
+    idNguoiCapNhat: { type: String },
+    tenNguoiCapNhat: { type: String },
+    ngayCapNhat: { type: Date }
   },
   { versionKey: false }
 );

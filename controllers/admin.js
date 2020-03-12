@@ -116,6 +116,8 @@ async function adminType(req, res) {
 }
 async function adminAddType(req, res) {
   typesModel.create({
+    idNguoiTao: res.locals.user.id,
+    tenNguoiTao: res.locals.user.tenDayDu,
     tenTheLoai: req.body.addType
   });
 
@@ -151,10 +153,9 @@ async function adminTheme(req, res) {
 }
 
 async function adminAddThemes(req, res) {
-  let name = req.body.typeSelected;
-  // let type = await typesModel.findOne({ tenTheLoai: name });
-
   themesModel.create({
+    idNguoiTao: res.locals.user.id,
+    tenNguoiTao: res.locals.user.tenDayDu,
     tenChuDe: req.body.addTheme,
     idTheLoai: req.body.typeSelected
   });
@@ -477,7 +478,14 @@ async function updateTheme(req, res) {
   let id = req.params.id;
   await themesModel.updateOne(
     { idChuDe: id },
-    { $set: { tenChuDe: req.body.newNameTheme } }
+    {
+      $set: {
+        tenChuDe: req.body.newNameTheme,
+        idNguoiCapNhat: res.locals.user.id,
+        tenNguoiCapNhat: res.locals.user.tenDayDu,
+        ngayCapNhat: Date.now()
+      }
+    }
   );
   res.redirect("/admin/theme");
 }
@@ -486,7 +494,14 @@ async function updateType(req, res) {
   let id = req.params.id;
   await typesModel.updateOne(
     { idTheLoai: id },
-    { $set: { tenTheLoai: req.body.newNameType } }
+    {
+      $set: {
+        tenTheLoai: req.body.newNameType,
+        idNguoiCapNhat: res.locals.user.id,
+        tenNguoiCapNhat: res.locals.user.tenDayDu,
+        ngayCapNhat: Date.now()
+      }
+    }
   );
   res.redirect("/admin/type");
 }
