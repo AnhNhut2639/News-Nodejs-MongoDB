@@ -3,6 +3,7 @@ const usersModel = require("../model/usersModel");
 const themesModel = require("../model/themesModel");
 const typesModel = require("../model/typesNewsModel");
 var moment = require("moment");
+var nodemailer = require("nodemailer");
 
 function getFirstImage(data) {
   let regex = /<img.*?src="(.*?)"/;
@@ -342,6 +343,82 @@ async function waitNews(req, res) {
     type: type
   });
 }
+function mail(req, res) {
+  return res.render("mail", {
+    layout: "admin"
+  });
+}
+
+function sendmail(req, res) {
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.user,
+      pass: process.env.pass
+    }
+  });
+
+  var content = "";
+  content += `
+  <div width="100%" style="margin:0;padding:0;background-color:#222222">
+	<center style="width:100%;background-color:#f1f1f1">
+		<div style="display:none;font-size:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif">
+			‌
+		</div>
+		<div style="max-width:600px;margin:0 auto" >
+			
+			<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:auto">
+				<tbody><tr>
+					<td style="padding:1em 2.5em;background-color:#6251da">
+						<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody><tr>
+								<td width="100%"style="text-align:left">
+									<h1><a>VNPT An Giang</a></h1>
+								</td>
+								<td width="60%"style="text-align:right"></td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+				<tr>
+					<td style="background-size:cover;height:400px">
+						<div></div>
+						<table>
+							<tbody><tr>
+								<td>
+								<div style="padding:0 3em;text-align:left">
+									<h2>Yêu cầu xét duyệt</h2>
+									<p>Dear <b>zoro92211@gmail.com</b></p>
+									<p><b>Abc </b> vừa thêm bài viết của anh(chị) ấy và đang đợi yêu cầu xét duyệt của bạn</p>
+									<p>Tiêu đề: <b>Những con chim biết bay</b></p>
+									<p>Vui lòng xem kỹ bài viết trước khi xác nhận phê duyệt </p>
+									<p>Chi tiết bài viết <a href="#" target="_blank">tại đây</a>.</p>
+									</div>
+								</td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+			</tbody></table>
+		</div>
+	</center>
+    `;
+
+  var mailOptions = {
+    from: "DeliMarvel",
+    to: "zoro92211@gmail.com",
+    subject: "Sending Email using Node.js",
+    html: content
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
+}
 module.exports = {
   editor,
   editorNewPost,
@@ -356,5 +433,7 @@ module.exports = {
   deniedPost,
   readNews,
   deniedNews,
-  waitNews
+  waitNews,
+  sendmail,
+  mail
 };

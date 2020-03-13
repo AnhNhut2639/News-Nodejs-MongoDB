@@ -17,4 +17,7 @@ editorRouter.get("/denied", controllers.editor.deniedPost);
 editorRouter.get("/:id", controllers.editor.readNews);
 editorRouter.get("/wait/:id", controllers.editor.waitNews);
 editorRouter.get("/denied/:id", controllers.editor.deniedNews);
+editorRouter.get("/mail/sendmail", controllers.editor.mail);
+
+editorRouter.post("/mail/sendmail", controllers.editor.sendmail);
 module.exports = editorRouter;

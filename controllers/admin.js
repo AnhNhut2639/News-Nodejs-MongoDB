@@ -5,6 +5,7 @@ var bannersModel = require("../model/bannerModel");
 var advertiseModel = require("../model/advertiseModel");
 var newsModel = require("../model/newsModel");
 var moment = require("moment");
+var nodemailer = require("nodemailer");
 
 function deleteSign(str) {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -505,6 +506,7 @@ async function updateType(req, res) {
   );
   res.redirect("/admin/type");
 }
+
 module.exports = {
   admin,
   adminApprove,
