@@ -38,7 +38,7 @@ async function home(req, res) {
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
-      epitomize: news.trichYeu,
+      abstract: news.trichYeu,
       date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDuyet).format("h:mm a"),
       id: news.id,
@@ -120,7 +120,7 @@ async function readNews(req, res) {
   const data = news.map(news => {
     return {
       title: news.tieuDe,
-      epitomize: news.trichYeu,
+      abstract: news.trichYeu,
       author: news.tacGia,
       content: news.noiDung,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
@@ -157,8 +157,6 @@ async function search(req, res) {
     $text: { $search: q }
   });
 
-  console.log(search);
-
   var arr = getFirstImage(search);
 
   arr.sort(function(a, b) {
@@ -168,7 +166,7 @@ async function search(req, res) {
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
-      epitomize: news.trichYeu,
+      abstract: news.trichYeu,
       date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
       id: news.id,
       img: news.firstImage,
