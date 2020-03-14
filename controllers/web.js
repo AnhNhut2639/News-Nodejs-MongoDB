@@ -66,6 +66,13 @@ async function home(req, res) {
     };
   });
 
+  // var str = "viet tue";
+  // var strArr =
+  //   "Với mức giá báns cao nhất phân khúc sedan hạng D, Honda Accord sở hữu thiết kế đẹp, nội thất rộng rãi, vận hành thể thao nhưng lại thua kém đối thủ về mặt tiện nghi.";
+  // const search = await newsModel.find({ $text: { $search: str } });
+
+  // console.log(search);
+
   return res.render("home", {
     data: data,
     banner: dataBanner,
@@ -141,11 +148,45 @@ async function comment(req, res) {
   });
   return res.redirect("/news/" + idBantin);
 }
+async function search(req, res) {
+  var normal = 1;
+  var q = req.query.search;
+  const search = await newsModel.find({
+    daDuyet: true,
+    deny: false,
+    $text: { $search: q }
+  });
 
+  console.log(search);
+
+  var arr = getFirstImage(search);
+
+  arr.sort(function(a, b) {
+    return new Date(a.date) - new Date(b.date);
+  });
+
+  const data = arr.map(news => {
+    return {
+      title: news.tieuDe,
+      abstract: news.trichYeu,
+      date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
+      id: news.id,
+      img: news.firstImage,
+      theme: news.chuDe,
+      viewsCount: news.luotXem
+    };
+  });
+
+  return res.render("search", {
+    homeHeader: normal,
+    data: data
+  });
+}
 module.exports = {
   home,
   post,
   logout,
   readNews,
-  comment
+  comment,
+  search
 };

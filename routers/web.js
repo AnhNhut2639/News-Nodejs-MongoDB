@@ -8,4 +8,6 @@ WebRouter.post("/news/:id", controllers.web.comment);
 WebRouter.get("/post", controllers.web.post);
 WebRouter.get("/logout", controllers.web.logout);
 
+WebRouter.get("/search", controllers.web.search);
+
 module.exports = WebRouter;

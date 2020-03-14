@@ -348,8 +348,17 @@ function mail(req, res) {
     layout: "admin"
   });
 }
+function getEmail(arr) {
+  var email = [];
+  for (let item of arr) {
+    email.push(item.email);
+  }
+  return email;
+}
+async function sendmail(req, res) {
+  var userEmail = await usersModel.find({ PQ: "admin" });
+  var email = getEmail(userEmail);
 
-function sendmail(req, res) {
   var transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -359,8 +368,8 @@ function sendmail(req, res) {
   });
 
   var content = "";
-  content += `
-  <div width="100%" style="margin:0;padding:0;background-color:#222222">
+  content +=
+    ` <div width="100%" style="margin:0;padding:0;background-color:#222222">
 	<center style="width:100%;background-color:#f1f1f1">
 		<div style="display:none;font-size:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif">
 			‌
@@ -369,11 +378,11 @@ function sendmail(req, res) {
 			
 			<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:auto">
 				<tbody><tr>
-					<td style="padding:1em 2.5em;background-color:#6251da">
+					<td style="padding:1em 2.5em;background-color:#03a9f4">
 						<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
 							<tbody><tr>
 								<td width="100%"style="text-align:left">
-									<h1><a>VNPT An Giang</a></h1>
+									<h1 style="color: white">VNPT An Giang</h1>
 								</td>
 								<td width="60%"style="text-align:right"></td>
 							</tr>
@@ -389,7 +398,9 @@ function sendmail(req, res) {
 								<div style="padding:0 3em;text-align:left">
 									<h2>Yêu cầu xét duyệt</h2>
 									<p>Dear <b>zoro92211@gmail.com</b></p>
-									<p><b>Abc </b> vừa thêm bài viết của anh(chị) ấy và đang đợi yêu cầu xét duyệt của bạn</p>
+									<p><b>` +
+    res.locals.user.tenDayDu +
+    ` </b> vừa thêm bài viết của anh(chị) ấy và đang đợi yêu cầu xét duyệt của bạn</p>
 									<p>Tiêu đề: <b>Những con chim biết bay</b></p>
 									<p>Vui lòng xem kỹ bài viết trước khi xác nhận phê duyệt </p>
 									<p>Chi tiết bài viết <a href="#" target="_blank">tại đây</a>.</p>
