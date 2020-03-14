@@ -59,7 +59,7 @@ async function adminApprove(req, res) {
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
@@ -415,7 +415,7 @@ async function readNews(req, res) {
   const data = news.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       author: news.tacGia,
       content: news.noiDung,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),

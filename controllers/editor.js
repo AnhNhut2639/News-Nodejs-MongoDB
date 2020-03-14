@@ -70,7 +70,7 @@ async function editorNewPost(req, res) {
 function editorWriteNews(req, res) {
   newsModel.create({
     tieuDe: req.body.title,
-    trichYeu: req.body.abstract,
+    trichYeu: req.body.epitomize,
     tacGia: req.body.author,
     nguon: req.body.sources,
     noiDung: req.body.editor,
@@ -100,7 +100,7 @@ async function editorPosted(req, res) {
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
@@ -195,7 +195,7 @@ async function waitingAprrove(req, res) {
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
@@ -224,7 +224,7 @@ async function deniedPost(req, res) {
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY "),
       time: moment(news.ngayDang).format("h:mm a"),
       img: news.firstImage,
@@ -262,7 +262,7 @@ async function readNews(req, res) {
   const data = news.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       author: news.tacGia,
       content: news.noiDung,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
@@ -295,7 +295,7 @@ async function deniedNews(req, res) {
   const data = news.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       author: news.tacGia,
       content: news.noiDung,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
@@ -327,7 +327,7 @@ async function waitNews(req, res) {
   const data = news.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       author: news.tacGia,
       content: news.noiDung,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
