@@ -73,7 +73,7 @@ async function adminApprove(req, res) {
     data: data
   });
 }
-async function approvePost(req, res) {
+async function approvePost(req, res, next) {
   let id = req.params.id;
   await newsModel.updateOne(
     { id: id },
@@ -85,13 +85,185 @@ async function approvePost(req, res) {
       }
     }
   );
+  var news = await newsModel.findOne({ id: id });
+
+  res.locals.receiveID = news.idNguoiDang;
+  res.locals.title = news.tieuDe;
+
+  next();
+}
+
+async function approveMail(req, res) {
+  var id = res.locals.receiveID;
+  var title = res.locals.title;
+
+  var reciever = await usersModel.findOne({ id: id });
+
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.user,
+      pass: process.env.pass
+    }
+  });
+
+  var content = "";
+  content +=
+    ` <div width="100%" style="margin:0;padding:0;background-color:#222222">
+  <center style="width:100%;background-color:#f1f1f1">
+  	<div style="display:none;font-size:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif">
+  		‌
+  	</div>
+  	<div style="max-width:600px;margin:0 auto" >
+
+  		<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:auto">
+  			<tbody><tr>
+  				<td style="padding:1em 2.5em;background-color:#03a9f4">
+  					<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+  						<tbody><tr>
+  							<td width="100%"style="text-align:left">
+  								<h1 style="color: white">VNPT An Giang</h1>
+  							</td>
+  							<td width="60%"style="text-align:right"></td>
+  						</tr>
+  					</tbody></table>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td style="background-size:cover;height:400px">
+  					<div></div>
+  					<table>
+  						<tbody><tr>
+  							<td>
+  							<div style="padding:0 3em;text-align:left">
+  								<h2>Yêu cầu xét duyệt thành công </h2>
+  								<p>Dear <b>` +
+    reciever.tenDayDu +
+    `</b></p>
+  								<p><b>` +
+    res.locals.user.tenDayDu +
+    ` </b> vừa phê duyệt bài viết <b>` +
+    title +
+    ` </b> của bạn </p>
+  							
+  								</div>
+  							</td>
+  						</tr>
+  					</tbody></table>
+  				</td>
+  			</tr>
+  		</tbody></table>
+  	</div>
+  </center>
+    `;
+
+  var mailOptions = {
+    from: "DeliMarvel",
+    to: reciever.email,
+    subject: "Phê Duyệt !!!",
+    html: content
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
 
   res.redirect("/admin/approve");
 }
 
-async function denyPost(req, res) {
+async function denyPost(req, res, next) {
   let id = req.params.id;
   await newsModel.updateOne({ id: id }, { $set: { deny: true } });
+  var news = await newsModel.findOne({ id: id });
+
+  res.locals.receiveID = news.idNguoiDang;
+  res.locals.title = news.tieuDe;
+
+  next();
+}
+
+async function denyMail(req, res) {
+  var id = res.locals.receiveID;
+  var title = res.locals.title;
+
+  var reciever = await usersModel.findOne({ id: id });
+
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.user,
+      pass: process.env.pass
+    }
+  });
+
+  var content = "";
+  content +=
+    ` <div width="100%" style="margin:0;padding:0;background-color:#222222">
+  <center style="width:100%;background-color:#f1f1f1">
+  	<div style="display:none;font-size:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif">
+  		‌
+  	</div>
+  	<div style="max-width:600px;margin:0 auto" >
+
+  		<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:auto">
+  			<tbody><tr>
+  				<td style="padding:1em 2.5em;background-color:#03a9f4">
+  					<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+  						<tbody><tr>
+  							<td width="100%"style="text-align:left">
+  								<h1 style="color: white">VNPT An Giang</h1>
+  							</td>
+  							<td width="60%"style="text-align:right"></td>
+  						</tr>
+  					</tbody></table>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td style="background-size:cover;height:400px">
+  					<div></div>
+  					<table>
+  						<tbody><tr>
+  							<td>
+  							<div style="padding:0 3em;text-align:left">
+  								<h2>Yêu cầu xét duyệt không thành công </h2>
+  								<p>Dear <b>` +
+    reciever.tenDayDu +
+    `</b></p>
+  								<p> bài viết <b>` +
+    title +
+    ` </b> của bạn không được phê duyệt. Người quyết định <b>` +
+    res.locals.user.tenDayDu +
+    ` </b> </p>
+  							
+  								</div>
+  							</td>
+  						</tr>
+  					</tbody></table>
+  				</td>
+  			</tr>
+  		</tbody></table>
+  	</div>
+  </center>
+    `;
+
+  var mailOptions = {
+    from: "DeliMarvel",
+    to: reciever.email,
+    subject: "Yêu cầu phê duyệt không được xác nhận",
+    html: content
+  };
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
+    }
+  });
 
   res.redirect("/admin/approve");
 }
@@ -533,5 +705,7 @@ module.exports = {
   getTheme,
   updateTheme,
   updateType,
-  getType
+  getType,
+  approveMail,
+  denyMail
 };
