@@ -54,14 +54,16 @@ function admin(req, res) {
 
 async function adminApprove(req, res) {
   const news = await newsModel.find({ daDuyet: false, deny: false });
+  news.sort(function(a, b) {
+    return new Date(b.ngayDang) - new Date(a.ngayDang);
+  });
   var arr = getFirstImage(news);
 
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
       epitomize: news.trichYeu,
-      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
-      time: moment(news.ngayDang).format("h:mm a"),
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
       img: news.firstImage,
       theme: news.chuDe,
       id: news.id
