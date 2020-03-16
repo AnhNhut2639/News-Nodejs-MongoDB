@@ -82,6 +82,7 @@ async function editorWriteNews(req, res, next) {
     idChuDe: req.body.themes,
     chuDe: themes.tenChuDe
   });
+
   res.locals.title = req.body.title;
   next();
 }

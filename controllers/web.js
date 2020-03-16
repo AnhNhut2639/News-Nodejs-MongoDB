@@ -34,11 +34,14 @@ async function home(req, res) {
   const banner = await bannersModel.find({});
   const advertise = await advertiseModel.find({});
   const news = await newsModel.find({ daDuyet: true, deny: false });
+  news.sort(function(a, b) {
+    return new Date(b.ngayDang) - new Date(a.ngayDang);
+  });
   var arr = getFirstImage(news);
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDuyet).format("h:mm a"),
       id: news.id,
@@ -48,7 +51,19 @@ async function home(req, res) {
     };
   });
 
-  const mostViews = data.sort(function(a, b) {
+  const dataViewsMost = arr.map(news => {
+    return {
+      title: news.tieuDe,
+      epitomize: news.trichYeu,
+      date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY"),
+      time: moment(news.ngayDuyet).format("h:mm a"),
+      id: news.id,
+      img: news.firstImage,
+      theme: news.chuDe,
+      viewsCount: news.luotXem
+    };
+  });
+  const mostViews = dataViewsMost.sort(function(a, b) {
     return b.viewsCount - a.viewsCount;
   });
 
@@ -65,13 +80,6 @@ async function home(req, res) {
       img: banner.urlHinhAnh
     };
   });
-
-  // var str = "viet tue";
-  // var strArr =
-  //   "Với mức giá báns cao nhất phân khúc sedan hạng D, Honda Accord sở hữu thiết kế đẹp, nội thất rộng rãi, vận hành thể thao nhưng lại thua kém đối thủ về mặt tiện nghi.";
-  // const search = await newsModel.find({ $text: { $search: str } });
-
-  // console.log(search);
 
   return res.render("home", {
     data: data,
@@ -120,7 +128,7 @@ async function readNews(req, res) {
   const data = news.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       author: news.tacGia,
       content: news.noiDung,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
@@ -166,7 +174,7 @@ async function search(req, res) {
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
-      abstract: news.trichYeu,
+      epitomize: news.trichYeu,
       date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
       id: news.id,
       img: news.firstImage,
