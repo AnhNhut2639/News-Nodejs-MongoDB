@@ -82,7 +82,7 @@ async function home(req, res) {
   });
 
   return res.render("home", {
-    data: data,
+    data: data.slice(0, 10),
     banner: dataBanner,
     advertise: dataAdvertise,
     mostViews: dataViewsCount,
@@ -188,11 +188,41 @@ async function search(req, res) {
     data: data
   });
 }
+
+async function pagination(req, res) {
+  var page = parseInt(req.query.page) || 1; //n
+  var perPage = 10;
+
+  var start = (page - 1) * perPage;
+  var end = page * perPage;
+  var news = await newsModel.find({ daDuyet: true, deny: false });
+
+  news.sort(function(a, b) {
+    return new Date(b.ngayDang) - new Date(a.ngayDang);
+  });
+  var arr = getFirstImage(news);
+  const data = arr.map(news => {
+    return {
+      title: news.tieuDe,
+      epitomize: news.trichYeu,
+      date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY"),
+      time: moment(news.ngayDuyet).format("h:mm a"),
+      id: news.id,
+      img: news.firstImage,
+      theme: news.chuDe,
+      viewsCount: news.luotXem
+    };
+  });
+  const realdata = data.slice(start, end);
+  res.json(realdata);
+}
+
 module.exports = {
   home,
   post,
   logout,
   readNews,
   comment,
-  search
+  search,
+  pagination
 };
