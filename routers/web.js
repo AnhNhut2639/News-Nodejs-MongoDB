@@ -3,7 +3,7 @@ const controllers = require("../controllers");
 
 const WebRouter = express.Router();
 WebRouter.get("/", controllers.web.home);
-WebRouter.get("/page", controllers.web.pagination);
+WebRouter.get("/page/:page", controllers.web.pagination);
 
 WebRouter.get("/news/:id", controllers.web.readNews);
 WebRouter.post("/news/:id", controllers.web.comment);

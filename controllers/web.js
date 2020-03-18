@@ -80,7 +80,17 @@ async function home(req, res) {
       img: banner.urlHinhAnh
     };
   });
+  var page = [];
 
+  var count = await newsModel.count({ daDuyet: true, deny: false });
+  var result = count / 10;
+
+  var loop = Math.ceil(result);
+  for (var i = 1; i <= loop; i++) {
+    page.push(i);
+  }
+
+  console.log(page);
   return res.render("home", {
     data: data.slice(0, 10),
     banner: dataBanner,
@@ -89,7 +99,8 @@ async function home(req, res) {
     adminHeader: adminHeader,
     editorHeader: editorHeader,
     homeHeader: normal,
-    fullname: name
+    fullname: name,
+    paginate: page
   });
 }
 
@@ -190,7 +201,9 @@ async function search(req, res) {
 }
 
 async function pagination(req, res) {
-  var page = parseInt(req.query.page) || 1; //n
+  var page = parseInt(req.params.page) || 1; //n
+
+  console.log(page);
   var perPage = 10;
 
   var start = (page - 1) * perPage;
