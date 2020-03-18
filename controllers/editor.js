@@ -75,7 +75,7 @@ async function editorWriteNews(req, res, next) {
     trichYeu: req.body.epitomize,
     tacGia: req.body.author,
     nguon: req.body.sources,
-    noiDung: req.body.editor,
+    noiDung: req.body.editordata,
     idNguoiDang: res.locals.user.id,
     hashtag: req.body.themes,
     loaiTin: req.body.themes,

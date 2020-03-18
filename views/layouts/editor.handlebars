@@ -11,9 +11,11 @@
     <!-- Favicon -->
     <link rel="icon" href="/images/vnpt.jpg">
     <!--Ckeditor -->
-    <script src="/ckeditor/ckeditor.js"></script>
+    {{!-- <script src="/ckeditor/ckeditor.js"></script> --}}
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/style.css">
+    {{!-- <link href="/summernote-master/dist/summernote-bs4.css"> --}}
+    <link href="/summernote-master/dist/summernote-bs4.css" rel="stylesheet">
 
 
 
@@ -40,11 +42,15 @@
     <script src="/js/bootstrap/bootstrap.min.js"></script>
     <!-- All Plugins js -->
     <script src="/js/plugins/plugins.js"></script>
-    {{!-- <script src="/summernote-master/dist/summernote-bs4.min.js"></script> --}}
+    {{!-- <script src="/summernote-master/dist/summernote-bs4.js"></script> --}}
     <!-- Active js -->
     <script src="/js/active.js"></script>
     <script src="/js/getId.js"></script>
+    <script src="/summernote-master/dist/summernote-bs4.js"></script>
+    <script>
 
+        $('#summernote').summernote();
+    </script>
 
 </body>
 
