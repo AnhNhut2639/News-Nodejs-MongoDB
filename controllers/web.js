@@ -123,6 +123,9 @@ async function readNews(req, res) {
   var type = types.tenTheLoai;
 
   const comments = await commentsModel.find({ idBanTin: id });
+  comments.sort(function(a, b) {
+    return new Date(b.ngayBinhLuan) - new Date(a.ngayBinhLuan);
+  });
 
   const dataComments = comments.map(comment => {
     return {

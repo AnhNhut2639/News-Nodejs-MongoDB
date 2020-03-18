@@ -28,6 +28,7 @@ adminRouter.get("/account", controllers.admin.adminAccount);
 adminRouter.get("/register", controllers.admin.adminRegister);
 adminRouter.post("/register", controllers.admin.adminAddAccount);
 adminRouter.get("/changepass", controllers.admin.adminChangePass);
+adminRouter.get("/comments", controllers.admin.comment);
 adminRouter.post("/changepass", controllers.admin.adminChange);
 adminRouter.get("/advertise", controllers.admin.adminAdvertise);
 adminRouter.post(
@@ -51,4 +52,6 @@ adminRouter.get("/update/:id", controllers.admin.getTheme);
 adminRouter.post("/update/:id", controllers.admin.updateTheme);
 adminRouter.get("/updateType/:id", controllers.admin.getType);
 adminRouter.post("/updateType/:id", controllers.admin.updateType);
+adminRouter.get("/deleteComment/:id", controllers.admin.deleteComment);
+
 module.exports = adminRouter;

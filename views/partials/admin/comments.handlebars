@@ -1,0 +1,45 @@
+<div class="section-heading">
+    <h5>Bình luận</h5>
+</div>
+{{#if message}}
+<div>{{message}}</div>
+{{/if}}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tên</th>
+            <th scope="col">SĐT</th>
+            <th scope="col">Email</th>
+            <th scope="col"> Bình Luận</th>
+            <th scope="col"> Ngày</th>
+            <th scope="col"> Bài viết</th>
+            <th scope="col"> Xóa</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        {{#each comments}}
+        <tr>
+            <th scope="row">{{this.STT}}</th>
+            <td scope="row">{{this.fullname}}</td>
+            <td scope="row">{{this.phone}}</td>
+            <td scope="row">{{this.email}}</td>
+            <td scope="row">{{this.content}}</td>
+            <td scope="row">{{this.date}}</td>
+            <th scope="row"><a href="/news/{{this.news}}">chi tiết bài viết</a></th>
+            <td>
+                <a href="deleteComment/{{this.id}}"> <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#exampleModalCenter"><i class="fa fa-trash"></i></button></a>
+
+            </td>
+        </tr>
+        {{/each}}
+
+    </tbody>
+</table>
+
+<br>
+<br>
+<br>

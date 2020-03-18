@@ -4,6 +4,7 @@ var usersModel = require("../model/usersModel");
 var bannersModel = require("../model/bannerModel");
 var advertiseModel = require("../model/advertiseModel");
 var newsModel = require("../model/newsModel");
+var commentModel = require("../model/commentModel");
 var moment = require("moment");
 var nodemailer = require("nodemailer");
 
@@ -410,7 +411,7 @@ async function adminAccount(req, res) {
       fullName: user.tenDayDu,
       phoneNumber: user.sdt,
       email: user.email,
-      birthDate: user.ngaySinh,
+      birthDate: moment(user.ngaySinh).format("DD[-]MM[-]YYYY"),
       gender: user.gioiTinh,
       ID: user.cmnd,
       STT: stt
@@ -753,6 +754,47 @@ async function updateType(req, res) {
   res.redirect("/admin/type");
 }
 
+async function comment(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+  let comments = await commentModel.find({});
+  let stt = 0;
+  comments.sort(function(a, b) {
+    return new Date(b.ngayBinhLuan) - new Date(a.ngayBinhLuan);
+  });
+  const data = comments.map(comment => {
+    stt++;
+    return {
+      id: comment.id,
+      news: comment.idBanTin,
+      fullname: comment.hoTen,
+      phone: comment.sdt,
+      email: comment.email,
+      content: comment.binhLuan,
+      date: moment(comment.ngayBinhLuan).format("DD[-]MM[-]YYYY"),
+      STT: stt
+    };
+  });
+  return res.render("admin-comments", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
+    comments: data,
+    title: "Bình Luận",
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
+  });
+}
+async function deleteComment(req, res) {
+  let id = req.params.id;
+  await commentModel.deleteOne({ id: id });
+
+  res.redirect("/admin/comments");
+}
+
 module.exports = {
   admin,
   adminApprove,
@@ -781,5 +823,7 @@ module.exports = {
   updateType,
   getType,
   approveMail,
-  denyMail
+  denyMail,
+  comment,
+  deleteComment
 };
