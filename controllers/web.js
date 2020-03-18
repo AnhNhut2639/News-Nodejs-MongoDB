@@ -35,7 +35,7 @@ async function home(req, res) {
   const advertise = await advertiseModel.find({});
   const news = await newsModel.find({ daDuyet: true, deny: false });
   news.sort(function(a, b) {
-    return new Date(b.ngayDang) - new Date(a.ngayDang);
+    return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
   });
   var arr = getFirstImage(news);
   const data = arr.map(news => {
@@ -89,8 +89,6 @@ async function home(req, res) {
   for (var i = 1; i <= loop; i++) {
     page.push(i);
   }
-
-  console.log(page);
   return res.render("home", {
     data: data.slice(0, 10),
     banner: dataBanner,
@@ -202,8 +200,6 @@ async function search(req, res) {
 
 async function pagination(req, res) {
   var page = parseInt(req.params.page) || 1; //n
-
-  console.log(page);
   var perPage = 10;
 
   var start = (page - 1) * perPage;
@@ -211,7 +207,7 @@ async function pagination(req, res) {
   var news = await newsModel.find({ daDuyet: true, deny: false });
 
   news.sort(function(a, b) {
-    return new Date(b.ngayDang) - new Date(a.ngayDang);
+    return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
   });
   var arr = getFirstImage(news);
   const data = arr.map(news => {

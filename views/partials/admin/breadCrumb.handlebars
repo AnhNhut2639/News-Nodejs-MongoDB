@@ -3,7 +3,95 @@
         <div class="row h-100 align-items-center">
             <div class="col-12">
                 <div class="breadcrumb-content">
-                    <h2>Admin's Name</h2>
+
+                    <div class="row" margin-right="-153px" margin-left=>
+                        {{#if newsCount}}
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Bài
+                                                Viết</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{newsCount}}</div>
+                                        </div>
+                                        <i class="fa fa-clipboard fa-4x text-gray-300" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+                        {{#if usersCount}}
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                user</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{usersCount}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fa fa-users fa-4x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{/if}}
+
+                        {{#if typesCount}}
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                THỂ LOẠI</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{typesCount}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fa fa-list fa-4x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/if}}
+
+
+                        {{#if themesCount}}
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                CHỦ ĐỀ</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{themesCount}}</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fa fa-list-ul fa-4x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{/if}}
+
+
+
+
+
+
+
+
                 </div>
             </div>
         </div>

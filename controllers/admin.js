@@ -45,15 +45,30 @@ function getFirstImage(data) {
 //   return created;
 // }
 
-function admin(req, res) {
+async function admin(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+
   return res.render("admin", {
     layout: "admin",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 
 async function adminApprove(req, res) {
   const news = await newsModel.find({ daDuyet: false, deny: false });
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+
   news.sort(function(a, b) {
     return new Date(b.ngayDang) - new Date(a.ngayDang);
   });
@@ -72,7 +87,11 @@ async function adminApprove(req, res) {
   return res.render("admin-approve", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
-    data: data
+    data: data,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 async function approvePost(req, res, next) {
@@ -110,8 +129,7 @@ async function approveMail(req, res) {
   });
 
   var content = "";
-  content +=
-    ` <div width="100%" style="margin:0;padding:0;background-color:#222222">
+  content += ` <div width="100%" style="margin:0;padding:0;background-color:#222222">
   <center style="width:100%;background-color:#f1f1f1">
   	<div style="display:none;font-size:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif">
   		‌
@@ -139,14 +157,8 @@ async function approveMail(req, res) {
   							<td>
   							<div style="padding:0 3em;text-align:left">
   								<h2>Yêu cầu xét duyệt thành công </h2>
-  								<p>Dear <b>` +
-    reciever.tenDayDu +
-    `</b></p>
-  								<p><b>` +
-    res.locals.user.tenDayDu +
-    ` </b> vừa phê duyệt bài viết <b>` +
-    title +
-    ` </b> của bạn </p>
+  								<p>Dear <b>${reciever.tenDayDu}</b></p>
+  								<p><b>${res.locals.user.tenDayDu} </b> vừa phê duyệt bài viết <b>${title}</b> của bạn </p>
   							
   								</div>
   							</td>
@@ -203,8 +215,7 @@ async function denyMail(req, res) {
   });
 
   var content = "";
-  content +=
-    ` <div width="100%" style="margin:0;padding:0;background-color:#222222">
+  content += ` <div width="100%" style="margin:0;padding:0;background-color:#222222">
   <center style="width:100%;background-color:#f1f1f1">
   	<div style="display:none;font-size:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif">
   		‌
@@ -232,14 +243,8 @@ async function denyMail(req, res) {
   							<td>
   							<div style="padding:0 3em;text-align:left">
   								<h2>Yêu cầu xét duyệt không thành công </h2>
-  								<p>Dear <b>` +
-    reciever.tenDayDu +
-    `</b></p>
-  								<p> bài viết <b>` +
-    title +
-    ` </b> của bạn không được phê duyệt. Người quyết định <b>` +
-    res.locals.user.tenDayDu +
-    ` </b> </p>
+  								<p>Dear <b>${reciever.tenDayDu}</b></p>
+  								<p> bài viết <b>${title} </b> của bạn không được phê duyệt. Người quyết định <b>${res.locals.user.tenDayDu}</b> </p>
   							
   								</div>
   							</td>
@@ -271,6 +276,10 @@ async function denyMail(req, res) {
 }
 
 async function adminType(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
   let type = await typesModel.find({});
   let stt = 0;
 
@@ -286,7 +295,11 @@ async function adminType(req, res) {
     layout: "admin",
     fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
     types: data,
-    title: "Thể Loại và Chủ Đề"
+    title: "Thể Loại và Chủ Đề",
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 async function adminAddType(req, res) {
@@ -300,6 +313,10 @@ async function adminAddType(req, res) {
 }
 
 async function adminTheme(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
   let theme = await themesModel.find({});
   let types = await typesModel.find({});
   let stt = 0;
@@ -323,7 +340,11 @@ async function adminTheme(req, res) {
     fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
     title: "Chủ Đề",
     themes: data,
-    types: dataTypes
+    types: dataTypes,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 
@@ -338,7 +359,11 @@ async function adminAddThemes(req, res) {
   res.redirect("/admin/theme");
 }
 
-function adminProfile(req, res) {
+async function adminProfile(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
   let gender = res.locals.user.gioiTinh;
   let DOB = res.locals.user.ngaySinh;
   let cmnd = res.locals.user.cmnd;
@@ -352,7 +377,11 @@ function adminProfile(req, res) {
     DOB: moment(DOB).format("DD[-]MM[-]YYYY"),
     cmnd: cmnd,
     phone: sdt,
-    email: email
+    email: email,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 
@@ -368,8 +397,14 @@ async function adminUpdateProfile(req, res) {
 
 async function adminAccount(req, res) {
   const userAccount = await usersModel.find({});
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+  let stt = 0;
 
   const data = userAccount.map(user => {
+    stt++;
     return {
       username: user.username,
       fullName: user.tenDayDu,
@@ -377,21 +412,34 @@ async function adminAccount(req, res) {
       email: user.email,
       birthDate: user.ngaySinh,
       gender: user.gioiTinh,
-      ID: user.cmnd
+      ID: user.cmnd,
+      STT: stt
     };
   });
 
   return res.render("admin-account", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
-    userAccount: data
+    userAccount: data,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 
-function adminRegister(req, res) {
+async function adminRegister(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
   return res.render("admin-register", {
     layout: "admin",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 
@@ -437,10 +485,18 @@ function adminAddAccount(req, res) {
   res.redirect("/admin/account");
 }
 
-function adminChangePass(req, res) {
+async function adminChangePass(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
   return res.render("admin-changePass", {
     layout: "admin",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 async function adminChange(req, res) {
@@ -478,6 +534,10 @@ async function adminChange(req, res) {
 
 async function adminAdvertise(req, res) {
   const advertise = await advertiseModel.find({});
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
   let stt = 0;
   const data = advertise.map(advertise => {
     stt++;
@@ -492,7 +552,11 @@ async function adminAdvertise(req, res) {
   return res.render("admin-advertise", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
-    advertise: data
+    advertise: data,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 
@@ -518,6 +582,10 @@ async function adminAddAdvertise(req, res) {
 
 async function adminBanner(req, res) {
   const banner = await bannersModel.find({});
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
 
   function getName(arr) {
     let array = [];
@@ -547,7 +615,11 @@ async function adminBanner(req, res) {
   return res.render("admin-banner", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
-    banners: data
+    banners: data,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 function adminAddBanner(req, res) {
