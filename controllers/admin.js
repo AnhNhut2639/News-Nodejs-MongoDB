@@ -63,8 +63,140 @@ async function admin(req, res) {
   });
 }
 
+async function adminNewPost(req, res) {
+  const types = await typesModel.find({});
+  const themes = await themesModel.find({});
+
+  const dataTypes = types.map(types => {
+    return {
+      typesName: types.tenTheLoai,
+      id: types.idTheLoai
+    };
+  });
+
+  const dataThemes = themes.map(themes => {
+    return {
+      theme: themes.tenChuDe,
+      id: themes.id,
+      idTheLoai: themes.idTheLoai
+    };
+  });
+  return res.render("admin-newPost", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu,
+    data: dataTypes,
+    arrThemes: dataThemes
+  });
+}
+
+async function adminWriteNews(req, res, next) {
+  let id = req.body.themes;
+  var themes = await themesModel.findOne({ idChuDe: id });
+  newsModel.create({
+    tieuDe: req.body.title,
+    trichYeu: req.body.epitomize,
+    tacGia: req.body.author,
+    nguon: req.body.sources,
+    noiDung: req.body.editordata,
+    idNguoiDang: res.locals.user.id,
+    hashtag: req.body.themes,
+    loaiTin: req.body.themes,
+    idChuDe: req.body.themes,
+    chuDe: themes.tenChuDe
+  });
+
+  res.locals.title = req.body.title;
+  next();
+}
+async function sendmail(req, res) {
+  var tieuDe = res.locals.title;
+  var userEmail = await usersModel.find({
+    PQ: "admin",
+    id: { $ne: res.locals.user.id }
+  });
+
+  userEmail.forEach(function(user) {
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.user,
+        pass: process.env.pass
+      }
+    });
+
+    var content = "";
+    content += ` <div width="100%" style="margin:0;padding:0;background-color:#222222">
+  <center style="width:100%;background-color:#f1f1f1">
+  	<div style="display:none;font-size:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif">
+  		‌
+  	</div>
+  	<div style="max-width:600px;margin:0 auto" >
+
+  		<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:auto">
+  			<tbody><tr>
+  				<td style="padding:1em 2.5em;background-color:#03a9f4">
+  					<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+  						<tbody><tr>
+  							<td width="100%"style="text-align:left">
+  								<h1 style="color: white">VNPT An Giang</h1>
+  							</td>
+  							<td width="60%"style="text-align:right"></td>
+  						</tr>
+  					</tbody></table>
+  				</td>
+  			</tr>
+  			<tr>
+  				<td style="background-size:cover;height:400px">
+  					<div></div>
+  					<table>
+  						<tbody><tr>
+  							<td>
+  							<div style="padding:0 3em;text-align:left">
+  								<h2>Yêu cầu xét duyệt</h2>
+  								<p>Dear <b>${user.tenDayDu}</b></p>
+  								<p><b>${res.locals.user.tenDayDu}</b> vừa thêm bài viết của anh(chị) ấy và đang đợi bạn xét duyệt bài viết</p>
+  								<p>Tiêu đề: <b>${tieuDe}</b></p>
+  								<p>Vui lòng xem kỹ bài viết trước khi xác nhận phê duyệt </p>
+  								<p>Chi tiết bài viết <a href="#" target="_blank">tại đây</a>.</p>
+  								</div>
+  							</td>
+  						</tr>
+  					</tbody></table>
+  				</td>
+  			</tr>
+  		</tbody></table>
+  	</div>
+  </center>
+    `;
+
+    var mailOptions = {
+      from: "DeliMarvel",
+      to: user.email,
+      subject: "Sending Email using Node.js",
+      html: content
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  });
+  res.redirect("/admin");
+}
+async function getIDtypes(req, res) {
+  var id = req.params.id;
+  const themeById = await themesModel.find({ idTheLoai: id });
+  res.json(themeById);
+}
 async function adminApprove(req, res) {
-  const news = await newsModel.find({ daDuyet: false, deny: false });
+  const news = await newsModel.find({
+    daDuyet: false,
+    deny: false,
+    idNguoiDang: { $ne: res.locals.user.id }
+  });
   var newsCount = await newsModel.count({ daDuyet: true, deny: false });
   var usersCount = await usersModel.count({});
   var typesCount = await typesModel.count({});
@@ -794,7 +926,71 @@ async function deleteComment(req, res) {
 
   res.redirect("/admin/comments");
 }
+async function adminPosted(req, res) {
+  const news = await newsModel.find({
+    daDuyet: true,
+    deny: false
+  });
+  news.sort(function(a, b) {
+    return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
+  });
 
+  var arr = getFirstImage(news);
+  const data = arr.map(news => {
+    return {
+      title: news.tieuDe,
+      epitomize: news.trichYeu,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      img: news.firstImage,
+      id: news.id,
+      theme: news.chuDe,
+      viewsCount: news.luotXem
+    };
+  });
+
+  var page = [];
+
+  var count = await newsModel.count({ daDuyet: true, deny: false });
+  var result = count / 4;
+
+  var loop = Math.ceil(result);
+  for (var i = 1; i <= loop; i++) {
+    page.push(i);
+  }
+  return res.render("admin-posted", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu,
+    data: data.slice(0, 5),
+    paginate: page
+  });
+}
+async function pagination(req, res) {
+  var page = parseInt(req.params.page) || 1; //n
+  var perPage = 5;
+
+  var start = (page - 1) * perPage;
+  var end = page * perPage;
+  var news = await newsModel.find({ daDuyet: true, deny: false });
+
+  news.sort(function(a, b) {
+    return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
+  });
+  var arr = getFirstImage(news);
+  const data = arr.map(news => {
+    return {
+      title: news.tieuDe,
+      epitomize: news.trichYeu,
+      date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY"),
+      time: moment(news.ngayDuyet).format("h:mm a"),
+      id: news.id,
+      img: news.firstImage,
+      theme: news.chuDe,
+      viewsCount: news.luotXem
+    };
+  });
+  const realdata = data.slice(start, end);
+  res.json(realdata);
+}
 module.exports = {
   admin,
   adminApprove,
@@ -825,5 +1021,11 @@ module.exports = {
   approveMail,
   denyMail,
   comment,
-  deleteComment
+  deleteComment,
+  adminNewPost,
+  getIDtypes,
+  adminWriteNews,
+  sendmail,
+  adminPosted,
+  pagination
 };

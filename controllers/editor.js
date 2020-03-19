@@ -362,56 +362,49 @@ async function sendmail(req, res) {
     });
 
     var content = "";
-    content +=
-      ` <div width="100%" style="margin:0;padding:0;background-color:#222222">
-  <center style="width:100%;background-color:#f1f1f1">
-  	<div style="display:none;font-size:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif">
-  		‌
-  	</div>
-  	<div style="max-width:600px;margin:0 auto" >
-
-  		<table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:auto">
-  			<tbody><tr>
-  				<td style="padding:1em 2.5em;background-color:#03a9f4">
-  					<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
-  						<tbody><tr>
-  							<td width="100%"style="text-align:left">
-  								<h1 style="color: white">VNPT An Giang</h1>
-  							</td>
-  							<td width="60%"style="text-align:right"></td>
-  						</tr>
-  					</tbody></table>
-  				</td>
-  			</tr>
-  			<tr>
-  				<td style="background-size:cover;height:400px">
-  					<div></div>
-  					<table>
-  						<tbody><tr>
-  							<td>
-  							<div style="padding:0 3em;text-align:left">
-  								<h2>Yêu cầu xét duyệt</h2>
-  								<p>Dear <b>` +
-      user.tenDayDu +
-      `</b></p>
-  								<p><b>` +
-      res.locals.user.tenDayDu +
-      ` </b> vừa thêm bài viết của anh(chị) ấy và đang đợi bạn xét duyệt bài viết</p>
-  								<p>Tiêu đề: <b>` +
-      tieuDe +
-      `</b></p>
-  								<p>Vui lòng xem kỹ bài viết trước khi xác nhận phê duyệt </p>
-  								<p>Chi tiết bài viết <a href="#" target="_blank">tại đây</a>.</p>
-  								</div>
-  							</td>
-  						</tr>
-  					</tbody></table>
-  				</td>
-  			</tr>
-  		</tbody></table>
-  	</div>
-  </center>
-    `;
+    content += ` <div width="100%" style="margin:0;padding:0;background-color:#222222">
+    <center style="width:100%;background-color:#f1f1f1">
+      <div style="display:none;font-size:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;font-family:sans-serif">
+        ‌
+      </div>
+      <div style="max-width:600px;margin:0 auto" >
+  
+        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:auto">
+          <tbody><tr>
+            <td style="padding:1em 2.5em;background-color:#03a9f4">
+              <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tbody><tr>
+                  <td width="100%"style="text-align:left">
+                    <h1 style="color: white">VNPT An Giang</h1>
+                  </td>
+                  <td width="60%"style="text-align:right"></td>
+                </tr>
+              </tbody></table>
+            </td>
+          </tr>
+          <tr>
+            <td style="background-size:cover;height:400px">
+              <div></div>
+              <table>
+                <tbody><tr>
+                  <td>
+                  <div style="padding:0 3em;text-align:left">
+                    <h2>Yêu cầu xét duyệt</h2>
+                    <p>Dear <b>${user.tenDayDu}</b></p>
+                    <p><b>${res.locals.user.tenDayDu}</b> vừa thêm bài viết của anh(chị) ấy và đang đợi bạn xét duyệt bài viết</p>
+                    <p>Tiêu đề: <b>${tieuDe}</b></p>
+                    <p>Vui lòng xem kỹ bài viết trước khi xác nhận phê duyệt </p>
+                    <p>Chi tiết bài viết <a href="#" target="_blank">tại đây</a>.</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody></table>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+    </center>
+      `;
 
     var mailOptions = {
       from: "DeliMarvel",

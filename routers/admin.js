@@ -5,6 +5,14 @@ var upload = multer({ dest: "./public/uploads/" });
 
 const adminRouter = express.Router();
 adminRouter.get("/", controllers.admin.admin);
+
+adminRouter.get("/writeNews", controllers.admin.adminNewPost);
+adminRouter.post(
+  "/writeNews",
+  controllers.admin.adminWriteNews,
+  controllers.admin.sendmail
+);
+adminRouter.get("/getTheme/:id", controllers.admin.getIDtypes);
 adminRouter.get("/approve", controllers.admin.adminApprove);
 adminRouter.get(
   "/approve/:id",
@@ -19,6 +27,7 @@ adminRouter.get(
 );
 
 adminRouter.get("/type", controllers.admin.adminType);
+adminRouter.get("/posted", controllers.admin.adminPosted);
 adminRouter.post("/type", controllers.admin.adminAddType);
 adminRouter.get("/theme", controllers.admin.adminTheme);
 adminRouter.post("/theme", controllers.admin.adminAddThemes);
@@ -53,5 +62,6 @@ adminRouter.post("/update/:id", controllers.admin.updateTheme);
 adminRouter.get("/updateType/:id", controllers.admin.getType);
 adminRouter.post("/updateType/:id", controllers.admin.updateType);
 adminRouter.get("/deleteComment/:id", controllers.admin.deleteComment);
+adminRouter.get("/posted/page/:page", controllers.admin.pagination);
 
 module.exports = adminRouter;

@@ -1,0 +1,54 @@
+<div class="mag-posts-content mt-30 mb-30 p-30 box-shadow">
+    <!-- Status Area -->
+    <form>
+        <div class="feature-video-posts mb-30">
+            <!-- Section Title -->
+            <div class="section-heading">
+                <h5>Các bản tin trên hệ thống</h5>
+            </div>
+        </div>
+    </form>
+    <div id="ajax">
+        {{#each data}}
+        <div class="single-catagory-post d-flex flex-wrap">
+            <div class="post-thumbnail bg-img" style="background-image: url({{this.img}});">
+            </div>
+
+            <div class="post-content">
+                <div class="post-meta">
+                    <a href="#">{{this.date}}</a>
+                    <a href="#">{{this.theme}}</a>
+                </div>
+                <a href="/news/{{this.id}}" class="post-title">{{this.title}}</a>
+                <p>{{this.epitomize}}</p>
+
+
+                <div class="post-meta d-flex justify-content-between">
+                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> {{this.viewsCount}}</a>
+                    <a href="#"><i class="fa far fa-comments" aria-hidden="true"></i>5</a>
+                    <a></a>
+                </div>
+            </div>
+
+        </div>
+        {{/each}}
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination">
+
+            {{#each paginate}}
+            <li class="page-item"><a id="{{this}}" class="page-link" href="/admin/posted/page/{{this}}">{{this}}</a>
+            </li>
+            {{/each}}
+
+        </ul>
+    </nav>
+
+
+</div>
