@@ -142,6 +142,7 @@ async function readNews(req, res) {
       title: news.tieuDe,
       epitomize: news.trichYeu,
       author: news.tacGia,
+      source: news.nguon,
       content: news.noiDung,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDang).format("h:mm a"),
@@ -149,8 +150,26 @@ async function readNews(req, res) {
     };
   });
 
+  const relateNews = await newsModel.find({
+    idChuDe: idTheme,
+    id: { $ne: id }
+  });
+  relateNews.sort(function(a, b) {
+    return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
+  });
+  var relate = getFirstImage(relateNews);
+  const dataRelateNews = relate.map(relate => {
+    return {
+      title: relate.tieuDe,
+      id: relate.id,
+      img: relate.firstImage,
+      viewsCount: relate.luotXem
+    };
+  });
+
   return res.render("news", {
     data: data,
+    relateNews: dataRelateNews.slice(0, 6),
     theme: theme,
     type: type,
     comments: dataComments,
