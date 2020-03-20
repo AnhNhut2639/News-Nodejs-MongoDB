@@ -1,46 +1,16 @@
-<!-- Single Blog Post -->
+{{#each down}}
 <div class="single-blog-post style-4">
-    <div class="post-thumbnail">
-        <img src="img/bg-img/28.jpg" alt="">
-        <a href="video-post.html" class="video-play"><i class="fa fa-play"></i></a>
-        <span class="video-duration">09:27</span>
-    </div>
+
+    <img src="{{this.img}}" width="100%" alt="">
+    <br>
+
     <div class="post-content">
-        <a href="single-post.html" class="post-title">nHUTTo Rocky Mountain Vacations</a>
+        <a href="/news/{{this.id}}" class="post-title">{{this.title}}</a>
         <div class="post-meta d-flex">
-            <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</a>
-            <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
+            <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> {{this.viewsCount}}</a>
+
             <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</a>
         </div>
     </div>
 </div>
-<div class="single-blog-post style-4">
-    <div class="post-thumbnail">
-        <img src="img/bg-img/28.jpg" alt="">
-        <a href="video-post.html" class="video-play"><i class="fa fa-play"></i></a>
-        <span class="video-duration">09:27</span>
-    </div>
-    <div class="post-content">
-        <a href="single-post.html" class="post-title">CC To Rocky Mountain Vacations</a>
-        <div class="post-meta d-flex">
-            <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</a>
-            <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
-            <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</a>
-        </div>
-    </div>
-</div>
-<div class="single-blog-post style-4">
-    <div class="post-thumbnail">
-        <img src="img/bg-img/28.jpg" alt="">
-        <a href="video-post.html" class="video-play"><i class="fa fa-play"></i></a>
-        <span class="video-duration">09:27</span>
-    </div>
-    <div class="post-content">
-        <a href="single-post.html" class="post-title">CL To Rocky Mountain Vacations</a>
-        <div class="post-meta d-flex">
-            <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</a>
-            <a href="#"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 834</a>
-            <a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 234</a>
-        </div>
-    </div>
-</div>
+{{/each}}

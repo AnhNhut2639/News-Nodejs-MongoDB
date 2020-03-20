@@ -270,19 +270,46 @@ async function pagination(req, res) {
 async function getTypes(req, res) {
   let id = req.params.id;
   const theme = await themesModel.find({ idTheLoai: id });
+  var idChuDe = [];
   var name = [];
-  theme.forEach(function(x) {
-    name.push(x.idChuDe);
+  theme.forEach(function(item) {
+    idChuDe.push(item.idChuDe);
+    name.push(item.tenChuDe);
   });
 
-  const news = await newsModel.count({
-    idChuDe: name,
+  const news = await newsModel.find({
+    idChuDe: idChuDe,
     daDuyet: true,
     deny: false
   });
-  console.log(news);
+
+  news.sort(function(a, b) {
+    return b.ngayDuyet - a.ngayDuyet;
+  });
+  var arr = getFirstImage(news);
+  const data = arr.map(news => {
+    return {
+      title: news.tieuDe.slice(0, 80) + " ...",
+      date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
+      id: news.id,
+      img: news.firstImage,
+      theme: news.chuDe,
+      viewsCount: news.luotXem
+    };
+  });
+
+  var main = data.slice(0, 1);
+  var right = data.slice(1, 4);
+  var down = data.slice(4, 7);
+  var rest = data.slice(7);
+
   return res.render("types", {
-    layout: "news"
+    layout: "news",
+    theme: name,
+    main: main,
+    right: right,
+    down: down,
+    rest: rest
   });
 }
 

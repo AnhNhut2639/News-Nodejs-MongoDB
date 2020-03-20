@@ -8,12 +8,13 @@
         <!-- Feature Video Posts Area -->
         <div class="feature-video-posts mb-30">
             <!-- Section Title -->
-            <h2>
+            <h1>
 
-                <b>asdsad</b>
-                <b>adasds</b>
+                {{#each theme}}
+                <b><a href="#">{{this}} ||</a></b>
+                {{/each}}
 
-            </h2>
+            </h1>
 
             <div class="featured-video-posts">
                 <div class="row">
@@ -44,8 +45,30 @@
 
             </div>
         </div>
+        <div class="section-heading">
+            <h5>Care</h5>
+        </div>
+        {{#each rest}}
+        <div class="single-catagory-post d-flex flex-wrap">
+            <div class="post-thumbnail bg-img" style="background-image: url({{this.img}});">
+            </div>
 
+            <div class="post-content">
+                <div class="post-meta">
+                    <a href="#">{{this.date}}</a>
+                    <a href="#">{{this.theme}}</a>
+                </div>
+                <a href="/news/{{this.id}}" class="post-title">{{this.title}}</a>
+                <div class="post-meta d-flex justify-content-between">
+                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> {{this.viewsCount}}</a>
+                    <a href="#"><i class="fa far fa-comments" aria-hidden="true"></i>5</a>
+                    <a></a>
+                </div>
+            </div>
 
+        </div>
+        {{/each}}
     </div>
+
 
 </section>
