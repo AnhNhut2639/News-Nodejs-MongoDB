@@ -27,19 +27,9 @@
 						<!-- Nav Start -->
 						<div class="classynav">
 							<ul>
-								<li class="active"><a href="index.html">Trang Chủ</a></li>
-								<li><a href="./editor/editor.html">Archive</a></li>
-								<li><a href="#">Tin Tức</a>
-									<ul class="dropdown">
-										<li><a href="#">Tin Khuyến Mãi</a></li>
-										<li><a href="#">Tin Nội Bộ</a></li>
-										<li><a href="#">Dịch Vụ Mới</a></li>
-										<li><a href="#">Sản Phẩm - Dịch Vụ</a></li>
-									</ul>
-								</li>
-								<li><a href="about.html">Về Chúng Tôi</a></li>
-								<li><a href="https://vnptpay.vn/bill/invoice" target="_blank">Thanh Toán Cước Online</a>
-								</li>
+								{{#each dataType}}
+								<li><a href="/types/{{this.id}}">{{this.type}}</a></li>
+								{{/each}}
 							</ul>
 						</div>
 						<!-- Nav End -->

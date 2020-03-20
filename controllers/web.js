@@ -89,8 +89,18 @@ async function home(req, res) {
   for (var i = 1; i <= loop; i++) {
     page.push(i);
   }
+  const types = await typesModel.find({});
+
+  const dataType = types.map(type => {
+    return {
+      id: type.idTheLoai,
+      type: type.tenTheLoai
+    };
+  });
+
   return res.render("home", {
     data: data.slice(0, 10),
+    dataType: dataType,
     banner: dataBanner,
     advertise: dataAdvertise,
     mostViews: dataViewsCount,
@@ -166,9 +176,18 @@ async function readNews(req, res) {
       viewsCount: relate.luotXem
     };
   });
+  const typesData = await typesModel.find({});
 
+  const dataType = typesData.map(type => {
+    return {
+      id: type.idTheLoai,
+      type: type.tenTheLoai
+    };
+  });
   return res.render("news", {
+    layout: "news",
     data: data,
+    dataType: dataType,
     relateNews: dataRelateNews.slice(0, 6),
     theme: theme,
     type: type,
@@ -248,6 +267,25 @@ async function pagination(req, res) {
   res.json(realdata);
 }
 
+async function getTypes(req, res) {
+  let id = req.params.id;
+  const theme = await themesModel.find({ idTheLoai: id });
+  var name = [];
+  theme.forEach(function(x) {
+    name.push(x.idChuDe);
+  });
+
+  const news = await newsModel.count({
+    idChuDe: name,
+    daDuyet: true,
+    deny: false
+  });
+  console.log(news);
+  return res.render("types", {
+    layout: "news"
+  });
+}
+
 module.exports = {
   home,
   post,
@@ -255,5 +293,6 @@ module.exports = {
   readNews,
   comment,
   search,
-  pagination
+  pagination,
+  getTypes
 };
