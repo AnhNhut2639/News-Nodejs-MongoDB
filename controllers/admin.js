@@ -66,6 +66,10 @@ async function admin(req, res) {
 async function adminNewPost(req, res) {
   const types = await typesModel.find({});
   const themes = await themesModel.find({});
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
 
   const dataTypes = types.map(types => {
     return {
@@ -85,7 +89,11 @@ async function adminNewPost(req, res) {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
     data: dataTypes,
-    arrThemes: dataThemes
+    arrThemes: dataThemes,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 
@@ -931,6 +939,10 @@ async function adminPosted(req, res) {
     daDuyet: true,
     deny: false
   });
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
   news.sort(function(a, b) {
     return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
   });
@@ -961,7 +973,11 @@ async function adminPosted(req, res) {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
     data: data.slice(0, 5),
-    paginate: page
+    paginate: page,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
   });
 }
 async function pagination(req, res) {

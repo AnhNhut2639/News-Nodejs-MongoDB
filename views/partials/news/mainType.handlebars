@@ -1,9 +1,22 @@
-{{#each main}}
+{{!-- {{#each main}}
 <div class="single-trending-post">
     <img src="{{this.img}}" alt="">
     <div class="post-content">
         <a href="#" class="post-cata">{{this.theme}}</a>
         <a href="/news/{{this.id}}" class="post-title">{{this.title}}</a>
     </div>
+</div>
+{{/each }} --}}
+{{#each main}}
+<div class="trending-now-posts">
+    <div class="single-trending-post">
+        <img src="{{this.img}}">
+        <div class="post-content">
+            <a href="#" class="post-cata">{{this.theme}}</a>
+            <a href="/news/{{this.id}}" class="post-title">{{this.title}}</a>
+        </div>
+    </div>
+
+
 </div>
 {{/each }}
