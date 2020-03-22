@@ -69,12 +69,19 @@ async function home(req, res) {
 
   const dataViewsCount = mostViews.slice(0, 5);
 
-  const dataAdvertise = advertise.map(advertise => {
-    return {
-      img: advertise.urlHinhQC
-    };
+  advertise.sort(function(a, b) {
+    return new Date(b.ngayDang) - new Date(a.ngayDang);
   });
 
+  const dataAdvertise = advertise.map(advertise => {
+    return {
+      img: advertise.urlHinhQC,
+      link: advertise.link
+    };
+  });
+  banner.sort(function(a, b) {
+    return new Date(b.ngayDang) - new Date(a.ngayDang);
+  });
   const dataBanner = banner.map(banner => {
     return {
       img: banner.urlHinhAnh
@@ -101,7 +108,7 @@ async function home(req, res) {
   return res.render("home", {
     data: data.slice(0, 10),
     dataType: dataType,
-    banner: dataBanner,
+    banner: dataBanner.slice(0, 5),
     advertise: dataAdvertise,
     mostViews: dataViewsCount,
     adminHeader: adminHeader,

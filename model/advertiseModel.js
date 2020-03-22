@@ -7,6 +7,7 @@ const advertiseSchema = Schema(
     motaQC: { type: String, required: true },
     urlHinhQC: { type: String, required: true },
     luotXem: { type: Number },
+    link: { type: String },
     ngayDang: { type: Date, default: Date.now, required: true },
     idNguoiDang: { type: String, required: true },
     tenNguoiDang: { type: String, required: true }

@@ -7,6 +7,10 @@
         <label for="describeTextarea1">Mô Tả</label>
         <textarea class="form-control" id="describeTextarea1" name="describe" rows="3"></textarea>
     </div>
+    <div class="form-group">
+        <label for="des">Link</label>
+        <input class="form-control" id="des" name="link" rows="3"></input>
+    </div>
     <div class="input-group mb-3">
         <div class="form-group">
             <label for="advertises">Chọn ảnh </label>
@@ -29,6 +33,7 @@
             <th scope="col">STT</th>
             <th scope="col">Mô Tả</th>
             <th scope="col">Hình Ảnh</th>
+            <th scope="col">Link</th>
             <th scope="col">Ngày Đăng</th>
             <th scope="col">Người Đăng</th>
             <th scope="col">&emsp; &emsp; &emsp; Xóa</th>
@@ -40,6 +45,7 @@
             <th scope="row">{{this.STT}}</th>
             <td>{{this.describe}}</td>
             <td><img src={{this.url}} width="300px"></td>
+            <td><a href="{{this.link}}" target="_blank">{{this.link}}</a></td>
             <td>{{this.date}}</td>
             <td>{{this.postedBy}}</td>
             <td><a href="#">&emsp; &emsp; &emsp; <button type="button" class="btn btn-primary"><i

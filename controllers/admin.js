@@ -705,6 +705,7 @@ async function adminAddAdvertise(req, res) {
   // let id = res.locals.user.id;
   // const user = await usersModel.findOne({ id });
   let describe = req.body.describe;
+  let link = req.body.link;
   req.body.advertise = req.file.path
     .split("/")
     .slice(1)
@@ -714,6 +715,7 @@ async function adminAddAdvertise(req, res) {
   advertiseModel.create({
     motaQC: describe,
     urlHinhQC: urlAdvertise,
+    link: link,
     tenNguoiDang: res.locals.user.tenDayDu,
     idNguoiDang: res.locals.user.id
   });
@@ -727,20 +729,9 @@ async function adminBanner(req, res) {
   var usersCount = await usersModel.count({});
   var typesCount = await typesModel.count({});
   var themesCount = await themesModel.count({});
-
-  function getName(arr) {
-    let array = [];
-    for (let user of arr) {
-      array.push(user.id);
-    }
-    return array;
-  }
-
-  let id = getName(banner);
-
-  // const user = await usersModel.find({ id });
-
-  // console.log(user);
+  banner.sort(function(a, b) {
+    return new Date(b.ngayDang) - new Date(a.ngayDang);
+  });
 
   let stt = 0;
   const data = banner.map(banner => {
@@ -750,7 +741,7 @@ async function adminBanner(req, res) {
       describe: banner.motaBanner,
       url: banner.urlHinhAnh,
       postedBy: banner.tenNguoiDang,
-      date: moment(banner.ngayDang).format("DD[-]MM[-]YYYY")
+      date: moment(banner.ngayDang).format("DD[-]MM[-]YYYY h:mm a")
     };
   });
   return res.render("admin-banner", {
