@@ -8,6 +8,7 @@ const advertiseSchema = Schema(
     urlHinhQC: { type: String, required: true },
     luotXem: { type: Number },
     link: { type: String },
+    viTri: { type: Number },
     ngayDang: { type: Date, default: Date.now, required: true },
     idNguoiDang: { type: String, required: true },
     tenNguoiDang: { type: String, required: true }

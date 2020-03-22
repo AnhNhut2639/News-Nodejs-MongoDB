@@ -70,7 +70,7 @@ async function home(req, res) {
   const dataViewsCount = mostViews.slice(0, 5);
 
   advertise.sort(function(a, b) {
-    return new Date(b.ngayDang) - new Date(a.ngayDang);
+    return new Date(a.viTri) - new Date(b.viTri);
   });
 
   const dataAdvertise = advertise.map(advertise => {

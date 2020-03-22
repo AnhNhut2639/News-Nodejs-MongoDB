@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                {{#each advertise}}
+                <div class="card-body">
+
+                    <h5 class="card-title text-center">Cập nhật Quảng cáo</h5>
+
+
+
+                    <form class="form-signin" action="" method="post">
+
+                        <div class="form-label-group">
+                            <label for="describeTextarea1">Mô Tả</label>
+                            <input type="text" class="form-control" autofocus name="newDescribe" style="color: #333;"
+                                value="{{this.describe}}">
+                        </div>
+                        <div class="form-label-group">
+                            <label for="describeTextarea1">Link</label>
+                            <input type="text" class="form-control" name="newLink" style="color:#333;"
+                                value="{{this.link}}">
+                        </div>
+
+                        <div class="form-label-group">
+                            <label for="describeTextarea1">Vị trí</label>
+                            <input type="text" class="form-control" autofocus name="newPosition" style="color:#333;"
+                                value="{{this.position}}">
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" data-toggle="modal"
+                            data-target="#exampleModalCenter" type="submit">Cập Nhật</button>
+                    </form>
+
+
+
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

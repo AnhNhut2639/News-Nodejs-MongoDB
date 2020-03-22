@@ -63,5 +63,7 @@ adminRouter.get("/updateType/:id", controllers.admin.getType);
 adminRouter.post("/updateType/:id", controllers.admin.updateType);
 adminRouter.get("/deleteComment/:id", controllers.admin.deleteComment);
 adminRouter.get("/posted/page/:page", controllers.admin.pagination);
+adminRouter.get("/updateAdvertise/:id", controllers.admin.getAdvertise);
+adminRouter.post("/updateAdvertise/:id", controllers.admin.updateAdvertise);
 
 module.exports = adminRouter;

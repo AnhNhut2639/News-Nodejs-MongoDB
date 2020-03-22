@@ -684,8 +684,11 @@ async function adminAdvertise(req, res) {
     stt++;
     return {
       STT: stt,
+      id: advertise.idQC,
       describe: advertise.motaQC,
       url: advertise.urlHinhQC,
+      link: advertise.link,
+      position: advertise.viTri,
       postedBy: advertise.tenNguoiDang,
       date: moment(advertise.ngayDang).format("DD[-]MM[-]YYYY")
     };
@@ -869,6 +872,52 @@ async function updateTheme(req, res) {
   res.redirect("/admin/theme");
 }
 
+async function getAdvertise(req, res) {
+  let id = req.params.id;
+  const advertise = await advertiseModel.find({ idQC: id });
+
+  const data = advertise.map(advertise => {
+    return {
+      describe: advertise.motaQC,
+      link: advertise.link,
+      position: advertise.viTri
+    };
+  });
+  return res.render("admin-updateAdvertise", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu,
+    advertise: data
+  });
+}
+
+async function updateAdvertise(req, res) {
+  let id = req.params.id;
+  var oldPos = await advertiseModel.findOne({ idQC: id });
+  var newPosition = req.body.newPosition;
+  var oldPosition = oldPos.viTri;
+
+  await advertiseModel.updateOne(
+    { viTri: newPosition },
+    {
+      $set: {
+        viTri: oldPosition
+      }
+    }
+  );
+  await advertiseModel.updateOne(
+    { idQC: id },
+    {
+      $set: {
+        motaQC: req.body.newDescribe,
+        link: req.body.newLink,
+        viTri: newPosition
+      }
+    }
+  );
+
+  res.redirect("/admin/advertise");
+}
+
 async function updateType(req, res) {
   let id = req.params.id;
   await typesModel.updateOne(
@@ -1034,5 +1083,7 @@ module.exports = {
   adminWriteNews,
   sendmail,
   adminPosted,
-  pagination
+  pagination,
+  getAdvertise,
+  updateAdvertise
 };

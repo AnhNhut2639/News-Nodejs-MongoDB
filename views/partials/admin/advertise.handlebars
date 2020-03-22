@@ -34,8 +34,10 @@
             <th scope="col">Mô Tả</th>
             <th scope="col">Hình Ảnh</th>
             <th scope="col">Link</th>
+            <th scope="col">Vị Trí</th>
             <th scope="col">Ngày Đăng</th>
             <th scope="col">Người Đăng</th>
+            <th scope="col">Cập nhật</th>
             <th scope="col">&emsp; &emsp; &emsp; Xóa</th>
         </tr>
     </thead>
@@ -46,8 +48,12 @@
             <td>{{this.describe}}</td>
             <td><img src={{this.url}} width="300px"></td>
             <td><a href="{{this.link}}" target="_blank">{{this.link}}</a></td>
+            <td>{{this.position}}</td>
             <td>{{this.date}}</td>
             <td>{{this.postedBy}}</td>
+            <td><a href="updateAdvertise/{{this.id}}"> <button type="button" class="btn btn-primary">
+                        <i class="fa fa-edit"></i>
+                    </button></a></td>
             <td><a href="#">&emsp; &emsp; &emsp; <button type="button" class="btn btn-primary"><i
                             class="fa fa-trash"></i></button></a></td>
         </tr>
