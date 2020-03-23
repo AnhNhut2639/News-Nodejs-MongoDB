@@ -108,9 +108,13 @@ async function home(req, res) {
     };
   });
 
+  var limitTypes = dataType.slice(0, 10);
+  var restTypes = dataType.slice(10);
+
   return res.render("home", {
     data: data.slice(0, 10),
-    dataType: dataType,
+    dataType: limitTypes,
+    restTypes: restTypes,
     banner: dataBanner,
     advertise: dataAdvertise,
     mostViews: dataViewsCount,

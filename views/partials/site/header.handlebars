@@ -30,6 +30,15 @@
 								{{#each dataType}}
 								<li><a href="/types/{{this.id}}">{{this.type}}</a></li>
 								{{/each}}
+								<li><a href="#">...</a>
+
+									<ul class="dropdown">
+										{{#each restTypes}}
+										<li><a href="/types/{{this.id}}">{{this.type}}</a></li>
+										{{/each}}
+									</ul>
+
+								</li>
 							</ul>
 						</div>
 						<!-- Nav End -->
