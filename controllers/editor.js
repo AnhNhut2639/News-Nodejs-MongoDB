@@ -34,10 +34,34 @@ function deleteSign(str) {
 //   return data;
 // }
 
-function editor(req, res) {
+async function editor(req, res) {
+  var newsCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id
+  });
+  var waitingCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: false
+  });
+  var denyCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: true
+  });
+
+  if (denyCount == 0) {
+    denyCount = "0";
+  }
+  if (waitingCount == 0) {
+    waitingCount = "0";
+  }
+
   return res.render("editor", {
     layout: "editor",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    newsCount: newsCount,
+    waitingCount: waitingCount,
+    denyCount: denyCount
   });
 }
 async function editorNewPost(req, res) {
@@ -59,12 +83,35 @@ async function editorNewPost(req, res) {
     };
   });
   // console.log(dataThemes);
+  var newsCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id
+  });
+  var waitingCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: false
+  });
+  var denyCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: true
+  });
+
+  if (denyCount == 0) {
+    denyCount = "0";
+  }
+  if (waitingCount == 0) {
+    waitingCount = "0";
+  }
 
   return res.render("editor-newPost", {
     layout: "editor",
     fullname: res.locals.user.tenDayDu,
     data: dataTypes,
-    arrThemes: dataThemes
+    arrThemes: dataThemes,
+    newsCount: newsCount,
+    waitingCount: waitingCount,
+    denyCount: denyCount
   });
 }
 async function editorWriteNews(req, res, next) {
@@ -114,18 +161,61 @@ async function editorPosted(req, res) {
       viewsCount: news.luotXem
     };
   });
+  var newsCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id
+  });
+  var waitingCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: false
+  });
+  var denyCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: true
+  });
+
+  if (denyCount == 0) {
+    denyCount = "0";
+  }
+  if (waitingCount == 0) {
+    waitingCount = "0";
+  }
   return res.render("editor-posted", {
     layout: "editor",
     fullname: res.locals.user.tenDayDu,
-    data: data
+    data: data,
+    newsCount: newsCount,
+    waitingCount: waitingCount,
+    denyCount: denyCount
   });
 }
-function editorProfile(req, res) {
+async function editorProfile(req, res) {
   let gender = res.locals.user.gioiTinh;
   let DOB = res.locals.user.ngaySinh;
   let cmnd = res.locals.user.cmnd;
   let email = res.locals.user.email;
   let sdt = res.locals.user.sdt;
+  var newsCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id
+  });
+  var waitingCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: false
+  });
+  var denyCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: true
+  });
+
+  if (denyCount == 0) {
+    denyCount = "0";
+  }
+  if (waitingCount == 0) {
+    waitingCount = "0";
+  }
 
   return res.render("editor-profile", {
     layout: "editor",
@@ -134,7 +224,10 @@ function editorProfile(req, res) {
     DOB: moment(DOB).format("DD[-]MM[-]YYYY"),
     cmnd: cmnd,
     phone: sdt,
-    email: email
+    email: email,
+    newsCount: newsCount,
+    waitingCount: waitingCount,
+    denyCount: denyCount
   });
 }
 
@@ -147,10 +240,33 @@ async function editorUpdateProfile(req, res) {
 
   res.redirect("/editor/profile");
 }
-function editorChangePass(req, res) {
+async function editorChangePass(req, res) {
+  var newsCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id
+  });
+  var waitingCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: false
+  });
+  var denyCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: true
+  });
+
+  if (denyCount == 0) {
+    denyCount = "0";
+  }
+  if (waitingCount == 0) {
+    waitingCount = "0";
+  }
   return res.render("editor-changePass", {
     layout: "editor",
-    fullname: res.locals.user.tenDayDu
+    fullname: res.locals.user.tenDayDu,
+    newsCount: newsCount,
+    waitingCount: waitingCount,
+    denyCount: denyCount
   });
 }
 async function editorChangePassword(req, res) {
@@ -195,6 +311,26 @@ async function waitingAprrove(req, res) {
     daDuyet: false,
     deny: false
   });
+  var newsCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id
+  });
+  var waitingCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: false
+  });
+  var denyCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: true
+  });
+
+  if (denyCount == 0) {
+    denyCount = "0";
+  }
+  if (waitingCount == 0) {
+    waitingCount = "0";
+  }
 
   var arr = getFirstImage(news);
   const data = arr.map(news => {
@@ -212,7 +348,10 @@ async function waitingAprrove(req, res) {
   return res.render("editor-waiting", {
     layout: "editor",
     fullname: res.locals.user.tenDayDu,
-    data: data
+    data: data,
+    newsCount: newsCount,
+    waitingCount: waitingCount,
+    denyCount: denyCount
   });
 }
 
@@ -237,11 +376,33 @@ async function deniedPost(req, res) {
       id: news.id
     };
   });
+  var newsCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id
+  });
+  var waitingCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: false
+  });
+  var denyCount = await newsModel.count({
+    idNguoiDang: res.locals.user.id,
+    daDuyet: false,
+    deny: true
+  });
 
+  if (denyCount == 0) {
+    denyCount = "0";
+  }
+  if (waitingCount == 0) {
+    waitingCount = "0";
+  }
   return res.render("editor-denied", {
     layout: "editor",
     fullname: res.locals.user.tenDayDu,
-    data: data
+    data: data,
+    newsCount: newsCount,
+    waitingCount: waitingCount,
+    denyCount: denyCount
   });
 }
 

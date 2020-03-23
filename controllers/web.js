@@ -316,9 +316,25 @@ async function getTypes(req, res) {
   var right = data.slice(1, 4);
   var down = data.slice(4, 7);
   var rest = data.slice(7);
+  const types = await typesModel.find({});
+  types.sort(function(a, b) {
+    return a.viTri - b.viTri;
+  });
+
+  const dataType = types.map(type => {
+    return {
+      id: type.idTheLoai,
+      type: type.tenTheLoai
+    };
+  });
+
+  var limitTypes = dataType.slice(0, 10);
+  var restTypes = dataType.slice(10);
 
   return res.render("types", {
     layout: "news",
+    dataType: limitTypes,
+    restTypes: restTypes,
     theme: name,
     main: main,
     right: right,
