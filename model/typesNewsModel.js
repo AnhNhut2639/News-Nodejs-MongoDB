@@ -5,6 +5,7 @@ const typesSchema = Schema(
   {
     idTheLoai: { type: String, default: uuid, required: true },
     tenTheLoai: { type: String, required: true },
+    viTri: { type: Number },
     idNguoiTao: { type: String, required: true },
     tenNguoiTao: { type: String, required: true },
     ngayTao: { type: Date, default: Date.now, required: true },

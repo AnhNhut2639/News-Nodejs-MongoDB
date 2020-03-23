@@ -31,7 +31,7 @@ async function home(req, res) {
   } else {
     var normal = 1;
   }
-  const banner = await bannersModel.find({});
+  const banner = await bannersModel.find({}).limit(5);
   const advertise = await advertiseModel.find({});
   const news = await newsModel.find({ daDuyet: true, deny: false });
   news.sort(function(a, b) {
@@ -70,7 +70,7 @@ async function home(req, res) {
   const dataViewsCount = mostViews.slice(0, 5);
 
   advertise.sort(function(a, b) {
-    return new Date(a.viTri) - new Date(b.viTri);
+    return a.viTri - b.viTri;
   });
 
   const dataAdvertise = advertise.map(advertise => {
@@ -97,6 +97,9 @@ async function home(req, res) {
     page.push(i);
   }
   const types = await typesModel.find({});
+  types.sort(function(a, b) {
+    return a.viTri - b.viTri;
+  });
 
   const dataType = types.map(type => {
     return {
@@ -108,7 +111,7 @@ async function home(req, res) {
   return res.render("home", {
     data: data.slice(0, 10),
     dataType: dataType,
-    banner: dataBanner.slice(0, 5),
+    banner: dataBanner,
     advertise: dataAdvertise,
     mostViews: dataViewsCount,
     adminHeader: adminHeader,

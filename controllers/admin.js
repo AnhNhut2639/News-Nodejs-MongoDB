@@ -429,6 +429,7 @@ async function adminType(req, res) {
     return {
       id: type.idTheLoai,
       Type: type.tenTheLoai,
+      position: type.viTri,
       STT: stt
     };
   });
@@ -436,7 +437,7 @@ async function adminType(req, res) {
     layout: "admin",
     fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
     types: data,
-    title: "Thể Loại và Chủ Đề",
+    title: "Thể Loại",
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
@@ -444,10 +445,14 @@ async function adminType(req, res) {
   });
 }
 async function adminAddType(req, res) {
+  let position = await typesModel.count({});
+  let viTri = position + 1;
+
   typesModel.create({
     idNguoiTao: res.locals.user.id,
     tenNguoiTao: res.locals.user.tenDayDu,
-    tenTheLoai: req.body.addType
+    tenTheLoai: req.body.addType,
+    viTri: viTri
   });
 
   return res.redirect("/admin/type");
@@ -847,7 +852,8 @@ async function getType(req, res) {
 
   const types = type.map(type => {
     return {
-      type: type.tenTheLoai
+      type: type.tenTheLoai,
+      position: type.viTri
     };
   });
   return res.render("admin-updateType", {
@@ -920,11 +926,25 @@ async function updateAdvertise(req, res) {
 
 async function updateType(req, res) {
   let id = req.params.id;
+
+  var oldPos = await typesModel.findOne({ idTheLoai: id });
+  var newPosition = req.body.newPosition;
+  var oldPosition = oldPos.viTri;
+
+  await typesModel.updateOne(
+    { viTri: newPosition },
+    {
+      $set: {
+        viTri: oldPosition
+      }
+    }
+  );
   await typesModel.updateOne(
     { idTheLoai: id },
     {
       $set: {
         tenTheLoai: req.body.newNameType,
+        viTri: newPosition,
         idNguoiCapNhat: res.locals.user.id,
         tenNguoiCapNhat: res.locals.user.tenDayDu,
         ngayCapNhat: Date.now()

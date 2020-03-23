@@ -10,15 +10,21 @@
 
 
                     <form class="form-signin" action="" method="post">
-
+                        <label for="#">Tên Cũ</label>
                         <div class="form-label-group">
                             <input type="text" class="form-control" name="id" style="color: #333;" value="{{this.type}}"
                                 disabled>
                         </div>
 
                         <div class="form-label-group">
+                            <label for="#">Tên Mới</label>
                             <input type="text" class="form-control" autofocus name="newNameType" style="color:#333;"
                                 placeholder="Tên mới" required="true">
+                        </div>
+                        <div class="form-label-group">
+                            <label for="#">Vị Trí</label>
+                            <input type="text" class="form-control" name="newPosition" style="color:#333;"
+                                value="{{this.position}}" required="true">
                         </div>
                         <button class="btn btn-lg btn-primary btn-block text-uppercase" data-toggle="modal"
                             data-target="#exampleModalCenter" type="submit">Cập Nhật</button>
