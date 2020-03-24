@@ -20,7 +20,9 @@ $(document).ready(function() {
                   <a href="#">${item.theme}</a>
               </div>
               <a href="/news/${item.id}" class="post-title">${item.title}</a>
-              <p>${item.epitomize}</p>
+              <p>Người Đăng: <b>${item.postedBy}</b> </p>
+              <p>Người Duyệt: <b>${item.approvedBy}</b> Ngày: ${item.dateAprroved}</p>
+              <p>Người Cập Nhật: <b>${item.editedBy}</b> Ngày: ${item.dateEdited} </p>
 
 
               <div class="post-meta d-flex justify-content-between">
@@ -29,6 +31,10 @@ $(document).ready(function() {
                   <a></a>
               </div>
           </div>
+          <button type="button" class="btn btn-success mt-3 mr-2"><a href="edit/${item.id}"> Chỉnh
+          Sửa</a></button>
+
+          <button type="button" class="btn btn-danger mt-3"><a href="#">Xóa</a></button>
 
       </div>`;
         });

@@ -32,20 +32,6 @@ function getFirstImage(data) {
   return data;
 }
 
-// function getDateTime() {
-//   let today = new Date();
-//   let dd = String(today.getDate()).padStart(2, "0");
-//   let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-//   let yyyy = today.getFullYear();
-//   let hour = today.getHours();
-//   let minute = today.getUTCMinutes();
-//   let second = today.getUTCSeconds();
-
-//   let created =
-//     yyyy + "-" + mm + "-" + dd + "T" + hour + ":" + minute + ":" + second;
-//   return created;
-// }
-
 async function admin(req, res) {
   var newsCount = await newsModel.count({ daDuyet: true, deny: false });
 
@@ -107,6 +93,7 @@ async function adminWriteNews(req, res, next) {
     nguon: req.body.sources,
     noiDung: req.body.editordata,
     idNguoiDang: res.locals.user.id,
+    tenNguoiDang: res.locals.user.tenDayDu,
     hashtag: req.body.themes,
     loaiTin: req.body.themes,
     idChuDe: req.body.themes,
@@ -243,7 +230,8 @@ async function approvePost(req, res, next) {
       $set: {
         daDuyet: true,
         ngayDuyet: Date.now(),
-        idNguoiDuyet: res.locals.user.id
+        idNguoiDuyet: res.locals.user.id,
+        tenNguoiDuyet: res.locals.user.tenDayDu
       }
     }
   );
@@ -1011,11 +999,16 @@ async function adminPosted(req, res) {
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
-      epitomize: news.trichYeu,
+      // epitomize: news.trichYeu,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
       img: news.firstImage,
       id: news.id,
       theme: news.chuDe,
+      postedBy: news.tenNguoiDang,
+      approvedBy: news.tenNguoiDuyet,
+      dateApproved: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
+      editedBy: news.tenNguoiCapNhat,
+      dateEdited: moment(news.ngayCapNhat).format("DD[-]MM[-]YYYY h:mm a"),
       viewsCount: news.luotXem
     };
   });
@@ -1055,17 +1048,98 @@ async function pagination(req, res) {
   const data = arr.map(news => {
     return {
       title: news.tieuDe,
-      epitomize: news.trichYeu,
-      date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY"),
-      time: moment(news.ngayDuyet).format("h:mm a"),
-      id: news.id,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
       img: news.firstImage,
+      id: news.id,
       theme: news.chuDe,
+      postedBy: news.tenNguoiDang,
+      approvedBy: news.tenNguoiDuyet,
+      dateApproved: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
+      editedBy: news.tenNguoiCapNhat,
+      dateEdited: moment(news.ngayCapNhat).format("DD[-]MM[-]YYYY h:mm a"),
       viewsCount: news.luotXem
     };
   });
   const realdata = data.slice(start, end);
   res.json(realdata);
+}
+
+async function editNews(req, res) {
+  let id = req.params.id;
+
+  const news = await newsModel.find({ id: id }).limit(1);
+
+  const types = await typesModel.find({});
+  const themes = await themesModel.find({});
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+
+  const data = news.map(news => {
+    return {
+      id: news.id,
+      title: news.tieuDe,
+      epitomize: news.trichYeu,
+      content: news.noiDung,
+      source: news.nguon,
+      author: news.tacGia
+    };
+  });
+  const dataTypes = types.map(types => {
+    return {
+      typesName: types.tenTheLoai,
+      id: types.idTheLoai
+    };
+  });
+
+  const dataThemes = themes.map(themes => {
+    return {
+      theme: themes.tenChuDe,
+      id: themes.id,
+      idTheLoai: themes.idTheLoai
+    };
+  });
+
+  return res.render("admin-edit", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu,
+    news: data,
+    data: dataTypes,
+    arrThemes: dataThemes,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
+  });
+}
+
+async function updateNews(req, res) {
+  let id = req.params.id;
+
+  let title = req.body.title;
+  let epitomize = req.body.epitomize;
+  let content = req.body.editordata;
+  let source = req.body.sources;
+  let author = req.body.author;
+
+  await newsModel.updateOne(
+    { id: id },
+    {
+      $set: {
+        tieuDe: title,
+        epitomize: epitomize,
+        noiDung: content,
+        nguon: source,
+        tacGia: author,
+        idNguoiCapNhat: res.locals.user.id,
+        tenNguoiCapNhat: res.locals.user.tenDayDu,
+        ngayCapNhat: Date.now()
+      }
+    }
+  );
+
+  res.redirect("/admin/posted");
 }
 module.exports = {
   admin,
@@ -1105,5 +1179,7 @@ module.exports = {
   adminPosted,
   pagination,
   getAdvertise,
-  updateAdvertise
+  updateAdvertise,
+  editNews,
+  updateNews
 };

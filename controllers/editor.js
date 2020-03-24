@@ -124,6 +124,7 @@ async function editorWriteNews(req, res, next) {
     nguon: req.body.sources,
     noiDung: req.body.editordata,
     idNguoiDang: res.locals.user.id,
+    tenNguoiDang: res.locals.user.tenDayDu,
     hashtag: req.body.themes,
     loaiTin: req.body.themes,
     idChuDe: req.body.themes,

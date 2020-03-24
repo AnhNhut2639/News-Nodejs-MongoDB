@@ -66,4 +66,7 @@ adminRouter.get("/posted/page/:page", controllers.admin.pagination);
 adminRouter.get("/updateAdvertise/:id", controllers.admin.getAdvertise);
 adminRouter.post("/updateAdvertise/:id", controllers.admin.updateAdvertise);
 
+adminRouter.get("/edit/:id", controllers.admin.editNews);
+adminRouter.post("/edit/:id", controllers.admin.updateNews);
+
 module.exports = adminRouter;
