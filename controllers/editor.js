@@ -512,6 +512,12 @@ async function waitNews(req, res) {
 }
 async function sendmail(req, res) {
   var tieuDe = res.locals.title;
+
+  if (res.locals.idNews) {
+    var id = res.locals.idNews;
+    await newsModel.deleteOne({ id: id });
+  }
+
   var userEmail = await usersModel.find({ PQ: "admin" });
 
   userEmail.forEach(function(user) {
@@ -585,6 +591,71 @@ async function sendmail(req, res) {
   });
   res.redirect("/editor");
 }
+
+async function editNews(req, res) {
+  let id = req.params.id;
+
+  const news = await newsModel.find({ id: id }).limit(1);
+
+  const types = await typesModel.find({});
+  const themes = await themesModel.find({});
+  const data = news.map(news => {
+    return {
+      id: news.id,
+      title: news.tieuDe,
+      epitomize: news.trichYeu,
+      content: news.noiDung,
+      source: news.nguon,
+      author: news.tacGia
+    };
+  });
+  const dataTypes = types.map(types => {
+    return {
+      typesName: types.tenTheLoai,
+      id: types.idTheLoai
+    };
+  });
+
+  const dataThemes = themes.map(themes => {
+    return {
+      theme: themes.tenChuDe,
+      id: themes.id,
+      idTheLoai: themes.idTheLoai
+    };
+  });
+
+  return res.render("editor-edit", {
+    layout: "editor",
+    fullname: res.locals.user.tenDayDu,
+    news: data,
+    data: dataTypes,
+    arrThemes: dataThemes
+  });
+}
+
+async function editorRepost(req, res, next) {
+  let news = req.params.id;
+
+  let id = req.body.themes;
+  var themes = await themesModel.findOne({ idChuDe: id });
+  newsModel.create({
+    tieuDe: req.body.title,
+    trichYeu: req.body.epitomize,
+    tacGia: req.body.author,
+    nguon: req.body.sources,
+    noiDung: req.body.editordata,
+    idNguoiDang: res.locals.user.id,
+    tenNguoiDang: res.locals.user.tenDayDu,
+    hashtag: req.body.themes,
+    loaiTin: req.body.themes,
+    idChuDe: req.body.themes,
+    chuDe: themes.tenChuDe
+  });
+
+  res.locals.title = req.body.title;
+  res.locals.idNews = news;
+  next();
+}
 module.exports = {
   editor,
   editorNewPost,
@@ -600,5 +671,7 @@ module.exports = {
   readNews,
   deniedNews,
   waitNews,
-  sendmail
+  sendmail,
+  editNews,
+  editorRepost
 };

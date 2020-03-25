@@ -22,4 +22,12 @@ editorRouter.get("/denied", controllers.editor.deniedPost);
 editorRouter.get("/:id", controllers.editor.readNews);
 editorRouter.get("/wait/:id", controllers.editor.waitNews);
 editorRouter.get("/denied/:id", controllers.editor.deniedNews);
+
+editorRouter.get("/edit/:id", controllers.editor.editNews);
+editorRouter.post(
+  "/edit/:id",
+  controllers.editor.editorRepost,
+  controllers.editor.sendmail
+);
+
 module.exports = editorRouter;
