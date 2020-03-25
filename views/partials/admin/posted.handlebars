@@ -22,8 +22,8 @@
                 <a href="/news/{{this.id}}" class="post-title">{{this.title}}</a>
                 {{!-- <p>{{this.epitomize}}</p> --}}
                 <p>Người Đăng: <b>{{this.postedBy}}</b> </p>
-                <p>Người Duyệt: <b>{{this.approvedBy}}</b> Ngày: {{this.dateAprroved}}</p>
-                <p>Người Cập Nhật: <b>{{this.editedBy}}</b> Ngày: {{this.dateEdited}} </p>
+                <p>Người Duyệt: <b>{{this.approvedBy}}</b> Ngày: <b>{{this.dateApproved}}</b></p>
+                <p>Người Cập Nhật: <b>{{this.editedBy}}</b> Ngày: <b>{{this.dateEdited}} </b></p>
 
 
                 <div class="post-meta d-flex justify-content-between">
@@ -35,7 +35,7 @@
             <button type="button" class="btn btn-success mt-3 mr-2"><a href="edit/{{this.id}}"> Chỉnh
                     Sửa</a></button>
 
-            <button type="button" class="btn btn-danger mt-3"><a href="#">Xóa</a></button>
+            <button type="button" class="btn btn-danger mt-3"><a href="deleteNews/{{this.id}}">Xóa</a></button>
         </div>
         {{/each}}
     </div>

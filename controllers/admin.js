@@ -997,6 +997,9 @@ async function adminPosted(req, res) {
 
   var arr = getFirstImage(news);
   const data = arr.map(news => {
+    if (news.ngayCapNhat == null) {
+      news.ngayCapNhat = null;
+    }
     return {
       title: news.tieuDe,
       // epitomize: news.trichYeu,
@@ -1046,6 +1049,9 @@ async function pagination(req, res) {
   });
   var arr = getFirstImage(news);
   const data = arr.map(news => {
+    if (news.ngayCapNhat == null) {
+      news.ngayCapNhat = null;
+    }
     return {
       title: news.tieuDe,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
@@ -1141,6 +1147,12 @@ async function updateNews(req, res) {
 
   res.redirect("/admin/posted");
 }
+
+async function deleteNews(req, res) {
+  let id = req.params.id;
+  await newsModel.deleteOne({ id: id });
+  res.redirect("/admin/posted");
+}
 module.exports = {
   admin,
   adminApprove,
@@ -1181,5 +1193,6 @@ module.exports = {
   getAdvertise,
   updateAdvertise,
   editNews,
-  updateNews
+  updateNews,
+  deleteNews
 };

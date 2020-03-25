@@ -29,5 +29,5 @@ editorRouter.post(
   controllers.editor.editorRepost,
   controllers.editor.sendmail
 );
-
+editorRouter.get("/delete/:id", controllers.editor.deleteNews);
 module.exports = editorRouter;

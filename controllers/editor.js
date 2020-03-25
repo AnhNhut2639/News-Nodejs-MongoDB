@@ -656,6 +656,12 @@ async function editorRepost(req, res, next) {
   res.locals.idNews = news;
   next();
 }
+
+async function deleteNews(req, res) {
+  let id = req.params.id;
+  await newsModel.deleteOne({ id: id });
+  res.redirect("/editor/denied");
+}
 module.exports = {
   editor,
   editorNewPost,
@@ -673,5 +679,6 @@ module.exports = {
   waitNews,
   sendmail,
   editNews,
-  editorRepost
+  editorRepost,
+  deleteNews
 };

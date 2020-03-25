@@ -21,7 +21,7 @@ $(document).ready(function() {
               </div>
               <a href="/news/${item.id}" class="post-title">${item.title}</a>
               <p>Người Đăng: <b>${item.postedBy}</b> </p>
-              <p>Người Duyệt: <b>${item.approvedBy}</b> Ngày: ${item.dateAprroved}</p>
+              <p>Người Duyệt: <b>${item.approvedBy}</b> Ngày: ${item.dateApproved}</p>
               <p>Người Cập Nhật: <b>${item.editedBy}</b> Ngày: ${item.dateEdited} </p>
 
 
