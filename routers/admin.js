@@ -77,5 +77,6 @@ adminRouter.post("/updateAdvertise/:id", controllers.admin.updateAdvertise);
 adminRouter.get("/edit/:id", controllers.admin.editNews);
 adminRouter.post("/edit/:id", controllers.admin.updateNews);
 adminRouter.get("/deleteNews/:id", controllers.admin.deleteNews);
-
+adminRouter.get("/deleteAdvertise/:id", controllers.admin.deleteAdvertise);
+adminRouter.get("/deleteBanner/:id", controllers.admin.deleteBanner);
 module.exports = adminRouter;

@@ -698,8 +698,8 @@ async function adminAdvertise(req, res) {
 }
 
 async function adminAddAdvertise(req, res) {
-  // let id = res.locals.user.id;
-  // const user = await usersModel.findOne({ id });
+  var counts = await advertiseModel.count({});
+  var position = counts + 1;
   let describe = req.body.describe;
   let link = req.body.link;
   req.body.advertise = req.file.path
@@ -712,6 +712,7 @@ async function adminAddAdvertise(req, res) {
     motaQC: describe,
     urlHinhQC: urlAdvertise,
     link: link,
+    viTri: position,
     tenNguoiDang: res.locals.user.tenDayDu,
     idNguoiDang: res.locals.user.id
   });
@@ -734,6 +735,7 @@ async function adminBanner(req, res) {
     stt++;
     return {
       STT: stt,
+      id: banner.idBanner,
       describe: banner.motaBanner,
       url: banner.urlHinhAnh,
       postedBy: banner.tenNguoiDang,
@@ -1153,6 +1155,16 @@ async function deleteNews(req, res) {
   await newsModel.deleteOne({ id: id });
   res.redirect("/admin/posted");
 }
+async function deleteAdvertise(req, res) {
+  let id = req.params.id;
+  await advertiseModel.deleteOne({ idQC: id });
+  res.redirect("/admin/advertise");
+}
+async function deleteBanner(req, res) {
+  let id = req.params.id;
+  await bannersModel.deleteOne({ idQC: id });
+  res.redirect("/admin/banner");
+}
 module.exports = {
   admin,
   adminApprove,
@@ -1194,5 +1206,7 @@ module.exports = {
   updateAdvertise,
   editNews,
   updateNews,
-  deleteNews
+  deleteNews,
+  deleteAdvertise,
+  deleteBanner
 };
