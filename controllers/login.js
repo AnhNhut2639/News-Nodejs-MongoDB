@@ -1,4 +1,5 @@
 var userModel = require("../model/usersModel");
+var jwt = require("jsonwebtoken");
 
 function login(req, res) {
   return res.render("login", { layout: "login" });
@@ -9,22 +10,20 @@ async function authLogin(req, res) {
 
   const user = await userModel.findOne({ username });
   //console.log(user.password);
+
   if (user) {
     if (await user.comparePassword(password)) {
-      res.cookie("ID", user.id, {
-        signed: true
-      });
+      const payload = {
+        fullname: user.tenDayDu,
+        id: user.id
+      };
+
+      const token = jwt.sign({ payload }, process.env.SECRET_KEY);
+      res.cookie("ID", token);
       if (user.PQ === "admin") {
-        // cần phải sửa chỗ này
-        return res.render("admin", {
-          //render ra file o view
-          layout: "admin"
-          //name: username
-        });
+        return res.redirect("/admin");
       } else if (user.PQ === "editor") {
-        return res.render("editor", {
-          layout: "editor"
-        });
+        return res.redirect("/editor");
       }
     }
   }
