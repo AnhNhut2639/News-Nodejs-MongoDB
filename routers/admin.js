@@ -1,8 +1,16 @@
 const express = require("express");
 const controllers = require("../controllers");
 var multer = require("multer");
-var upload = multer({ dest: "./public/uploads/" });
-
+// var upload = multer({ dest: "./public/uploads/" });
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "./public/uploads/");
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 const adminRouter = express.Router();
 adminRouter.get("/", controllers.admin.admin);
 
