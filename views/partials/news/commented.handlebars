@@ -7,20 +7,21 @@
 
     <ol>
         <!-- Single Comment Area -->
-        {{#each comments}}
-        <li class="single_comment_area">
-            <!-- Comment Content -->
-            <div class="comment-content d-flex">
-                <div class="comment-meta">
-                    <a href="#" class="comment-date">{{this.date}}</a>
-                    <h6>{{this.fullname}}</h6>
-                    <p>{{this.content}}</p>
-                    {{!-- {{>news/reactCommented}} --}}
+        <div id="commented">
+            {{#each comments}}
+            <li class="single_comment_area">
+                <!-- Comment Content -->
+                <div class="comment-content d-flex">
+                    <div class="comment-meta">
+                        <a href="#" class="comment-date">{{this.date}}</a>
+                        <h6>{{this.fullname}}</h6>
+                        <p>{{this.content}}</p>
+                        {{!-- {{>news/reactCommented}} --}}
+                    </div>
                 </div>
-            </div>
-        </li>
-        {{/each}}
-
+            </li>
+            {{/each}}
+        </div>
 
     </ol>
 </div>

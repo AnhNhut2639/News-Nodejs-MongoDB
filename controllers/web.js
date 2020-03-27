@@ -218,7 +218,7 @@ async function comment(req, res) {
     sdt: req.body.phone,
     binhLuan: req.body.content
   });
-  return res.redirect("/news/" + idBantin);
+  // res.redirect("/news/" + idBantin);
 }
 async function search(req, res) {
   var normal = 1;
@@ -343,6 +343,25 @@ async function getTypes(req, res) {
   });
 }
 
+async function getComments(req, res) {
+  let idBanTin = req.params.id;
+  const comments = await commentsModel.find({ idBanTin: idBanTin });
+  comments.sort(function(a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+  const dataComments = comments.map(comment => {
+    return {
+      fullname: comment.hoTen,
+      phone: comment.sdt,
+      email: comment.email,
+      content: comment.binhLuan,
+      date: moment(comment.ngayBinhLuan).format("DD[-]MM[-]YYYY h:mm a")
+    };
+  });
+
+  res.json(dataComments);
+}
+
 module.exports = {
   home,
   post,
@@ -351,5 +370,6 @@ module.exports = {
   comment,
   search,
   pagination,
-  getTypes
+  getTypes,
+  getComments
 };
