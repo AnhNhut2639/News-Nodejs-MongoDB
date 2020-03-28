@@ -7,6 +7,16 @@
     <br>
 
     {{/each}}
-
+    <footer>
+        <ul class="list-group">
+            <li class="list-group-item active">Lượt Truy Cập</li>
+            {{#each access}}
+            <li class="list-group-item">Tổng lươt truy cập: <b>{{this.access}}</b></li>
+            {{/each}}
+            {{#if ip}}
+            <li class="list-group-item">IP của bạn: <b>{{ip}}</b></li>
+            {{/if}}
+        </ul>
+    </footer>
 
 </div>

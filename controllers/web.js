@@ -5,7 +5,9 @@ var bannersModel = require("../model/bannerModel");
 var advertiseModel = require("../model/advertiseModel");
 var commentsModel = require("../model/commentModel");
 var newsModel = require("../model/newsModel");
+var accessModel = require("../model/accessCountModel");
 var moment = require("moment");
+var ip = require("ip");
 function getIDThemes(arr) {
   var temp;
   for (let item of arr) {
@@ -31,6 +33,7 @@ async function home(req, res) {
   } else {
     var normal = 1;
   }
+
   const banner = await bannersModel.find({}).limit(5);
   const advertise = await advertiseModel.find({});
   const news = await newsModel.find({ daDuyet: true, deny: false });
@@ -111,6 +114,19 @@ async function home(req, res) {
   var limitTypes = dataType.slice(0, 10);
   var restTypes = dataType.slice(10);
 
+  var address = ip.address();
+  if (address) {
+    await accessModel.updateOne({ $inc: { luotTruyCap: +1 } });
+  }
+
+  const access = await accessModel.find({}).limit(1);
+
+  const dataAccess = access.map(access => {
+    return {
+      id: access.id,
+      access: access.luotTruyCap
+    };
+  });
   return res.render("home", {
     data: data.slice(0, 10),
     dataType: limitTypes,
@@ -118,6 +134,8 @@ async function home(req, res) {
     banner: dataBanner,
     advertise: dataAdvertise,
     mostViews: dataViewsCount,
+    access: dataAccess,
+    ip: address,
     adminHeader: adminHeader,
     editorHeader: editorHeader,
     homeHeader: normal,
