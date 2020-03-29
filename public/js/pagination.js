@@ -19,14 +19,9 @@ $(document).ready(function() {
                 </div>
                 <div class="post-content">
                     <a href="/news/${item.id}" class="post-title">${item.title}</a>
-
+                    <p>${item.epitomize}</p>
                     <div class="post-meta d-flex">
                         <p> ${item.date} <a href="#">${item.theme}</a> </p>
-                    </div>
-                    <div class="post-meta d-flex justify-content-between">
-                        <a href="#"><i class="fa fa-eye" aria-hidden="true"></i>${item.viewsCount}</a>
-                        <a href="#"><i class="fa far fa-comments" aria-hidden="true"></i>5</a>
-                        <a></a>
                     </div>
                 </div>
             </div>

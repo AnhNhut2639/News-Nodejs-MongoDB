@@ -51,7 +51,7 @@ async function home(req, res) {
 
     return {
       title: news.tieuDe,
-      epitomize: news.trichYeu,
+      epitomize: news.trichYeu.slice(0, 100) + "...",
       date: datetime,
       id: news.id,
       img: news.firstImage,
@@ -186,6 +186,7 @@ async function readNews(req, res) {
       date: moment(comment.ngayBinhLuan).format("DD[-]MM[-]YYYY h:mm a")
     };
   });
+  const commentsCount = await commentsModel.find({ idBanTin: id }).count();
 
   const data = news.map(news => {
     return {
@@ -196,7 +197,8 @@ async function readNews(req, res) {
       content: news.noiDung,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDang).format("h:mm a"),
-      viewsCount: news.luotXem
+      viewsCount: news.luotXem,
+      commentsCount: commentsCount
     };
   });
 
@@ -300,7 +302,7 @@ async function pagination(req, res) {
     }
     return {
       title: news.tieuDe,
-      epitomize: news.trichYeu,
+      epitomize: news.trichYeu.slice(0, 100) + "...",
       date: datetime,
       id: news.id,
       img: news.firstImage,
