@@ -21,7 +21,7 @@ $(document).ready(function() {
                     <a href="/news/${item.id}" class="post-title">${item.title}</a>
 
                     <div class="post-meta d-flex">
-                        <p> ${item.date}: ${item.time} <a href="#">${item.theme}</a> </p>
+                        <p> ${item.date} <a href="#">${item.theme}</a> </p>
                     </div>
                     <div class="post-meta d-flex justify-content-between">
                         <a href="#"><i class="fa fa-eye" aria-hidden="true"></i>${item.viewsCount}</a>

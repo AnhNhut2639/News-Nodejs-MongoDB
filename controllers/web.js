@@ -42,11 +42,17 @@ async function home(req, res) {
   });
   var arr = getFirstImage(news);
   const data = arr.map(news => {
+    var date = news.ngayDuyet;
+    var datetime = moment(date).fromNow();
+    var x = datetime.split(" ").slice(1, 2);
+    if (x == "days" || x == "day") {
+      datetime = moment(date).format("DD[-]MM[-]YYYY h:mm a");
+    }
+
     return {
       title: news.tieuDe,
       epitomize: news.trichYeu,
-      date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY"),
-      time: moment(news.ngayDuyet).format("h:mm a"),
+      date: datetime,
       id: news.id,
       img: news.firstImage,
       theme: news.chuDe,
@@ -125,6 +131,8 @@ async function home(req, res) {
     return {
       id: access.id,
       access: access.luotTruyCap
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     };
   });
   return res.render("home", {
@@ -284,11 +292,16 @@ async function pagination(req, res) {
   });
   var arr = getFirstImage(news);
   const data = arr.map(news => {
+    var date = news.ngayDuyet;
+    var datetime = moment(date).fromNow();
+    var x = datetime.split(" ").slice(1, 2);
+    if (x == "days" || x == "day") {
+      datetime = moment(date).format("DD[-]MM[-]YYYY h:mm a");
+    }
     return {
       title: news.tieuDe,
       epitomize: news.trichYeu,
-      date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY"),
-      time: moment(news.ngayDuyet).format("h:mm a"),
+      date: datetime,
       id: news.id,
       img: news.firstImage,
       theme: news.chuDe,
@@ -322,6 +335,7 @@ async function getTypes(req, res) {
   const data = arr.map(news => {
     return {
       title: news.tieuDe.slice(0, 80) + " ...",
+      epitomize: news.trichYeu,
       date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
       id: news.id,
       img: news.firstImage,
