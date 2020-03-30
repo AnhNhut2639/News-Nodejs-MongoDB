@@ -39,7 +39,30 @@ async function home(req, res) {
 
   const banner = await bannersModel.find({}).limit(5);
   const advertise = await advertiseModel.find({});
+  const hotNews = await newsModel
+    .find({ daDuyet: true, deny: false, tinNoiBat: true })
+    .limit(8);
   const news = await newsModel.find({ daDuyet: true, deny: false });
+
+  hotNews.sort(function(a, b) {
+    return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
+  });
+  var hot = getFirstImage(hotNews);
+  const dataHotNews = hot.map(news => {
+    return {
+      title: news.tieuDe,
+      epitomize: news.trichYeu,
+      date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
+      id: news.id,
+      img: news.firstImage,
+      theme: news.chuDe
+    };
+  });
+
+  var mainHotNews = dataHotNews.slice(0, 1);
+
+  var restHotNews = dataHotNews.slice(1, 8);
+
   news.sort(function(a, b) {
     return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
   });
@@ -142,6 +165,8 @@ async function home(req, res) {
     data: data.slice(0, 10),
     dataType: limitTypes,
     restTypes: restTypes,
+    mainHotNews: mainHotNews,
+    restHotNews: restHotNews,
     banner: dataBanner,
     advertise: dataAdvertise,
     mostViews: dataViewsCount,

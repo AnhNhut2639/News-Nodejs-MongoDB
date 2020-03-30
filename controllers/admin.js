@@ -95,7 +95,7 @@ async function adminWriteNews(req, res, next) {
     idNguoiDang: res.locals.user.id,
     tenNguoiDang: res.locals.user.tenDayDu,
     hashtag: req.body.themes,
-    loaiTin: req.body.themes,
+    tinNoiBat: req.body.checkedTypeNews,
     idChuDe: req.body.themes,
     chuDe: themes.tenChuDe
   });
@@ -203,13 +203,20 @@ async function adminApprove(req, res) {
   var arr = getFirstImage(news);
 
   const data = arr.map(news => {
+    if (news.tinNoiBat == true) {
+      var newsKind = "Tin nổi bật";
+    } else {
+      var newsKind = "Tin thường";
+    }
+
     return {
       title: news.tieuDe,
       epitomize: news.trichYeu,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
       img: news.firstImage,
       theme: news.chuDe,
-      id: news.id
+      id: news.id,
+      kind: newsKind
     };
   });
   return res.render("admin-approve", {

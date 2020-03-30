@@ -11,7 +11,7 @@
             <div class="input-group-prepend">
                 <label class="input-group-text" for="inputGroupSelect01">Thể Loại</label>
             </div>
-            <select class="custom-select" id="idSelect" name="type">
+            <select class="custom-select" id="idSelect" name="type" required>
                 <option selected>--Chọn--</option>
                 {{#each data}}
                 <option value="{{this.id}}">{{this.typesName}}</option>
@@ -23,17 +23,17 @@
             <div class="input-group-prepend">
                 <label class="input-group-text" for="inputGroupSelect02">Chủ Đề</label>
             </div>
-            <select class="custom-select" id="inputThemes" name="themes">
+            <select class="custom-select" id="inputThemes" name="themes" required>
                 <option selected>Chủ Đề</option>
             </select>
         </div>
         <div class="form-group">
             <label for="Textarea1">Tiêu Đề</label>
-            <textarea class="form-control" name="title" rows="3"></textarea>
+            <textarea class="form-control" name="title" rows="3" required></textarea>
         </div>
         <div class="form-group">
             <label for="Textarea2">Trích Yếu</label>
-            <textarea class="form-control" name="epitomize" rows="3"></textarea>
+            <textarea class="form-control" name="epitomize" rows="3" required></textarea>
         </div>
         <label for="editor">Nội Dung</label>
         {{!-- <textarea class="ckeditor" name="editor"></textarea> --}}
@@ -41,7 +41,21 @@
         <label for="Textarea2">Nguồn</label>
         <input class="form-control form-control-lg" name="sources" type="text" placeholder="Nguồn">
         <label for="Textarea2">Tác Giả</label>
-        <input class="form-control form-control-lg" name="author" type="text" placeholder="Tác giả">
+        <input class="form-control form-control-lg" name="author" type="text" placeholder="Tác giả" required>
+
+
+
+        <div class="form-group">
+            <p><label>Loại tin</label></p>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" id="inlineRadio1" type="radio" name="checkedTypeNews" value="true">
+                <label class="form-check-label" for="inlineRadio1">Tin nổi bật</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" id="inlineRadio2" type="radio" name="checkedTypeNews" value="false">
+                <label class="form-check-label" for="inlineRadio2">Tin thường</label>
+            </div>
+        </div>
 
         <button type="submit" class="btn btn-success">Đăng Bài</button>
     </form>

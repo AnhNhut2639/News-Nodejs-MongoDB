@@ -26,7 +26,7 @@ const newsSchema = Schema(
     hashtag: { type: String },
     idChuDe: { type: String, required: true },
     chuDe: { type: String, required: true },
-    loaiTin: { type: String }
+    tinNoiBat: { type: Boolean }
   },
   { versionKey: false }
 );

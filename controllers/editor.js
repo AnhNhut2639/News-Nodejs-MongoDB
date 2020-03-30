@@ -126,7 +126,7 @@ async function editorWriteNews(req, res, next) {
     idNguoiDang: res.locals.user.id,
     tenNguoiDang: res.locals.user.tenDayDu,
     hashtag: req.body.themes,
-    loaiTin: req.body.themes,
+    tinNoiBat: req.body.checkedTypeNews,
     idChuDe: req.body.themes,
     chuDe: themes.tenChuDe
   });

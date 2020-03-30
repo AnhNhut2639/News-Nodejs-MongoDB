@@ -3,14 +3,13 @@
     <div class="featured-video-posts-slide owl-carousel">
 
         <div class="single--slide">
-            <!-- Single Blog Post -->
+            {{#each restHotNews}}
             <div class="single-blog-post d-flex style-3">
                 <div class="post-thumbnail">
-                    <img src="images/KM.png" alt="">
+                    <img src="{{this.img}}" alt="">
                 </div>
                 <div class="post-content">
-                    <a href="post.html" class="post-title">10/01/2020 Vinaphone khuyến mãi ngày vàng
-                        nạp thẻ</a>
+                    <a href="news/{{this.id}}" class="post-title">{{this.title}}</a>
                     <div class="post-meta d-flex">
                         {{!-- <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 34</a>
                         <a href="#"><i class="fa far fa-comments" aria-hidden="true"></i>5</a>
@@ -20,75 +19,7 @@
             </div>
             <!-- Single Blog Post -->
             <br>
-            <div class="single-blog-post d-flex style-3">
-                <div class="post-thumbnail">
-                    <img src="images/KM.png" alt="">
-                </div>
-                <div class="post-content">
-                    <a href="post.html" class="post-title">10/01/2020 Vinaphone khuyến mãi ngày vàng
-                        nạp thẻ</a>
-
-                </div>
-            </div>
-            <br>
-            <!-- Single Blog Post -->
-            <div class="single-blog-post d-flex style-3">
-                <div class="post-thumbnail">
-                    <img src="images/KM.png" alt="">
-                </div>
-                <div class="post-content">
-                    <a href="post.html" class="post-title">10/01/2020 Vinaphone khuyến mãi ngày vàng
-                        nạp thẻ</a>
-                </div>
-            </div>
-            <br>
-            <!-- Single Blog Post -->
-            <div class="single-blog-post d-flex style-3">
-                <div class="post-thumbnail">
-                    <img src="images/KM.png" alt="">
-                </div>
-                <div class="post-content">
-                    <a href="post.html" class="post-title">10/01/2020 Vinaphone khuyến mãi ngày vàng
-                        nạp thẻ</a>
-
-                </div>
-            </div>
-            <br>
-            <!-- Single Blog Post -->
-            <div class="single-blog-post d-flex style-3">
-                <div class="post-thumbnail">
-                    <img src="images/KM.png" alt="">
-                </div>
-                <div class="post-content">
-                    <a href="post.html" class="post-title">10/01/2020 Vinaphone khuyến mãi ngày vàng
-                        nạp thẻ</a>
-
-                </div>
-            </div>
-            <br>
-            <!-- Single Blog Post -->
-            <div class="single-blog-post d-flex style-3">
-                <div class="post-thumbnail">
-                    <img src="images/KM.png" alt="">
-                </div>
-                <div class="post-content">
-                    <a href="post.html" class="post-title">10/01/2020 Vinaphone khuyến mãi ngày vàng
-                        nạp thẻ</a>
-
-                </div>
-            </div>
-            <br>
-            <!-- Single Blog Post -->
-            <div class="single-blog-post d-flex style-3">
-                <div class="post-thumbnail">
-                    <img src="images/KM.png" alt="">
-                </div>
-                <div class="post-content">
-                    <a href="post.html" class="post-title">10/01/2020 Vinaphone khuyến mãi ngày vàng
-                        nạp thẻ</a>
-
-                </div>
-            </div>
+            {{/each}}
 
         </div>
 

@@ -2,50 +2,33 @@
     <!-- Service Title -->
     <!-- Section Title -->
     <div class="section-heading">
-        <h5>Tin mới nhất</h5>
+        <h5>Tin Nổi Bật</h5>
     </div>
 
     <div class="featured-video-posts">
         <div class="row">
+
+            {{#each mainHotNews}}
             <div class="col-12 col-lg-7">
                 <!-- Single Featured Post -->
                 <div class="single-featured-post">
                     <!-- Thumbnail -->
                     <div class="post-thumbnail mb-50">
-                        <img src="images/ICT.jpg" alt="">
+                        <img src="{{this.img}}" alt="">
 
                     </div>
                     <!-- Post Contetnt -->
                     <div class="post-content">
                         <div class="post-meta">
-                            <a href="#">Jan 11, 2020</a>
-                            <a href="#">Social</a>
+                            <a href="#">{{this.date}}</a>
+                            <a href="#">{{this.theme}}</a>
                         </div>
-                        <a href="post.html" class="post-title">VNPT giành giải thưởng Top ICT Việt Nam 2019</a>
-                        <p>Tại lễ trao giải thưởng Top ICT Việt Nam 2019 tổ chức ngày 30/10, VNPT nhận 2 giải
-                            thưởng ở hạng mục Doanh nghiệp CNTT – Viễn thông (VT) và Doanh nghiệp dịch vụ
-                            Internet, VT hàng đầu Việt Nam.</p>
+                        <a href="news/{{this.id}}" class="post-title">{{this.title}}</a>
+                        <p>{{this.epitomize}}</p>
                     </div>
-                    <!-- Post Share Area -->
-                    {{!-- <div class="post-share-area d-flex align-items-center justify-content-between">
-                        <!-- Post Meta -->
-                        <div class="post-meta pl-3">
-                            <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 1034</a>
-                            <a href="#"><i class="fa far fa-comments" aria-hidden="true"></i> 5</a>
-                        </div>
-                        <!-- Share Info -->
-                        <div class="share-info">
-                            <a href="#" class="sharebtn"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
-                            <!-- All Share Buttons -->
-                            <div class="all-share-btn d-flex">
-                                <a href="#" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                <a href="#" class="google-plus"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
-                                <a href="#" class="instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
+            {{/each}}
             {{>home/trending}}
         </div>
     </div>
