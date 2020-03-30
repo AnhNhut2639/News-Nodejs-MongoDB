@@ -2,6 +2,7 @@ $(document).ready(function() {
   $(".page-item").on("click", function(e) {
     e.preventDefault();
     var path = e.toElement.pathname;
+    console.log(path);
     var arr = path.split("/").slice(2);
     var page = parseInt(arr);
     $.ajax({

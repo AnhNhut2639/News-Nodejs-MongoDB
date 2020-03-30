@@ -28,9 +28,9 @@
             <td>{{this.birthDate}}</td>
             <td>{{this.gender}}</td>
             <td>{{this.ID}}</td>
-            <td><a href="#"> &emsp; &emsp;<button type="button" class="btn btn-primary"><i
-                            class="fa fa-lock"></i></button></a></td>
-            <td><a href="#">&emsp; &emsp; <button type="button" class="btn btn-primary"><i
+            <td><a href="blockAccount/{{this.id}}"> &emsp; &emsp;<button type="button" class="btn btn-{{this.lock}}"><i
+                            class="fa fa-{{this.icon}}"></i></button></a></td>
+            <td><a href="deleteAccount/{{this.id}}">&emsp; &emsp; <button type="button" class="btn btn-primary"><i
                             class="fa fa-trash"></i></button></a></td>
 
         </tr>

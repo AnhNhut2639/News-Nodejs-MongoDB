@@ -539,6 +539,14 @@ async function adminAccount(req, res) {
 
   const data = userAccount.map(user => {
     stt++;
+    if (user.khoa == true) {
+      var lock = "danger";
+      var icon = "lock";
+    }
+    if (user.khoa == false) {
+      var lock = "primary";
+      var icon = "unlock";
+    }
     return {
       username: user.username,
       fullName: user.tenDayDu,
@@ -547,6 +555,9 @@ async function adminAccount(req, res) {
       birthDate: moment(user.ngaySinh).format("DD[-]MM[-]YYYY"),
       gender: user.gioiTinh,
       ID: user.cmnd,
+      id: user.id,
+      lock: lock,
+      icon: icon,
       STT: stt
     };
   });
@@ -1165,6 +1176,25 @@ async function deleteBanner(req, res) {
   await bannersModel.deleteOne({ idQC: id });
   res.redirect("/admin/banner");
 }
+
+async function deleteAccount(req, res) {
+  let id = req.params.id;
+  await usersModel.deleteOne({ id: id });
+  res.redirect("/admin/account");
+}
+
+async function blockAccount(req, res) {
+  let id = req.params.id;
+  const user = await usersModel.findOne({ id: id });
+  if (user.khoa == false) {
+    await usersModel.updateOne({ id: id }, { $set: { khoa: true } });
+  }
+  if (user.khoa == true) {
+    await usersModel.updateOne({ id: id }, { $set: { khoa: false } });
+  }
+
+  res.redirect("/admin/account");
+}
 module.exports = {
   admin,
   adminApprove,
@@ -1208,5 +1238,7 @@ module.exports = {
   updateNews,
   deleteNews,
   deleteAdvertise,
-  deleteBanner
+  deleteBanner,
+  deleteAccount,
+  blockAccount
 };

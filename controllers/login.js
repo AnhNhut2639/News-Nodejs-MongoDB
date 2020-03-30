@@ -13,17 +13,25 @@ async function authLogin(req, res) {
 
   if (user) {
     if (await user.comparePassword(password)) {
-      const payload = {
-        fullname: user.tenDayDu,
-        id: user.id
-      };
+      if (user.khoa == true) {
+        return res.render("login", {
+          layout: "login",
+          erorrs: [{ erorr: "Tài khoản của bạn đã bị khóa" }],
+          values: username
+        });
+      } else if (user.khoa == false) {
+        const payload = {
+          fullname: user.tenDayDu,
+          id: user.id
+        };
 
-      const token = jwt.sign({ payload }, process.env.SECRET_KEY);
-      res.cookie("ID", token);
-      if (user.PQ === "admin") {
-        return res.redirect("/admin");
-      } else if (user.PQ === "editor") {
-        return res.redirect("/editor");
+        const token = jwt.sign({ payload }, process.env.SECRET_KEY);
+        res.cookie("ID", token);
+        if (user.PQ === "admin") {
+          return res.redirect("/admin");
+        } else if (user.PQ === "editor") {
+          return res.redirect("/editor");
+        }
       }
     }
   }
