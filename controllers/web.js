@@ -8,6 +8,7 @@ var newsModel = require("../model/newsModel");
 var accessModel = require("../model/accessCountModel");
 var moment = require("moment");
 var ip = require("ip");
+var jwt = require("jsonwebtoken");
 function getIDThemes(arr) {
   var temp;
   for (let item of arr) {
@@ -21,9 +22,11 @@ function getFirstImage(data) {
   return data;
 }
 async function home(req, res) {
-  let userCookie = req.signedCookies.ID;
-  if (userCookie) {
-    var user = await usersModel.findOne({ id: userCookie });
+  // let userCookie = req.signedCookies.ID;
+  let token = jwt.decode(req.cookies.ID, process.env.SECRET_KEY);
+  if (token) {
+    let id = token.payload.id;
+    var user = await usersModel.findOne({ id: id });
     var name = user.tenDayDu;
     if (user.PQ == "admin") {
       var adminHeader = 1;
