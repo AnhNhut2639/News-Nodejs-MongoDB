@@ -7,6 +7,7 @@ var newsModel = require("../model/newsModel");
 var commentModel = require("../model/commentModel");
 var moment = require("moment");
 var nodemailer = require("nodemailer");
+var alert = require("alert-node");
 
 function deleteSign(str) {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -1465,6 +1466,31 @@ async function searchBanner(req, res) {
   });
 }
 
+async function resetPassword(req, res) {
+  let id = req.params.id;
+
+  const user = await usersModel.findOne({ id: id });
+
+  const username = user.tenDayDu;
+
+  await usersModel.updateOne(
+    { id: id },
+    {
+      $set: {
+        password: "$2a$10$lgymVFN7wgXIOgp681YZQeHUTM3Ty4oONgJi8YQbQFuET9jlUAQJ6"
+      }
+    }
+  );
+
+  alert(
+    "Bạn vừa reset mật khẩu cho tài khoản  " +
+      username +
+      " với mật khẩu là 123456(mặc định)"
+  );
+
+  res.redirect("/admin/account");
+}
+
 module.exports = {
   admin,
   adminApprove,
@@ -1516,5 +1542,6 @@ module.exports = {
   searchTheme,
   searchAccount,
   searchAdvertise,
-  searchBanner
+  searchBanner,
+  resetPassword
 };

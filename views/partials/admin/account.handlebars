@@ -23,6 +23,7 @@
             <th scope="col">Ngày Sinh</th>
             <th scope="col">Giới Tính</th>
             <th scope="col">CMND</th>
+            <th scope="col">reset Mật Khẩu</th>
             <th scope="col">Khóa Tài Khoản</th>
             <th scope="col">Xóa Tài Khoản</th>
         </tr>
@@ -39,9 +40,11 @@
             <td>{{this.birthDate}}</td>
             <td>{{this.gender}}</td>
             <td>{{this.ID}}</td>
+            <td><a href="resetPassword/{{this.id}}"> &emsp; &emsp;<button type="button" class="btn btn-danger"><i
+                            class="fa fa-spinner"></i></button></a></td>
             <td><a href="blockAccount/{{this.id}}"> &emsp; &emsp;<button type="button" class="btn btn-{{this.lock}}"><i
                             class="fa fa-{{this.icon}}"></i></button></a></td>
-            <td><a href="deleteAccount/{{this.id}}">&emsp; &emsp; <button type="button" class="btn btn-primary"><i
+            <td><a href="deleteAccount/{{this.id}}">&emsp; &emsp; <button type="button" class="btn btn-danger"><i
                             class="fa fa-trash"></i></button></a></td>
 
         </tr>

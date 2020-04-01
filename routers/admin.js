@@ -98,6 +98,7 @@ adminRouter.get("/deleteBanner/:id", controllers.admin.deleteBanner);
 adminRouter.get("/admin/deleteBanner/:id", controllers.admin.deleteBanner);
 adminRouter.get("/deleteAccount/:id", controllers.admin.deleteAccount);
 adminRouter.get("/blockAccount/:id", controllers.admin.blockAccount);
+adminRouter.get("/resetPassword/:id", controllers.admin.resetPassword);
 adminRouter.get("/account/blockAccount/:id", controllers.admin.blockAccount);
 adminRouter.get("/account/deleteAccount/:id", controllers.admin.deleteAccount);
 module.exports = adminRouter;
