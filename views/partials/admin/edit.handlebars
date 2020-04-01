@@ -47,7 +47,17 @@
         <input class="form-control form-control-lg" name="sources" type="text" value="{{this.source}}">
         <label for="Textarea2">Tác Giả</label>
         <input class="form-control form-control-lg" name="author" type="text" value="{{this.author}}">
-
+        <div class="form-group">
+            <p><label>Loại tin</label></p>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" id="inlineRadio1" type="radio" name="checkedTypeNews" value="true">
+                <label class="form-check-label" for="inlineRadio1">Tin nổi bật</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" id="inlineRadio2" type="radio" name="checkedTypeNews" value="false">
+                <label class="form-check-label" for="inlineRadio2">Tin thường</label>
+            </div>
+        </div>
 
         <a href="{{this.id}}"><button type="submit" class="btn btn-success">Cập nhật</button></a>
         {{/each}}

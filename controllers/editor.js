@@ -606,6 +606,7 @@ async function editNews(req, res) {
       epitomize: news.trichYeu,
       content: news.noiDung,
       source: news.nguon,
+      kind: news.tinNoiBat,
       author: news.tacGia
     };
   });
@@ -647,7 +648,7 @@ async function editorRepost(req, res, next) {
     idNguoiDang: res.locals.user.id,
     tenNguoiDang: res.locals.user.tenDayDu,
     hashtag: req.body.themes,
-    loaiTin: req.body.themes,
+    tinNoiBat: req.body.checkedTypeNews,
     idChuDe: req.body.themes,
     chuDe: themes.tenChuDe
   });

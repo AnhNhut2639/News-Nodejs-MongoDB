@@ -167,7 +167,7 @@ async function sendmail(req, res) {
     var mailOptions = {
       from: "DeliMarvel",
       to: user.email,
-      subject: "Sending Email using Node.js",
+      subject: "Yêu cầu xét duyệt",
       html: content
     };
 
@@ -1109,7 +1109,8 @@ async function editNews(req, res) {
       epitomize: news.trichYeu,
       content: news.noiDung,
       source: news.nguon,
-      author: news.tacGia
+      author: news.tacGia,
+      kind: news.tinNoiBat
     };
   });
   const dataTypes = types.map(types => {
@@ -1148,6 +1149,7 @@ async function updateNews(req, res) {
   let content = req.body.editordata;
   let source = req.body.sources;
   let author = req.body.author;
+  let kind = req.body.checkedTypeNews;
 
   await newsModel.updateOne(
     { id: id },
@@ -1158,6 +1160,7 @@ async function updateNews(req, res) {
         noiDung: content,
         nguon: source,
         tacGia: author,
+        tinNoiBat: kind,
         idNguoiCapNhat: res.locals.user.id,
         tenNguoiCapNhat: res.locals.user.tenDayDu,
         ngayCapNhat: Date.now()
