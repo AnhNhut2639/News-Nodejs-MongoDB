@@ -1205,6 +1205,266 @@ async function blockAccount(req, res) {
 
   res.redirect("/admin/account");
 }
+
+async function search(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+  var q = req.query.search;
+  const search = await newsModel.find({
+    daDuyet: true,
+    deny: false,
+    $text: { $search: q }
+  });
+  if (search == "") {
+    var message = "Không tìm thấy bài viết";
+  }
+  var arr = getFirstImage(search);
+
+  arr.sort(function(a, b) {
+    return new Date(a.date) - new Date(b.date);
+  });
+
+  const data = arr.map(news => {
+    if (news.ngayCapNhat == null) {
+      news.ngayCapNhat = null;
+    }
+    return {
+      title: news.tieuDe,
+      // epitomize: news.trichYeu,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      img: news.firstImage,
+      id: news.id,
+      theme: news.chuDe,
+      postedBy: news.tenNguoiDang,
+      approvedBy: news.tenNguoiDuyet,
+      dateApproved: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
+      editedBy: news.tenNguoiCapNhat,
+      dateEdited: moment(news.ngayCapNhat).format("DD[-]MM[-]YYYY h:mm a"),
+      viewsCount: news.luotXem
+    };
+  });
+
+  return res.render("admin-posted", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu,
+    data: data,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount,
+    message: message
+  });
+}
+
+async function searchType(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+
+  var q = req.query.search;
+  const search = await typesModel.find({
+    $text: { $search: q }
+  });
+  if (search == "") {
+    var message = "Không tìm thấy thể loại";
+  }
+  let stt = 0;
+
+  const data = search.map(type => {
+    stt++;
+    return {
+      id: type.idTheLoai,
+      Type: type.tenTheLoai,
+      position: type.viTri,
+      STT: stt
+    };
+  });
+  return res.render("admin-type", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
+    types: data,
+    title: "Thể Loại",
+    message: message,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
+  });
+}
+
+async function searchTheme(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+  var q = req.query.search;
+  const searchTheme = await themesModel.find({
+    $text: { $search: q }
+  });
+  if (searchTheme == "") {
+    var message = "Không tìm thấy chủ đề";
+  }
+  let types = await typesModel.find({});
+  let stt = 0;
+
+  const dataTypes = types.map(type => {
+    return {
+      id: type.idTheLoai,
+      type: type.tenTheLoai
+    };
+  });
+  const data = searchTheme.map(theme => {
+    stt++;
+    return {
+      theme: theme.tenChuDe,
+      id: theme.idChuDe,
+      STT: stt
+    };
+  });
+  return res.render("admin-theme", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
+    title: "Chủ Đề",
+    message: message,
+    themes: data,
+    types: dataTypes,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
+  });
+}
+async function searchAccount(req, res) {
+  var q = req.query.search;
+  const searchAccount = await usersModel.find({
+    $text: { $search: q }
+  });
+  if (searchAccount == "") {
+    var message = "Không tìm thấy Tài khoản";
+  }
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+  let stt = 0;
+
+  const data = searchAccount.map(user => {
+    stt++;
+    if (user.khoa == true) {
+      var lock = "danger";
+      var icon = "lock";
+    }
+    if (user.khoa == false) {
+      var lock = "primary";
+      var icon = "unlock";
+    }
+    return {
+      username: user.username,
+      fullName: user.tenDayDu,
+      phoneNumber: user.sdt,
+      email: user.email,
+      birthDate: moment(user.ngaySinh).format("DD[-]MM[-]YYYY"),
+      gender: user.gioiTinh,
+      ID: user.cmnd,
+      id: user.id,
+      lock: lock,
+      icon: icon,
+      STT: stt
+    };
+  });
+
+  return res.render("admin-account", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu,
+    userAccount: data,
+    message: message,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
+  });
+}
+async function searchAdvertise(req, res) {
+  var q = req.query.search;
+  const searchAdvertise = await advertiseModel.find({
+    $text: { $search: q }
+  });
+  if (searchAdvertise == "") {
+    var message = "Không tìm thấy quảng cáo tương ứng";
+  }
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+  let stt = 0;
+  const data = searchAdvertise.map(advertise => {
+    stt++;
+    return {
+      STT: stt,
+      id: advertise.idQC,
+      describe: advertise.motaQC,
+      url: advertise.urlHinhQC,
+      link: advertise.link,
+      position: advertise.viTri,
+      postedBy: advertise.tenNguoiDang,
+      date: moment(advertise.ngayDang).format("DD[-]MM[-]YYYY")
+    };
+  });
+  return res.render("admin-advertise", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu,
+    advertise: data,
+    message: message,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
+  });
+}
+
+async function searchBanner(req, res) {
+  var q = req.query.search;
+  const searchBanner = await bannersModel.find({
+    $text: { $search: q }
+  });
+  if (searchAdvertise == "") {
+    var message = "Không tìm thấy banner tương ứng";
+  }
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+  searchBanner.sort(function(a, b) {
+    return new Date(b.ngayDang) - new Date(a.ngayDang);
+  });
+
+  let stt = 0;
+  const data = searchBanner.map(banner => {
+    stt++;
+    return {
+      STT: stt,
+      id: banner.idBanner,
+      describe: banner.motaBanner,
+      url: banner.urlHinhAnh,
+      postedBy: banner.tenNguoiDang,
+      date: moment(banner.ngayDang).format("DD[-]MM[-]YYYY h:mm a")
+    };
+  });
+  return res.render("admin-banner", {
+    layout: "admin",
+    fullname: res.locals.user.tenDayDu,
+    banners: data,
+    message: message,
+    newsCount: newsCount,
+    usersCount: usersCount,
+    typesCount: typesCount,
+    themesCount: themesCount
+  });
+}
+
 module.exports = {
   admin,
   adminApprove,
@@ -1250,5 +1510,11 @@ module.exports = {
   deleteAdvertise,
   deleteBanner,
   deleteAccount,
-  blockAccount
+  blockAccount,
+  search,
+  searchType,
+  searchTheme,
+  searchAccount,
+  searchAdvertise,
+  searchBanner
 };

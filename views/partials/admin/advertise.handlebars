@@ -26,7 +26,17 @@
 <div class="section-heading">
     <h5>Quảng Cáo</h5>
 </div>
-<!-- ##### Advertise Area Start ##### -->
+<form class="form-inline" action="/admin/advertise/search" method="GET">
+    <div class="form-group mx-sm-3 mt-3">
+        <input type="text" class="form-control" name="search" placeholder="Nhập mô tả, tên người đăng">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search"></i></button>
+</form>
+{{#if message}}
+<div class="alert alert-danger" role="alert">
+    {{message}}
+</div>
+{{/if}}
 <table class="table table-bordered">
     <thead>
         <tr>
