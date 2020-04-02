@@ -101,4 +101,10 @@ adminRouter.get("/blockAccount/:id", controllers.admin.blockAccount);
 adminRouter.get("/resetPassword/:id", controllers.admin.resetPassword);
 adminRouter.get("/account/blockAccount/:id", controllers.admin.blockAccount);
 adminRouter.get("/account/deleteAccount/:id", controllers.admin.deleteAccount);
+
+adminRouter.get(
+  "/unload/:id",
+  controllers.admin.unload,
+  controllers.admin.unloadMail
+);
 module.exports = adminRouter;

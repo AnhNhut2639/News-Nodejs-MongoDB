@@ -33,7 +33,7 @@ $(document).ready(function() {
           </div>
           <button type="button" class="btn btn-success mt-3 mr-2"><a href="edit/${item.id}"> Chỉnh
           Sửa</a></button>
-
+          <button type="button" class="btn btn-primary  mt-3 mr-2"> <a href="unload/${item.id}"> Gỡ bài</a></button>
           <button type="button" class="btn btn-danger mt-3"><a href="#">Xóa</a></button>
 
       </div>`;
