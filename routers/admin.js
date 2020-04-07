@@ -79,7 +79,12 @@ adminRouter.get("/:id", controllers.admin.readNews);
 adminRouter.get("/deleteTheme/:id", controllers.admin.deleteThemes);
 adminRouter.get("/deleteType/:id", controllers.admin.deleteTypes);
 adminRouter.get("/update/:id", controllers.admin.getTheme);
-adminRouter.post("/update/:id", controllers.admin.updateTheme);
+adminRouter.post(
+  "/update/:id",
+  upload.single("avatarChanged"),
+  controllers.admin.updateTheme
+);
+
 adminRouter.get("/updateType/:id", controllers.admin.getType);
 adminRouter.post("/updateType/:id", controllers.admin.updateType);
 adminRouter.get("/deleteComment/:id", controllers.admin.deleteComment);

@@ -858,7 +858,8 @@ async function getTheme(req, res) {
 
   const data = theme.map(theme => {
     return {
-      theme: theme.tenChuDe
+      theme: theme.tenChuDe,
+      img: theme.img
     };
   });
   return res.render("admin-update", {
@@ -885,11 +886,29 @@ async function getType(req, res) {
 }
 async function updateTheme(req, res) {
   let id = req.params.id;
+
+  const oldInfo = await themesModel.findOne({ idChuDe: id });
+
+  var oldImg = oldInfo.img;
+  if (req.file === undefined) {
+    req.body.avatarChanged = oldImg;
+  } else if (req.file.path) {
+    req.body.avatarChanged =
+      "/" +
+      req.file.path
+        .split("/")
+        .slice(1)
+        .join("/");
+  }
+
+  let urlTheme = req.body.avatarChanged;
+
   await themesModel.updateOne(
     { idChuDe: id },
     {
       $set: {
         tenChuDe: req.body.newNameTheme,
+        img: urlTheme,
         idNguoiCapNhat: res.locals.user.id,
         tenNguoiCapNhat: res.locals.user.tenDayDu,
         ngayCapNhat: Date.now()
