@@ -19,7 +19,6 @@
             <a href="{{this.id}}" class="post-title">{{this.title}}</a>
             <p>{{this.epitomize}}</p>
         </div>
-        {{!-- <button type="button" class="btn btn-success mt-3 mr-2" href="/approve/" +{{this.id}}>Duyệt</button> --}}
         <button type="button" class="btn btn-success mt-3 mr-2"><a href="approve/{{this.id}}">Duyệt</a></button>
 
         <button type="button" class="btn btn-danger mt-3"><a href="deny/{{this.id}}">Không Duyệt</a></button>
@@ -27,14 +26,14 @@
     {{/each}}
 
     <!-- Pagination -->
-    <nav>
+    {{!-- <nav>
         <ul class="pagination">
             <li class="page-item active"><a class="page-link" href="#">1</a></li>
             <li class="page-item"><a class="page-link" href="#">2</a></li>
             <li class="page-item"><a class="page-link" href="#">3</a></li>
             <li class="page-item"><a class="page-link" href="#"><i class="ti-angle-right"></i></a></li>
         </ul>
-    </nav>
+    </nav> --}}
 
 
 </div>

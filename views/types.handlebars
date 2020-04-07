@@ -11,7 +11,7 @@
             <h1>
 
                 {{#each theme}}
-                <b><a href="#">{{this}} ||</a></b>
+                <b><a href="#">{{this}} || </a></b>
                 {{/each}}
 
             </h1>
@@ -34,7 +34,7 @@
 
             <!-- Section Title -->
             <div class="section-heading">
-                <h5>Most Viewed Videos</h5>
+                <h5>Mới nhất</h5>
             </div>
 
             <div class="most-viewed-videos-slide owl-carousel">
@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="section-heading">
-            <h5>Care</h5>
+            <h5>Có thể bạn quan tâm</h5>
         </div>
         {{#each rest}}
         <div class="single-catagory-post d-flex flex-wrap">
@@ -61,9 +61,9 @@
                 <a href="/news/{{this.id}}" class="post-title">{{this.title}}</a>
                 <p>{{this.epitomize}}</p>
                 <div class="post-meta d-flex justify-content-between">
-                    <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> {{this.viewsCount}}</a>
+                    {{!-- <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> {{this.viewsCount}}</a>
                     <a href="#"><i class="fa far fa-comments" aria-hidden="true"></i>5</a>
-                    <a></a>
+                    <a></a> --}}
                 </div>
             </div>
 

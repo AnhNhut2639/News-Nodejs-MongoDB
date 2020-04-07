@@ -17,7 +17,7 @@
         <tr>
             <th scope="col">STT</th>
             <th scope="col">Chủ Đề</th>
-            <th scope="col">Thể Loại</th>
+            <th scope="col">Ảnh Chủ Đề</th>
             <th scope="col">Sửa</th>
             <th scope="col"></th>
             <th scope="col"> Xóa</th>
@@ -27,8 +27,8 @@
         {{#each themes}}
         <tr>
             <th scope="row">{{this.STT}}</th>
-            <td colspan="2">{{this.theme}}</td>
-
+            <td>{{this.theme}}</td>
+            <td><img src={{this.img}} alt="cc" width="86px"></td>
             <td colspan="2">
                 <!-- Button trigger modal -->
                 <a href="update/{{this.id}}"> <button type="button" class="btn btn-primary">
@@ -46,7 +46,7 @@
     <h5> Thêm Chủ Đề</h5>
 </div>
 
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
 
     <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -62,6 +62,11 @@
     <div class="form-group">
         <label>Chủ Đề</label>
         <input type="text" class="form-control" name="addTheme">
+    </div>
+
+    <div class="form-group">
+        <label for="avatar2">Hình đại diện (có thể bỏ trống)</label>
+        <input type="file" class="form-control-file" name="avatarTheme" id="avatar2">
     </div>
 
     <button type="submit" class="btn btn-info">Thêm Chủ Đề</button>

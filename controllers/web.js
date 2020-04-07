@@ -161,11 +161,25 @@ async function home(req, res) {
         .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     };
   });
+
+  const service = await themesModel.find({
+    idTheLoai: "997506ab-0c93-41f3-b288-87b71f4157e1"
+  });
+
+  const dataService = service.map(service => {
+    return {
+      img: service.img,
+      name: service.tenChuDe,
+      id: service.idChuDe
+    };
+  });
+
   return res.render("home", {
     data: data.slice(0, 10),
     dataType: limitTypes,
     restTypes: restTypes,
     mainHotNews: mainHotNews,
+    service: dataService,
     restHotNews: restHotNews,
     banner: dataBanner,
     advertise: dataAdvertise,
@@ -424,6 +438,30 @@ async function getComments(req, res) {
   res.json(dataComments);
 }
 
+async function getNewsThemes(req, res) {
+  let id = req.params.id;
+
+  const news = await newsModel.find({ idChuDe: id });
+  var newsByThemes = getFirstImage(news);
+  const data = newsByThemes.map(news => {
+    return {
+      title: news.tieuDe,
+      epitomize: news.trichYeu,
+      author: news.tacGia,
+      source: news.nguon,
+      content: news.noiDung,
+      date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
+      viewsCount: news.luotXem,
+      img: news.firstImage
+    };
+  });
+
+  return res.render("themes", {
+    layout: "news",
+    data: data
+  });
+}
+
 module.exports = {
   home,
   post,
@@ -433,5 +471,6 @@ module.exports = {
   search,
   pagination,
   getTypes,
-  getComments
+  getComments,
+  getNewsThemes
 };

@@ -14,4 +14,6 @@ WebRouter.get("/logout", controllers.web.logout);
 
 WebRouter.get("/search", controllers.web.search);
 
+WebRouter.get("/themes/:id", controllers.web.getNewsThemes);
+
 module.exports = WebRouter;

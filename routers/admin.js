@@ -41,7 +41,12 @@ adminRouter.get("/posted/search", controllers.admin.search);
 adminRouter.post("/type", controllers.admin.adminAddType);
 adminRouter.get("/theme", controllers.admin.adminTheme);
 adminRouter.get("/theme/search", controllers.admin.searchTheme);
-adminRouter.post("/theme", controllers.admin.adminAddThemes);
+adminRouter.post(
+  "/theme",
+  upload.single("avatarTheme"),
+  controllers.admin.adminAddThemes
+);
+
 adminRouter.get("/profile", controllers.admin.adminProfile);
 adminRouter.post("/profile", controllers.admin.adminUpdateProfile);
 adminRouter.get("/account", controllers.admin.adminAccount);

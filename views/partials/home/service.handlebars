@@ -6,35 +6,13 @@
 
     <div class="trending-post-slides owl-carousel">
         <!-- Single Post -->
+        {{#each service}}
         <div class="single-trending-post">
-            <img src="images/service/mytv.png" alt="">
+            <img src="{{this.img}}">
             <div class="post-content">
-                <a href="post.html" class="post-title">MyTV</a>
+                <a href="/themes/{{this.id}}" class="post-title">{{this.name}}</a>
             </div>
         </div>
-
-        <!-- Single Post -->
-        <div class="single-trending-post">
-            <img src="images/service/megavnn.jpg" alt="">
-            <div class="post-content">
-                <a href="post.html" class="post-title">Mega VNN</a>
-            </div>
-        </div>
-
-        <!-- Single Post -->
-        <div class="single-trending-post">
-            <img src="images/service/vinaphone.png" alt="">
-            <div class="post-content">
-                <a href="post.html" class="post-title">VinaPhone</a>
-            </div>
-        </div>
-
-        <!-- Single Post -->
-        <div class="single-trending-post">
-            <img src="images/service/vnptCA.jpg" alt="">
-            <div class="post-content">
-                <a href="post.html" class="post-title">VNPT-CA</a>
-            </div>
-        </div>
+        {{/each}}
     </div>
 </div>

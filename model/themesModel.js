@@ -5,6 +5,7 @@ const themesSchema = Schema(
   {
     idChuDe: { type: String, default: uuid, required: true },
     tenChuDe: { type: String, required: true },
+    img: { type: String },
     idTheLoai: { type: String, required: true },
     idNguoiTao: { type: String, required: true },
     tenNguoiTao: { type: String, required: true },

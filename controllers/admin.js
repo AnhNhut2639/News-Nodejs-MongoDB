@@ -451,7 +451,7 @@ async function adminAddType(req, res) {
     viTri: viTri
   });
 
-  return res.redirect("/admin/type");
+  res.redirect("/admin/type");
 }
 
 async function adminTheme(req, res) {
@@ -474,6 +474,7 @@ async function adminTheme(req, res) {
     return {
       theme: theme.tenChuDe,
       id: theme.idChuDe,
+      img: theme.img,
       STT: stt
     };
   });
@@ -491,10 +492,21 @@ async function adminTheme(req, res) {
 }
 
 async function adminAddThemes(req, res) {
+  if (req.file === undefined) {
+    req.body.avatarTheme = "uploads/default.jpg";
+  } else if (req.file.path) {
+    req.body.avatarTheme = req.file.path
+      .split("/")
+      .slice(1)
+      .join("/");
+  }
+
+  let urlTheme = "/" + req.body.avatarTheme;
   themesModel.create({
     idNguoiTao: res.locals.user.id,
     tenNguoiTao: res.locals.user.tenDayDu,
     tenChuDe: req.body.addTheme,
+    img: urlTheme,
     idTheLoai: req.body.typeSelected
   });
 
