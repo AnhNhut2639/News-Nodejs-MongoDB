@@ -7,9 +7,16 @@ var nodemailer = require("nodemailer");
 
 function getFirstImage(data) {
   let regex = /<img.*?src="(.*?)"/;
-  data.forEach(item => (item.firstImage = regex.exec(item.noiDung)[1]));
+  data.forEach(function(item) {
+    if (regex.exec(item.noiDung) == null) {
+      item.firstImage = "/uploads/defaultvnpt.jpg";
+    } else {
+      item.firstImage = regex.exec(item.noiDung)[1];
+    }
+  });
   return data;
 }
+
 function deleteSign(str) {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
   str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");

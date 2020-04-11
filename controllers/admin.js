@@ -27,9 +27,20 @@ function deleteSign(str) {
   return str.toLowerCase().replace(/ /g, "+");
 }
 
+// function getFirstImage(data) {
+//   let regex = /<img.*?src="(.*?)"/;
+//   data.forEach(item => (item.firstImage = regex.exec(item.noiDung)[1]));
+//   return data;
+// }
 function getFirstImage(data) {
   let regex = /<img.*?src="(.*?)"/;
-  data.forEach(item => (item.firstImage = regex.exec(item.noiDung)[1]));
+  data.forEach(function(item) {
+    if (regex.exec(item.noiDung) == null) {
+      item.firstImage = "/uploads/defaultvnpt.jpg";
+    } else {
+      item.firstImage = regex.exec(item.noiDung)[1];
+    }
+  });
   return data;
 }
 

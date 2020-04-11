@@ -18,9 +18,16 @@ function getIDThemes(arr) {
 }
 function getFirstImage(data) {
   let regex = /<img.*?src="(.*?)"/;
-  data.forEach(item => (item.firstImage = regex.exec(item.noiDung)[1]));
+  data.forEach(function(item) {
+    if (regex.exec(item.noiDung) == null) {
+      item.firstImage = "/uploads/defaultvnpt.jpg";
+    } else {
+      item.firstImage = regex.exec(item.noiDung)[1];
+    }
+  });
   return data;
 }
+
 async function home(req, res) {
   // let userCookie = req.signedCookies.ID;
   let token = jwt.decode(req.cookies.ID, process.env.SECRET_KEY);
