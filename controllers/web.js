@@ -46,9 +46,11 @@ async function home(req, res) {
 
   const banner = await bannersModel.find({}).limit(5);
   const advertise = await advertiseModel.find({});
-  const hotNews = await newsModel
-    .find({ daDuyet: true, deny: false, tinNoiBat: true })
-    .limit(8);
+  const hotNews = await newsModel.find({
+    daDuyet: true,
+    deny: false,
+    tinNoiBat: true
+  });
   const news = await newsModel.find({ daDuyet: true, deny: false });
 
   hotNews.sort(function(a, b) {
@@ -68,7 +70,7 @@ async function home(req, res) {
 
   var mainHotNews = dataHotNews.slice(0, 1);
 
-  var restHotNews = dataHotNews.slice(1, 8);
+  var restHotNews = dataHotNews.slice(1, 6);
 
   news.sort(function(a, b) {
     return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
