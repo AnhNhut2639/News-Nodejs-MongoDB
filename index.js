@@ -6,14 +6,9 @@ var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 const port = 3000;
 const routers = require("./routers");
-
-// var login = require("./routes/auth.route"); //login sẽ làm midffleware khi ai đó muốn đăng nhập vào hệ thống (localhost:3000/login)
 let check = require("./middlewares/check.middleware");
 let permission = require("./middlewares/checkPermission");
 let checkWasLogin = require("./middlewares/checkWasLogin");
-// app.set("view engine", "pug");
-// app.set("views", "./views");
-
 app.engine(
   "handlebars",
   handlebars({

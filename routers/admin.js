@@ -1,6 +1,7 @@
 const express = require("express");
 const controllers = require("../controllers");
 var multer = require("multer");
+var validate = require("../validate/validate.register");
 // var upload = multer({ dest: "./public/uploads/" });
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -52,7 +53,11 @@ adminRouter.post("/profile", controllers.admin.adminUpdateProfile);
 adminRouter.get("/account", controllers.admin.adminAccount);
 adminRouter.get("/account/search", controllers.admin.searchAccount);
 adminRouter.get("/register", controllers.admin.adminRegister);
-adminRouter.post("/register", controllers.admin.adminAddAccount);
+adminRouter.post(
+  "/register",
+  validate.validateRegister,
+  controllers.admin.adminAddAccount
+);
 adminRouter.get("/changepass", controllers.admin.adminChangePass);
 adminRouter.get("/comments", controllers.admin.comment);
 adminRouter.post("/changepass", controllers.admin.adminChange);

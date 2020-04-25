@@ -7,15 +7,16 @@
 <!-- >>>>>>>>>>>>>>>>>>>>
              Profile Area
         <<<<<<<<<<<<<<<<<<<<< -->
+{{#each erorrs}}
+<div class="alert alert-danger" role="alert">
+    {{this.error}}
+</div>
+{{/each}}
 <form action="" method="post">
     <div class="form-group">
         <label>Tên Người Dùng</label>
-        <input type="text" class="form-control" name="fullName" required="true">
+        <input type="text" class="form-control" name="fullName" {{#each values}} value="{{this.fullName}}" {{/each}}>
     </div>
-    {{!-- <div class="form-group">
-        <label>Tài Khoản</label>
-        <input type="text" class="form-control" name="userName" required="true">
-    </div> --}}
     <div class="form-group">
         <label>Mật Khẩu</label>
         <small id="password" class="form-text text-muted">mật khẩu mặc định</small>
@@ -24,16 +25,17 @@
     </div>
     <div class="form-group">
         <label>Số Điện Thoại</label>
-        <input type="Number" class="form-control" name="phone" required="true">
+        <input type="Number" class="form-control" name="phone" {{#each values}} value="{{this.phone}}" {{/each}}>
     </div>
     <div class="form-group">
         <label>Email</label>
-        <input type="email" class="form-control" id="Email1" name="email" aria-describedby="emailHelp" required="true">
+        <input type="email" class="form-control" id="Email1" name="email" aria-describedby="emailHelp" {{#each values}}
+            value="{{this.email}}" {{/each}}>
         <small id="emailHelp" class="form-text text-muted">example abc@gamil.com</small>
     </div>
     <div class="form-group">
         <label>Ngày Sinh</label>
-        <input type="date" name="bday" required="true">
+        <input type="date" name="bday" {{#each values}} value="{{this.bday}}" {{/each}}>
     </div>
     <div class="form-group">
         <p><label>Giới Tính</label></p>
@@ -48,35 +50,19 @@
     </div>
     <div class="form-group">
         <label>Chứng Minh Nhân Dân</label>
-        <input type="Number" class="form-control" name="CMND" min="111111111" max="999999999" required="true"
-            placeholder="vui lòng nhập 9 chữ số">
+        <input type="Number" class="form-control" name="CMND" placeholder="vui lòng nhập 9 chữ số" {{#each values}}
+            value="{{this.CMND}}" {{/each}}>
     </div>
     <div class="input-group mb-3">
         <div class="input-group-prepend">
             <label class="input-group-text" for="permissionSelect">Phân Quyền</label>
         </div>
         <select class="custom-select" id="permissionSelect" name="permission">
-            <option selected>Choose...</option>
+            <option selected></option>
             <option value="admin">Quản Trị Viên</option>
             <option value="editor">Biên Tập Viên</option>
         </select>
     </div>
-    {{!-- <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" disabled="true">
-        <label class="form-check-label" for="inlineCheckbox1">Thêm</label>
-    </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" disabled="true">
-        <label class="form-check-label" for="inlineCheckbox2">Sửa</label>
-    </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option3" disabled="true">
-        <label class="form-check-label" for="inlineCheckbox2">Xóa</label>
-    </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option4" disabled="true">
-        <label class="form-check-label" for="inlineCheckbox2">Duyệt Bài</label>
-    </div> --}}
     </br>
     </br>
     </br>
