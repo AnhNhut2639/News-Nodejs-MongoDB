@@ -1,17 +1,20 @@
-$(document).ready(function() {
-  $("#comments").submit(function(event) {
+$(document).ready(function () {
+  $("#comments").submit(function (event) {
     event.preventDefault();
     var location = window.location.pathname;
     $.ajax({
       type: "GET",
       url: "http://localhost:3000" + location + "/comments",
       dataType: "json",
-      success: function(response) {
+      success: function (response) {
         var commentsArea = $("#commented");
-        var newArr = response.map(function(item) {
+        var newArr = response.map(function (item) {
           return `  
             <li class="single_comment_area">
             <div class="comment-content d-flex">
+            <div class="comment-author">
+                <p>${item.firstChart}</p>
+              </div>
               <div class="comment-meta">
                   <a href="#" class="comment-date">${item.date}</a>
                   <h6>${item.fullname}</h6>
@@ -22,7 +25,7 @@ $(document).ready(function() {
         });
         commentsArea.html(newArr);
         clearInputs();
-      }
+      },
     });
   });
 });

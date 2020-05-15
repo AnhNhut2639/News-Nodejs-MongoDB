@@ -18,7 +18,7 @@ function getIDThemes(arr) {
 }
 function getFirstImage(data) {
   let regex = /<img.*?src="(.*?)"/;
-  data.forEach(function(item) {
+  data.forEach(function (item) {
     if (regex.exec(item.noiDung) == null) {
       item.firstImage = "/uploads/defaultvnpt.jpg";
     } else {
@@ -49,22 +49,22 @@ async function home(req, res) {
   const hotNews = await newsModel.find({
     daDuyet: true,
     deny: false,
-    tinNoiBat: true
+    tinNoiBat: true,
   });
   const news = await newsModel.find({ daDuyet: true, deny: false });
 
-  hotNews.sort(function(a, b) {
+  hotNews.sort(function (a, b) {
     return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
   });
   var hot = getFirstImage(hotNews);
-  const dataHotNews = hot.map(news => {
+  const dataHotNews = hot.map((news) => {
     return {
       title: news.tieuDe,
       epitomize: news.trichYeu,
       date: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
       id: news.id,
       img: news.firstImage,
-      theme: news.chuDe
+      theme: news.chuDe,
     };
   });
 
@@ -72,11 +72,11 @@ async function home(req, res) {
 
   var restHotNews = dataHotNews.slice(1, 6);
 
-  news.sort(function(a, b) {
+  news.sort(function (a, b) {
     return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
   });
   var arr = getFirstImage(news);
-  const data = arr.map(news => {
+  const data = arr.map((news) => {
     var date = news.ngayDuyet;
     var datetime = moment(date).fromNow();
     var x = datetime.split(" ").slice(1, 2);
@@ -91,11 +91,11 @@ async function home(req, res) {
       id: news.id,
       img: news.firstImage,
       theme: news.chuDe,
-      viewsCount: news.luotXem
+      viewsCount: news.luotXem,
     };
   });
 
-  const dataViewsMost = arr.map(news => {
+  const dataViewsMost = arr.map((news) => {
     return {
       title: news.tieuDe,
       epitomize: news.trichYeu,
@@ -104,31 +104,31 @@ async function home(req, res) {
       id: news.id,
       img: news.firstImage,
       theme: news.chuDe,
-      viewsCount: news.luotXem
+      viewsCount: news.luotXem,
     };
   });
-  const mostViews = dataViewsMost.sort(function(a, b) {
+  const mostViews = dataViewsMost.sort(function (a, b) {
     return b.viewsCount - a.viewsCount;
   });
 
   const dataViewsCount = mostViews.slice(0, 5);
 
-  advertise.sort(function(a, b) {
+  advertise.sort(function (a, b) {
     return a.viTri - b.viTri;
   });
 
-  const dataAdvertise = advertise.map(advertise => {
+  const dataAdvertise = advertise.map((advertise) => {
     return {
       img: advertise.urlHinhQC,
-      link: advertise.link
+      link: advertise.link,
     };
   });
-  banner.sort(function(a, b) {
+  banner.sort(function (a, b) {
     return new Date(b.ngayDang) - new Date(a.ngayDang);
   });
-  const dataBanner = banner.map(banner => {
+  const dataBanner = banner.map((banner) => {
     return {
-      img: banner.urlHinhAnh
+      img: banner.urlHinhAnh,
     };
   });
   var page = [];
@@ -141,14 +141,14 @@ async function home(req, res) {
     page.push(i);
   }
   const types = await typesModel.find({});
-  types.sort(function(a, b) {
+  types.sort(function (a, b) {
     return a.viTri - b.viTri;
   });
 
-  const dataType = types.map(type => {
+  const dataType = types.map((type) => {
     return {
       id: type.idTheLoai,
-      type: type.tenTheLoai
+      type: type.tenTheLoai,
     };
   });
 
@@ -162,24 +162,24 @@ async function home(req, res) {
 
   const access = await accessModel.find({}).limit(1);
 
-  const dataAccess = access.map(access => {
+  const dataAccess = access.map((access) => {
     return {
       id: access.id,
       access: access.luotTruyCap
         .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, "."),
     };
   });
 
   const service = await themesModel.find({
-    idTheLoai: "997506ab-0c93-41f3-b288-87b71f4157e1"
+    idTheLoai: "997506ab-0c93-41f3-b288-87b71f4157e1",
   });
 
-  const dataService = service.map(service => {
+  const dataService = service.map((service) => {
     return {
       img: service.img,
       name: service.tenChuDe,
-      id: service.idChuDe
+      id: service.idChuDe,
     };
   });
 
@@ -199,7 +199,7 @@ async function home(req, res) {
     editorHeader: editorHeader,
     homeHeader: normal,
     fullname: name,
-    paginate: page
+    paginate: page,
   });
 }
 
@@ -209,6 +209,31 @@ function post(req, res) {
 function logout(req, res) {
   res.clearCookie("ID");
   res.redirect("/");
+}
+
+function deleteSign(str) {
+  str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+  str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+  str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+  str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+  str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+  str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+  str = str.replace(/đ/g, "d");
+  str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+  str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+  str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+  str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+  str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+  str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+  str = str.replace(/Đ/g, "D");
+  return str.toLowerCase().replace(/ /g, "+");
+}
+
+function getLast(str) {
+  var strArr = str.split(" ");
+  var name = strArr[strArr.length - 1];
+  var last = deleteSign(name).charAt(0).toUpperCase();
+  return last;
 }
 async function readNews(req, res) {
   let id = req.params.id;
@@ -224,22 +249,24 @@ async function readNews(req, res) {
   var type = types.tenTheLoai;
 
   const comments = await commentsModel.find({ idBanTin: id });
-  comments.sort(function(a, b) {
+  comments.sort(function (a, b) {
     return new Date(b.ngayBinhLuan) - new Date(a.ngayBinhLuan);
   });
 
-  const dataComments = comments.map(comment => {
+  const dataComments = comments.map((comment) => {
+    var firstChart = getLast(comment.hoTen);
     return {
       fullname: comment.hoTen,
+      firstChart: firstChart,
       phone: comment.sdt,
       email: comment.email,
       content: comment.binhLuan,
-      date: moment(comment.ngayBinhLuan).format("DD[-]MM[-]YYYY h:mm a")
+      date: moment(comment.ngayBinhLuan).format("DD[-]MM[-]YYYY h:mm a"),
     };
   });
   const commentsCount = await commentsModel.find({ idBanTin: id }).count();
 
-  const data = news.map(news => {
+  const data = news.map((news) => {
     return {
       title: news.tieuDe,
       epitomize: news.trichYeu,
@@ -249,32 +276,32 @@ async function readNews(req, res) {
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDang).format("h:mm a"),
       viewsCount: news.luotXem,
-      commentsCount: commentsCount
+      commentsCount: commentsCount,
     };
   });
 
   const relateNews = await newsModel.find({
     idChuDe: idTheme,
-    id: { $ne: id }
+    id: { $ne: id },
   });
-  relateNews.sort(function(a, b) {
+  relateNews.sort(function (a, b) {
     return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
   });
   var relate = getFirstImage(relateNews);
-  const dataRelateNews = relate.map(relate => {
+  const dataRelateNews = relate.map((relate) => {
     return {
       title: relate.tieuDe,
       id: relate.id,
       img: relate.firstImage,
-      viewsCount: relate.luotXem
+      viewsCount: relate.luotXem,
     };
   });
   const typesData = await typesModel.find({});
 
-  const dataType = typesData.map(type => {
+  const dataType = typesData.map((type) => {
     return {
       id: type.idTheLoai,
-      type: type.tenTheLoai
+      type: type.tenTheLoai,
     };
   });
   return res.render("news", {
@@ -285,7 +312,7 @@ async function readNews(req, res) {
     theme: theme,
     type: type,
     comments: dataComments,
-    permission: 1
+    permission: 1,
   });
 }
 async function comment(req, res) {
@@ -295,7 +322,7 @@ async function comment(req, res) {
     hoTen: req.body.fullname,
     email: req.body.email,
     sdt: req.body.phone,
-    binhLuan: req.body.content
+    binhLuan: req.body.content,
   });
   // res.redirect("/news/" + idBantin);
 }
@@ -305,16 +332,16 @@ async function search(req, res) {
   const search = await newsModel.find({
     daDuyet: true,
     deny: false,
-    $text: { $search: q }
+    $text: { $search: q },
   });
 
   var arr = getFirstImage(search);
 
-  arr.sort(function(a, b) {
+  arr.sort(function (a, b) {
     return new Date(a.date) - new Date(b.date);
   });
 
-  const data = arr.map(news => {
+  const data = arr.map((news) => {
     return {
       title: news.tieuDe,
       epitomize: news.trichYeu,
@@ -322,13 +349,13 @@ async function search(req, res) {
       id: news.id,
       img: news.firstImage,
       theme: news.chuDe,
-      viewsCount: news.luotXem
+      viewsCount: news.luotXem,
     };
   });
 
   return res.render("search", {
     homeHeader: normal,
-    data: data
+    data: data,
   });
 }
 
@@ -340,11 +367,11 @@ async function pagination(req, res) {
   var end = page * perPage;
   var news = await newsModel.find({ daDuyet: true, deny: false });
 
-  news.sort(function(a, b) {
+  news.sort(function (a, b) {
     return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
   });
   var arr = getFirstImage(news);
-  const data = arr.map(news => {
+  const data = arr.map((news) => {
     var date = news.ngayDuyet;
     var datetime = moment(date).fromNow();
     var x = datetime.split(" ").slice(1, 2);
@@ -358,7 +385,7 @@ async function pagination(req, res) {
       id: news.id,
       img: news.firstImage,
       theme: news.chuDe,
-      viewsCount: news.luotXem
+      viewsCount: news.luotXem,
     };
   });
   const realdata = data.slice(start, end);
@@ -370,7 +397,7 @@ async function getTypes(req, res) {
   const theme = await themesModel.find({ idTheLoai: id });
   var idChuDe = [];
   var name = [];
-  theme.forEach(function(item) {
+  theme.forEach(function (item) {
     idChuDe.push(item.idChuDe);
     name.push(item.tenChuDe);
   });
@@ -378,14 +405,14 @@ async function getTypes(req, res) {
   const news = await newsModel.find({
     idChuDe: idChuDe,
     daDuyet: true,
-    deny: false
+    deny: false,
   });
 
-  news.sort(function(a, b) {
+  news.sort(function (a, b) {
     return b.ngayDuyet - a.ngayDuyet;
   });
   var arr = getFirstImage(news);
-  const data = arr.map(news => {
+  const data = arr.map((news) => {
     return {
       title: news.tieuDe.slice(0, 80) + " ...",
       epitomize: news.trichYeu,
@@ -393,7 +420,7 @@ async function getTypes(req, res) {
       id: news.id,
       img: news.firstImage,
       theme: news.chuDe,
-      viewsCount: news.luotXem
+      viewsCount: news.luotXem,
     };
   });
 
@@ -402,14 +429,14 @@ async function getTypes(req, res) {
   var down = data.slice(4, 7);
   var rest = data.slice(7);
   const types = await typesModel.find({});
-  types.sort(function(a, b) {
+  types.sort(function (a, b) {
     return a.viTri - b.viTri;
   });
 
-  const dataType = types.map(type => {
+  const dataType = types.map((type) => {
     return {
       id: type.idTheLoai,
-      type: type.tenTheLoai
+      type: type.tenTheLoai,
     };
   });
 
@@ -424,23 +451,25 @@ async function getTypes(req, res) {
     main: main,
     right: right,
     down: down,
-    rest: rest
+    rest: rest,
   });
 }
 
 async function getComments(req, res) {
   let idBanTin = req.params.id;
   const comments = await commentsModel.find({ idBanTin: idBanTin });
-  comments.sort(function(a, b) {
+  comments.sort(function (a, b) {
     return new Date(b.date) - new Date(a.date);
   });
-  const dataComments = comments.map(comment => {
+  const dataComments = comments.map((comment) => {
+    var firstChart = getLast(comment.hoTen);
     return {
       fullname: comment.hoTen,
       phone: comment.sdt,
       email: comment.email,
       content: comment.binhLuan,
-      date: moment(comment.ngayBinhLuan).format("DD[-]MM[-]YYYY h:mm a")
+      firstChart: firstChart,
+      date: moment(comment.ngayBinhLuan).format("DD[-]MM[-]YYYY h:mm a"),
     };
   });
 
@@ -452,7 +481,7 @@ async function getNewsThemes(req, res) {
 
   const news = await newsModel.find({ idChuDe: id });
   var newsByThemes = getFirstImage(news);
-  const data = newsByThemes.map(news => {
+  const data = newsByThemes.map((news) => {
     return {
       title: news.tieuDe,
       epitomize: news.trichYeu,
@@ -461,13 +490,13 @@ async function getNewsThemes(req, res) {
       content: news.noiDung,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
       viewsCount: news.luotXem,
-      img: news.firstImage
+      img: news.firstImage,
     };
   });
 
   return res.render("themes", {
     layout: "news",
-    data: data
+    data: data,
   });
 }
 
@@ -481,5 +510,5 @@ module.exports = {
   pagination,
   getTypes,
   getComments,
-  getNewsThemes
+  getNewsThemes,
 };
