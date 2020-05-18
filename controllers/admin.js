@@ -34,7 +34,7 @@ function deleteSign(str) {
 // }
 function getFirstImage(data) {
   let regex = /<img.*?src="(.*?)"/;
-  data.forEach(function(item) {
+  data.forEach(function (item) {
     if (regex.exec(item.noiDung) == null) {
       item.firstImage = "/uploads/defaultvnpt.jpg";
     } else {
@@ -57,7 +57,7 @@ async function admin(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
@@ -69,18 +69,18 @@ async function adminNewPost(req, res) {
   var typesCount = await typesModel.count({});
   var themesCount = await themesModel.count({});
 
-  const dataTypes = types.map(types => {
+  const dataTypes = types.map((types) => {
     return {
       typesName: types.tenTheLoai,
-      id: types.idTheLoai
+      id: types.idTheLoai,
     };
   });
 
-  const dataThemes = themes.map(themes => {
+  const dataThemes = themes.map((themes) => {
     return {
       theme: themes.tenChuDe,
       id: themes.id,
-      idTheLoai: themes.idTheLoai
+      idTheLoai: themes.idTheLoai,
     };
   });
   return res.render("admin-newPost", {
@@ -91,7 +91,7 @@ async function adminNewPost(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
@@ -109,7 +109,7 @@ async function adminWriteNews(req, res, next) {
     hashtag: req.body.themes,
     tinNoiBat: req.body.checkedTypeNews,
     idChuDe: req.body.themes,
-    chuDe: themes.tenChuDe
+    chuDe: themes.tenChuDe,
   });
 
   res.locals.title = req.body.title;
@@ -119,16 +119,16 @@ async function sendmail(req, res) {
   var tieuDe = res.locals.title;
   var userEmail = await usersModel.find({
     PQ: "admin",
-    id: { $ne: res.locals.user.id }
+    id: { $ne: res.locals.user.id },
   });
 
-  userEmail.forEach(function(user) {
+  userEmail.forEach(function (user) {
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.user,
-        pass: process.env.pass
-      }
+        pass: process.env.pass,
+      },
     });
 
     var content = "";
@@ -180,10 +180,10 @@ async function sendmail(req, res) {
       from: "DeliMarvel",
       to: user.email,
       subject: "Yêu cầu xét duyệt",
-      html: content
+      html: content,
     };
 
-    transporter.sendMail(mailOptions, function(error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
@@ -202,19 +202,19 @@ async function adminApprove(req, res) {
   const news = await newsModel.find({
     daDuyet: false,
     deny: false,
-    idNguoiDang: { $ne: res.locals.user.id }
+    idNguoiDang: { $ne: res.locals.user.id },
   });
   var newsCount = await newsModel.count({ daDuyet: true, deny: false });
   var usersCount = await usersModel.count({});
   var typesCount = await typesModel.count({});
   var themesCount = await themesModel.count({});
 
-  news.sort(function(a, b) {
+  news.sort(function (a, b) {
     return new Date(b.ngayDang) - new Date(a.ngayDang);
   });
   var arr = getFirstImage(news);
 
-  const data = arr.map(news => {
+  const data = arr.map((news) => {
     if (news.tinNoiBat == true) {
       var newsKind = "Tin nổi bật";
     } else {
@@ -228,7 +228,7 @@ async function adminApprove(req, res) {
       img: news.firstImage,
       theme: news.chuDe,
       id: news.id,
-      kind: newsKind
+      kind: newsKind,
     };
   });
   return res.render("admin-approve", {
@@ -238,7 +238,7 @@ async function adminApprove(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 async function approvePost(req, res, next) {
@@ -250,8 +250,8 @@ async function approvePost(req, res, next) {
         daDuyet: true,
         ngayDuyet: Date.now(),
         idNguoiDuyet: res.locals.user.id,
-        tenNguoiDuyet: res.locals.user.tenDayDu
-      }
+        tenNguoiDuyet: res.locals.user.tenDayDu,
+      },
     }
   );
   var news = await newsModel.findOne({ id: id });
@@ -272,8 +272,8 @@ async function approveMail(req, res) {
     service: "gmail",
     auth: {
       user: process.env.user,
-      pass: process.env.pass
-    }
+      pass: process.env.pass,
+    },
   });
 
   var content = "";
@@ -323,10 +323,10 @@ async function approveMail(req, res) {
     from: "DeliMarvel",
     to: reciever.email,
     subject: "Phê Duyệt !!!",
-    html: content
+    html: content,
   };
 
-  transporter.sendMail(mailOptions, function(error, info) {
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
     } else {
@@ -358,8 +358,8 @@ async function denyMail(req, res) {
     service: "gmail",
     auth: {
       user: process.env.user,
-      pass: process.env.pass
-    }
+      pass: process.env.pass,
+    },
   });
 
   var content = "";
@@ -409,10 +409,10 @@ async function denyMail(req, res) {
     from: "DeliMarvel",
     to: reciever.email,
     subject: "Yêu cầu phê duyệt không được xác nhận",
-    html: content
+    html: content,
   };
 
-  transporter.sendMail(mailOptions, function(error, info) {
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
     } else {
@@ -431,13 +431,13 @@ async function adminType(req, res) {
   let type = await typesModel.find({});
   let stt = 0;
 
-  const data = type.map(type => {
+  const data = type.map((type) => {
     stt++;
     return {
       id: type.idTheLoai,
       Type: type.tenTheLoai,
       position: type.viTri,
-      STT: stt
+      STT: stt,
     };
   });
   return res.render("admin-type", {
@@ -448,7 +448,7 @@ async function adminType(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 async function adminAddType(req, res) {
@@ -459,7 +459,7 @@ async function adminAddType(req, res) {
     idNguoiTao: res.locals.user.id,
     tenNguoiTao: res.locals.user.tenDayDu,
     tenTheLoai: req.body.addType,
-    viTri: viTri
+    viTri: viTri,
   });
 
   res.redirect("/admin/type");
@@ -474,19 +474,19 @@ async function adminTheme(req, res) {
   let types = await typesModel.find({});
   let stt = 0;
 
-  const dataTypes = types.map(type => {
+  const dataTypes = types.map((type) => {
     return {
       id: type.idTheLoai,
-      type: type.tenTheLoai
+      type: type.tenTheLoai,
     };
   });
-  const data = theme.map(theme => {
+  const data = theme.map((theme) => {
     stt++;
     return {
       theme: theme.tenChuDe,
       id: theme.idChuDe,
       img: theme.img,
-      STT: stt
+      STT: stt,
     };
   });
   return res.render("admin-theme", {
@@ -498,7 +498,7 @@ async function adminTheme(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
@@ -506,10 +506,7 @@ async function adminAddThemes(req, res) {
   if (req.file === undefined) {
     req.body.avatarTheme = "uploads/default.jpg";
   } else if (req.file.path) {
-    req.body.avatarTheme = req.file.path
-      .split("/")
-      .slice(1)
-      .join("/");
+    req.body.avatarTheme = req.file.path.split("/").slice(1).join("/");
   }
 
   let urlTheme = "/" + req.body.avatarTheme;
@@ -518,7 +515,7 @@ async function adminAddThemes(req, res) {
     tenNguoiTao: res.locals.user.tenDayDu,
     tenChuDe: req.body.addTheme,
     img: urlTheme,
-    idTheLoai: req.body.typeSelected
+    idTheLoai: req.body.typeSelected,
   });
 
   res.redirect("/admin/theme");
@@ -546,7 +543,7 @@ async function adminProfile(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
@@ -568,7 +565,7 @@ async function adminAccount(req, res) {
   var themesCount = await themesModel.count({});
   let stt = 0;
 
-  const data = userAccount.map(user => {
+  const data = userAccount.map((user) => {
     stt++;
     if (user.khoa == true) {
       var lock = "danger";
@@ -589,7 +586,7 @@ async function adminAccount(req, res) {
       id: user.id,
       lock: lock,
       icon: icon,
-      STT: stt
+      STT: stt,
     };
   });
 
@@ -600,7 +597,7 @@ async function adminAccount(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
@@ -615,7 +612,7 @@ async function adminRegister(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
@@ -656,7 +653,7 @@ function adminAddAccount(req, res) {
     gioiTinh: req.body.checkedGender,
     cmnd: req.body.CMND,
     idNguoiTao: res.locals.user.id,
-    PQ: req.body.permission
+    PQ: req.body.permission,
   });
   res.redirect("/admin/account");
 }
@@ -672,7 +669,7 @@ async function adminChangePass(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 async function adminChange(req, res) {
@@ -688,7 +685,7 @@ async function adminChange(req, res) {
         return res.render("admin-changePass", {
           layout: "admin",
           fullname: res.locals.user.tenDayDu,
-          errConfirm: "Mật khẩu không trùng khớp"
+          errConfirm: "Mật khẩu không trùng khớp",
         });
       }
       user.password = confirmNewPassword;
@@ -696,13 +693,13 @@ async function adminChange(req, res) {
       return res.render("admin-changePass", {
         layout: "admin",
         fullname: res.locals.user.tenDayDu,
-        success: "Đổi Mật Khẩu Thành Công"
+        success: "Đổi Mật Khẩu Thành Công",
       });
     } else {
       return res.render("admin-changePass", {
         layout: "admin",
         fullname: res.locals.user.tenDayDu,
-        err: "Mật khẩu cũ không chính xác"
+        err: "Mật khẩu cũ không chính xác",
       });
     }
   }
@@ -715,7 +712,7 @@ async function adminAdvertise(req, res) {
   var typesCount = await typesModel.count({});
   var themesCount = await themesModel.count({});
   let stt = 0;
-  const data = advertise.map(advertise => {
+  const data = advertise.map((advertise) => {
     stt++;
     return {
       STT: stt,
@@ -725,7 +722,7 @@ async function adminAdvertise(req, res) {
       link: advertise.link,
       position: advertise.viTri,
       postedBy: advertise.tenNguoiDang,
-      date: moment(advertise.ngayDang).format("DD[-]MM[-]YYYY")
+      date: moment(advertise.ngayDang).format("DD[-]MM[-]YYYY"),
     };
   });
   return res.render("admin-advertise", {
@@ -735,7 +732,7 @@ async function adminAdvertise(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
@@ -744,10 +741,7 @@ async function adminAddAdvertise(req, res) {
   var position = counts + 1;
   let describe = req.body.describe;
   let link = req.body.link;
-  req.body.advertise = req.file.path
-    .split("/")
-    .slice(1)
-    .join("/");
+  req.body.advertise = req.file.path.split("/").slice(1).join("/");
   let urlAdvertise = "/" + req.body.advertise;
 
   advertiseModel.create({
@@ -756,7 +750,7 @@ async function adminAddAdvertise(req, res) {
     link: link,
     viTri: position,
     tenNguoiDang: res.locals.user.tenDayDu,
-    idNguoiDang: res.locals.user.id
+    idNguoiDang: res.locals.user.id,
   });
 
   res.redirect("/admin/advertise");
@@ -768,12 +762,12 @@ async function adminBanner(req, res) {
   var usersCount = await usersModel.count({});
   var typesCount = await typesModel.count({});
   var themesCount = await themesModel.count({});
-  banner.sort(function(a, b) {
+  banner.sort(function (a, b) {
     return new Date(b.ngayDang) - new Date(a.ngayDang);
   });
 
   let stt = 0;
-  const data = banner.map(banner => {
+  const data = banner.map((banner) => {
     stt++;
     return {
       STT: stt,
@@ -781,7 +775,7 @@ async function adminBanner(req, res) {
       describe: banner.motaBanner,
       url: banner.urlHinhAnh,
       postedBy: banner.tenNguoiDang,
-      date: moment(banner.ngayDang).format("DD[-]MM[-]YYYY h:mm a")
+      date: moment(banner.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
     };
   });
   return res.render("admin-banner", {
@@ -791,22 +785,19 @@ async function adminBanner(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 function adminAddBanner(req, res) {
   let describe = req.body.describe;
-  req.body.banner = req.file.path
-    .split("/")
-    .slice(1)
-    .join("/");
+  req.body.banner = req.file.path.split("/").slice(1).join("/");
   let urlBanner = "/" + req.body.banner;
 
   bannersModel.create({
     motaBanner: describe,
     urlHinhAnh: urlBanner,
     idNguoiDang: res.locals.user.id,
-    tenNguoiDang: res.locals.user.tenDayDu
+    tenNguoiDang: res.locals.user.tenDayDu,
   });
 
   res.redirect("/admin/banner");
@@ -830,7 +821,7 @@ async function readNews(req, res) {
   var theme = themes.tenChuDe;
   var type = types.tenTheLoai;
 
-  const data = news.map(news => {
+  const data = news.map((news) => {
     return {
       title: news.tieuDe,
       epitomize: news.trichYeu,
@@ -838,7 +829,7 @@ async function readNews(req, res) {
       content: news.noiDung,
       date: moment(news.ngayDang).format("DD[-]MM[-]YYYY"),
       time: moment(news.ngayDang).format("h:mm a"),
-      admin: news.id
+      admin: news.id,
     };
   });
 
@@ -847,7 +838,7 @@ async function readNews(req, res) {
     fullname: res.locals.user.tenDayDu,
     data: data,
     theme: theme,
-    type: type
+    type: type,
   });
 }
 async function deleteThemes(req, res) {
@@ -867,32 +858,32 @@ async function getTheme(req, res) {
   let id = req.params.id;
   const theme = await themesModel.find({ idChuDe: id });
 
-  const data = theme.map(theme => {
+  const data = theme.map((theme) => {
     return {
       theme: theme.tenChuDe,
-      img: theme.img
+      img: theme.img,
     };
   });
   return res.render("admin-update", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
-    theme: data
+    theme: data,
   });
 }
 async function getType(req, res) {
   let id = req.params.id;
   const type = await typesModel.find({ idTheLoai: id });
 
-  const types = type.map(type => {
+  const types = type.map((type) => {
     return {
       type: type.tenTheLoai,
-      position: type.viTri
+      position: type.viTri,
     };
   });
   return res.render("admin-updateType", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
-    type: types
+    type: types,
   });
 }
 async function updateTheme(req, res) {
@@ -904,12 +895,7 @@ async function updateTheme(req, res) {
   if (req.file === undefined) {
     req.body.avatarChanged = oldImg;
   } else if (req.file.path) {
-    req.body.avatarChanged =
-      "/" +
-      req.file.path
-        .split("/")
-        .slice(1)
-        .join("/");
+    req.body.avatarChanged = "/" + req.file.path.split("/").slice(1).join("/");
   }
 
   let urlTheme = req.body.avatarChanged;
@@ -922,8 +908,8 @@ async function updateTheme(req, res) {
         img: urlTheme,
         idNguoiCapNhat: res.locals.user.id,
         tenNguoiCapNhat: res.locals.user.tenDayDu,
-        ngayCapNhat: Date.now()
-      }
+        ngayCapNhat: Date.now(),
+      },
     }
   );
   res.redirect("/admin/theme");
@@ -933,17 +919,17 @@ async function getAdvertise(req, res) {
   let id = req.params.id;
   const advertise = await advertiseModel.find({ idQC: id });
 
-  const data = advertise.map(advertise => {
+  const data = advertise.map((advertise) => {
     return {
       describe: advertise.motaQC,
       link: advertise.link,
-      position: advertise.viTri
+      position: advertise.viTri,
     };
   });
   return res.render("admin-updateAdvertise", {
     layout: "admin",
     fullname: res.locals.user.tenDayDu,
-    advertise: data
+    advertise: data,
   });
 }
 
@@ -957,8 +943,8 @@ async function updateAdvertise(req, res) {
     { viTri: newPosition },
     {
       $set: {
-        viTri: oldPosition
-      }
+        viTri: oldPosition,
+      },
     }
   );
   await advertiseModel.updateOne(
@@ -967,8 +953,8 @@ async function updateAdvertise(req, res) {
       $set: {
         motaQC: req.body.newDescribe,
         link: req.body.newLink,
-        viTri: newPosition
-      }
+        viTri: newPosition,
+      },
     }
   );
 
@@ -986,8 +972,8 @@ async function updateType(req, res) {
     { viTri: newPosition },
     {
       $set: {
-        viTri: oldPosition
-      }
+        viTri: oldPosition,
+      },
     }
   );
   await typesModel.updateOne(
@@ -998,8 +984,8 @@ async function updateType(req, res) {
         viTri: newPosition,
         idNguoiCapNhat: res.locals.user.id,
         tenNguoiCapNhat: res.locals.user.tenDayDu,
-        ngayCapNhat: Date.now()
-      }
+        ngayCapNhat: Date.now(),
+      },
     }
   );
   res.redirect("/admin/type");
@@ -1012,10 +998,10 @@ async function comment(req, res) {
   var themesCount = await themesModel.count({});
   let comments = await commentModel.find({});
   let stt = 0;
-  comments.sort(function(a, b) {
+  comments.sort(function (a, b) {
     return new Date(b.ngayBinhLuan) - new Date(a.ngayBinhLuan);
   });
-  const data = comments.map(comment => {
+  const data = comments.map((comment) => {
     stt++;
     return {
       id: comment.id,
@@ -1025,7 +1011,7 @@ async function comment(req, res) {
       email: comment.email,
       content: comment.binhLuan,
       date: moment(comment.ngayBinhLuan).format("DD[-]MM[-]YYYY"),
-      STT: stt
+      STT: stt,
     };
   });
   return res.render("admin-comments", {
@@ -1036,7 +1022,7 @@ async function comment(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 async function deleteComment(req, res) {
@@ -1048,18 +1034,18 @@ async function deleteComment(req, res) {
 async function adminPosted(req, res) {
   const news = await newsModel.find({
     daDuyet: true,
-    deny: false
+    deny: false,
   });
   var newsCount = await newsModel.count({ daDuyet: true, deny: false });
   var usersCount = await usersModel.count({});
   var typesCount = await typesModel.count({});
   var themesCount = await themesModel.count({});
-  news.sort(function(a, b) {
+  news.sort(function (a, b) {
     return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
   });
 
   var arr = getFirstImage(news);
-  const data = arr.map(news => {
+  const data = arr.map((news) => {
     if (news.ngayCapNhat == null) {
       news.ngayCapNhat = null;
     }
@@ -1075,16 +1061,18 @@ async function adminPosted(req, res) {
       dateApproved: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
       editedBy: news.tenNguoiCapNhat,
       dateEdited: moment(news.ngayCapNhat).format("DD[-]MM[-]YYYY h:mm a"),
-      viewsCount: news.luotXem
+      viewsCount: news.luotXem,
     };
   });
 
   var page = [];
 
   var count = await newsModel.count({ daDuyet: true, deny: false });
-  var result = count / 4;
+  var result = count / 5;
 
   var loop = Math.ceil(result);
+
+  console.log(loop);
   for (var i = 1; i <= loop; i++) {
     page.push(i);
   }
@@ -1096,7 +1084,7 @@ async function adminPosted(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 async function pagination(req, res) {
@@ -1107,11 +1095,11 @@ async function pagination(req, res) {
   var end = page * perPage;
   var news = await newsModel.find({ daDuyet: true, deny: false });
 
-  news.sort(function(a, b) {
+  news.sort(function (a, b) {
     return new Date(b.ngayDuyet) - new Date(a.ngayDuyet);
   });
   var arr = getFirstImage(news);
-  const data = arr.map(news => {
+  const data = arr.map((news) => {
     if (news.ngayCapNhat == null) {
       news.ngayCapNhat = null;
     }
@@ -1126,7 +1114,7 @@ async function pagination(req, res) {
       dateApproved: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
       editedBy: news.tenNguoiCapNhat,
       dateEdited: moment(news.ngayCapNhat).format("DD[-]MM[-]YYYY h:mm a"),
-      viewsCount: news.luotXem
+      viewsCount: news.luotXem,
     };
   });
   const realdata = data.slice(start, end);
@@ -1145,7 +1133,7 @@ async function editNews(req, res) {
   var typesCount = await typesModel.count({});
   var themesCount = await themesModel.count({});
 
-  const data = news.map(news => {
+  const data = news.map((news) => {
     return {
       id: news.id,
       title: news.tieuDe,
@@ -1153,21 +1141,21 @@ async function editNews(req, res) {
       content: news.noiDung,
       source: news.nguon,
       author: news.tacGia,
-      kind: news.tinNoiBat
+      kind: news.tinNoiBat,
     };
   });
-  const dataTypes = types.map(types => {
+  const dataTypes = types.map((types) => {
     return {
       typesName: types.tenTheLoai,
-      id: types.idTheLoai
+      id: types.idTheLoai,
     };
   });
 
-  const dataThemes = themes.map(themes => {
+  const dataThemes = themes.map((themes) => {
     return {
       theme: themes.tenChuDe,
       id: themes.id,
-      idTheLoai: themes.idTheLoai
+      idTheLoai: themes.idTheLoai,
     };
   });
 
@@ -1180,7 +1168,7 @@ async function editNews(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
@@ -1206,8 +1194,8 @@ async function updateNews(req, res) {
         tinNoiBat: kind,
         idNguoiCapNhat: res.locals.user.id,
         tenNguoiCapNhat: res.locals.user.tenDayDu,
-        ngayCapNhat: Date.now()
-      }
+        ngayCapNhat: Date.now(),
+      },
     }
   );
 
@@ -1258,18 +1246,18 @@ async function search(req, res) {
   const search = await newsModel.find({
     daDuyet: true,
     deny: false,
-    $text: { $search: q }
+    $text: { $search: q },
   });
   if (search == "") {
     var message = "Không tìm thấy bài viết";
   }
   var arr = getFirstImage(search);
 
-  arr.sort(function(a, b) {
+  arr.sort(function (a, b) {
     return new Date(a.date) - new Date(b.date);
   });
 
-  const data = arr.map(news => {
+  const data = arr.map((news) => {
     if (news.ngayCapNhat == null) {
       news.ngayCapNhat = null;
     }
@@ -1285,7 +1273,7 @@ async function search(req, res) {
       dateApproved: moment(news.ngayDuyet).format("DD[-]MM[-]YYYY h:mm a"),
       editedBy: news.tenNguoiCapNhat,
       dateEdited: moment(news.ngayCapNhat).format("DD[-]MM[-]YYYY h:mm a"),
-      viewsCount: news.luotXem
+      viewsCount: news.luotXem,
     };
   });
 
@@ -1297,7 +1285,7 @@ async function search(req, res) {
     usersCount: usersCount,
     typesCount: typesCount,
     themesCount: themesCount,
-    message: message
+    message: message,
   });
 }
 
@@ -1309,20 +1297,20 @@ async function searchType(req, res) {
 
   var q = req.query.search;
   const search = await typesModel.find({
-    $text: { $search: q }
+    $text: { $search: q },
   });
   if (search == "") {
     var message = "Không tìm thấy thể loại";
   }
   let stt = 0;
 
-  const data = search.map(type => {
+  const data = search.map((type) => {
     stt++;
     return {
       id: type.idTheLoai,
       Type: type.tenTheLoai,
       position: type.viTri,
-      STT: stt
+      STT: stt,
     };
   });
   return res.render("admin-type", {
@@ -1334,7 +1322,7 @@ async function searchType(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
@@ -1345,7 +1333,7 @@ async function searchTheme(req, res) {
   var themesCount = await themesModel.count({});
   var q = req.query.search;
   const searchTheme = await themesModel.find({
-    $text: { $search: q }
+    $text: { $search: q },
   });
   if (searchTheme == "") {
     var message = "Không tìm thấy chủ đề";
@@ -1353,18 +1341,18 @@ async function searchTheme(req, res) {
   let types = await typesModel.find({});
   let stt = 0;
 
-  const dataTypes = types.map(type => {
+  const dataTypes = types.map((type) => {
     return {
       id: type.idTheLoai,
-      type: type.tenTheLoai
+      type: type.tenTheLoai,
     };
   });
-  const data = searchTheme.map(theme => {
+  const data = searchTheme.map((theme) => {
     stt++;
     return {
       theme: theme.tenChuDe,
       id: theme.idChuDe,
-      STT: stt
+      STT: stt,
     };
   });
   return res.render("admin-theme", {
@@ -1377,13 +1365,13 @@ async function searchTheme(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 async function searchAccount(req, res) {
   var q = req.query.search;
   const searchAccount = await usersModel.find({
-    $text: { $search: q }
+    $text: { $search: q },
   });
   if (searchAccount == "") {
     var message = "Không tìm thấy Tài khoản";
@@ -1394,7 +1382,7 @@ async function searchAccount(req, res) {
   var themesCount = await themesModel.count({});
   let stt = 0;
 
-  const data = searchAccount.map(user => {
+  const data = searchAccount.map((user) => {
     stt++;
     if (user.khoa == true) {
       var lock = "danger";
@@ -1415,7 +1403,7 @@ async function searchAccount(req, res) {
       id: user.id,
       lock: lock,
       icon: icon,
-      STT: stt
+      STT: stt,
     };
   });
 
@@ -1427,13 +1415,13 @@ async function searchAccount(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 async function searchAdvertise(req, res) {
   var q = req.query.search;
   const searchAdvertise = await advertiseModel.find({
-    $text: { $search: q }
+    $text: { $search: q },
   });
   if (searchAdvertise == "") {
     var message = "Không tìm thấy quảng cáo tương ứng";
@@ -1443,7 +1431,7 @@ async function searchAdvertise(req, res) {
   var typesCount = await typesModel.count({});
   var themesCount = await themesModel.count({});
   let stt = 0;
-  const data = searchAdvertise.map(advertise => {
+  const data = searchAdvertise.map((advertise) => {
     stt++;
     return {
       STT: stt,
@@ -1453,7 +1441,7 @@ async function searchAdvertise(req, res) {
       link: advertise.link,
       position: advertise.viTri,
       postedBy: advertise.tenNguoiDang,
-      date: moment(advertise.ngayDang).format("DD[-]MM[-]YYYY")
+      date: moment(advertise.ngayDang).format("DD[-]MM[-]YYYY"),
     };
   });
   return res.render("admin-advertise", {
@@ -1464,14 +1452,14 @@ async function searchAdvertise(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
 async function searchBanner(req, res) {
   var q = req.query.search;
   const searchBanner = await bannersModel.find({
-    $text: { $search: q }
+    $text: { $search: q },
   });
   if (searchAdvertise == "") {
     var message = "Không tìm thấy banner tương ứng";
@@ -1480,12 +1468,12 @@ async function searchBanner(req, res) {
   var usersCount = await usersModel.count({});
   var typesCount = await typesModel.count({});
   var themesCount = await themesModel.count({});
-  searchBanner.sort(function(a, b) {
+  searchBanner.sort(function (a, b) {
     return new Date(b.ngayDang) - new Date(a.ngayDang);
   });
 
   let stt = 0;
-  const data = searchBanner.map(banner => {
+  const data = searchBanner.map((banner) => {
     stt++;
     return {
       STT: stt,
@@ -1493,7 +1481,7 @@ async function searchBanner(req, res) {
       describe: banner.motaBanner,
       url: banner.urlHinhAnh,
       postedBy: banner.tenNguoiDang,
-      date: moment(banner.ngayDang).format("DD[-]MM[-]YYYY h:mm a")
+      date: moment(banner.ngayDang).format("DD[-]MM[-]YYYY h:mm a"),
     };
   });
   return res.render("admin-banner", {
@@ -1504,7 +1492,7 @@ async function searchBanner(req, res) {
     newsCount: newsCount,
     usersCount: usersCount,
     typesCount: typesCount,
-    themesCount: themesCount
+    themesCount: themesCount,
   });
 }
 
@@ -1519,8 +1507,9 @@ async function resetPassword(req, res) {
     { id: id },
     {
       $set: {
-        password: "$2a$10$lgymVFN7wgXIOgp681YZQeHUTM3Ty4oONgJi8YQbQFuET9jlUAQJ6"
-      }
+        password:
+          "$2a$10$lgymVFN7wgXIOgp681YZQeHUTM3Ty4oONgJi8YQbQFuET9jlUAQJ6",
+      },
     }
   );
 
@@ -1542,8 +1531,8 @@ async function unload(req, res, next) {
     {
       $set: {
         daDuyet: false,
-        deny: true
-      }
+        deny: true,
+      },
     }
   );
 
@@ -1562,8 +1551,8 @@ async function unloadMail(req, res) {
     service: "gmail",
     auth: {
       user: process.env.user,
-      pass: process.env.pass
-    }
+      pass: process.env.pass,
+    },
   });
 
   var content = "";
@@ -1614,10 +1603,10 @@ async function unloadMail(req, res) {
     from: "DeliMarvel",
     to: reciever.email,
     subject: "Gỡ bài viết",
-    html: content
+    html: content,
   };
 
-  transporter.sendMail(mailOptions, function(error, info) {
+  transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
     } else {
@@ -1682,5 +1671,5 @@ module.exports = {
   searchBanner,
   resetPassword,
   unload,
-  unloadMail
+  unloadMail,
 };

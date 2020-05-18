@@ -16,6 +16,12 @@ function getIDThemes(arr) {
   }
   return temp;
 }
+function getLast(str) {
+  var strArr = str.split(" ");
+  var name = strArr[strArr.length - 1];
+  var last = deleteSign(name).charAt(0).toUpperCase();
+  return last;
+}
 function getIDArrThemes(arr) {
   var themes = [];
   for (var x of arr) {
@@ -41,7 +47,7 @@ async function home(req, res) {
   if (token) {
     let id = token.payload.id;
     var user = await usersModel.findOne({ id: id });
-    var name = user.tenDayDu;
+    var name = getLast(user.tenDayDu);
     if (user.PQ == "admin") {
       var adminHeader = 1;
     } else if (user.PQ == "editor") {
@@ -87,7 +93,14 @@ async function home(req, res) {
     var date = news.ngayDuyet;
     var datetime = moment(date).fromNow();
     var x = datetime.split(" ").slice(1, 2);
-    if (x == "days" || x == "day") {
+    if (
+      x == "days" ||
+      x == "day" ||
+      x == "month" ||
+      x == "months" ||
+      x == "year" ||
+      x == "years"
+    ) {
       datetime = moment(date).format("DD[-]MM[-]YYYY h:mm a");
     }
 
@@ -261,18 +274,12 @@ function deleteSign(str) {
   return str.toLowerCase().replace(/ /g, "+");
 }
 
-function getLast(str) {
-  var strArr = str.split(" ");
-  var name = strArr[strArr.length - 1];
-  var last = deleteSign(name).charAt(0).toUpperCase();
-  return last;
-}
 async function readNews(req, res) {
   let token = jwt.decode(req.cookies.ID, process.env.SECRET_KEY);
   if (token) {
     let id = token.payload.id;
     var user = await usersModel.findOne({ id: id });
-    var name = user.tenDayDu;
+    var name = getLast(user.tenDayDu);
     if (user.PQ == "admin") {
       var adminHeader = 1;
     } else if (user.PQ == "editor") {
@@ -440,7 +447,14 @@ async function pagination(req, res) {
     var date = news.ngayDuyet;
     var datetime = moment(date).fromNow();
     var x = datetime.split(" ").slice(1, 2);
-    if (x == "days" || x == "day") {
+    if (
+      x == "days" ||
+      x == "day" ||
+      x == "month" ||
+      x == "months" ||
+      x == "year" ||
+      x == "years"
+    ) {
       datetime = moment(date).format("DD[-]MM[-]YYYY h:mm a");
     }
     return {
