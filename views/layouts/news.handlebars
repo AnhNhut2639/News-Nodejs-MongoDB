@@ -25,10 +25,15 @@
 <body data-spy="scroll" data-target="#navbar-example">
 
     <div id="preloader"></div>
-    {{!-- {{#if homeHeader}}
+    {{#if adminHeader}}
+    {{>admin/header}}
+    {{/if}}
+    {{#if editorHeader}}
+    {{>editor/header}}
+    {{/if}}
+    {{#if homeHeader}}
     {{>site/header}}
-    {{/if}} --}}
-    {{>site/header}}
+    {{/if}}
     {{{ body }}}
     {{> admin/admin-footer }}
 

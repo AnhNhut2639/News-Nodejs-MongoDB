@@ -16,6 +16,13 @@ function getIDThemes(arr) {
   }
   return temp;
 }
+function getIDArrThemes(arr) {
+  var themes = [];
+  for (var x of arr) {
+    themes.push(x.idChuDe);
+  }
+  return themes;
+}
 function getFirstImage(data) {
   let regex = /<img.*?src="(.*?)"/;
   data.forEach(function (item) {
@@ -183,6 +190,30 @@ async function home(req, res) {
     };
   });
 
+  const dataThemes = await themesModel.find({
+    idTheLoai: "7e971381-39a5-4cb6-bf01-f5e14b7b51ed",
+  });
+
+  const arrIDThemes = getIDArrThemes(dataThemes);
+
+  const internalNews = await newsModel
+    .find({
+      idChuDe: arrIDThemes,
+    })
+    .limit(5);
+  internalNews.sort(function (a, b) {
+    return new Date(b.ngayDang) - new Date(a.ngayDang);
+  });
+  var arrInternalNews = getFirstImage(internalNews);
+  const internal = arrInternalNews.map((news) => {
+    return {
+      title: news.tieuDe,
+      id: news.id,
+      img: news.firstImage,
+      theme: news.chuDe,
+    };
+  });
+
   return res.render("home", {
     data: data.slice(0, 10),
     dataType: limitTypes,
@@ -194,6 +225,7 @@ async function home(req, res) {
     advertise: dataAdvertise,
     mostViews: dataViewsCount,
     access: dataAccess,
+    internalNews: internal,
     ip: address,
     adminHeader: adminHeader,
     editorHeader: editorHeader,
@@ -236,6 +268,19 @@ function getLast(str) {
   return last;
 }
 async function readNews(req, res) {
+  let token = jwt.decode(req.cookies.ID, process.env.SECRET_KEY);
+  if (token) {
+    let id = token.payload.id;
+    var user = await usersModel.findOne({ id: id });
+    var name = user.tenDayDu;
+    if (user.PQ == "admin") {
+      var adminHeader = 1;
+    } else if (user.PQ == "editor") {
+      var editorHeader = 1;
+    }
+  } else {
+    var normal = 1;
+  }
   let id = req.params.id;
   await newsModel.updateOne({ id: id }, { $inc: { luotXem: +1 } });
   const news = await newsModel.find({ id: id });
@@ -296,23 +341,43 @@ async function readNews(req, res) {
       viewsCount: relate.luotXem,
     };
   });
-  const typesData = await typesModel.find({});
+  // const typesData = await typesModel.find({});
 
-  const dataType = typesData.map((type) => {
+  // const dataType = typesData.map((type) => {
+  //   return {
+  //     id: type.idTheLoai,
+  //     type: type.tenTheLoai,
+  //   };
+  // });
+
+  const typesSelect = await typesModel.find({});
+  typesSelect.sort(function (a, b) {
+    return a.viTri - b.viTri;
+  });
+
+  const dataType = typesSelect.map((type) => {
     return {
       id: type.idTheLoai,
       type: type.tenTheLoai,
     };
   });
+
+  var limitTypes = dataType.slice(0, 10);
+  var restTypes = dataType.slice(10);
   return res.render("news", {
     layout: "news",
     data: data,
-    dataType: dataType,
+    dataType: limitTypes,
+    restTypes: restTypes,
     relateNews: dataRelateNews.slice(0, 6),
     theme: theme,
     type: type,
     comments: dataComments,
     permission: 1,
+    adminHeader: adminHeader,
+    editorHeader: editorHeader,
+    homeHeader: normal,
+    fullname: name,
   });
 }
 async function comment(req, res) {

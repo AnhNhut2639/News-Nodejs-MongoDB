@@ -3,75 +3,16 @@
     <div class="section-heading">
         <h5>Tin Nội Bộ</h5>
     </div>
+    {{#each internalNews}}
+    <!-- Single Blog Post -->
+    <div class="single-blog-post d-flex">
+        <div class="post-thumbnail">
+            <img src="{{this.img}}" alt="">
+        </div>
+        <div class="post-content">
+            <a href="/news/{{this.id}}" class="post-title">{{this.title}}</a>
+        </div>
+    </div>
+    {{/each}}
 
-    <!-- Single Blog Post -->
-    <div class="single-blog-post d-flex">
-        <div class="post-thumbnail">
-            <img src="images/NoiBo/Dataroaming.jpg" alt="">
-        </div>
-        <div class="post-content">
-            <a href="post.html" class="post-title">Gói Data Roaming không giới hạn dung lượng của VinaPhone</a>
-            {{!-- <div class="post-meta d-flex justify-content-between">
-                <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 34</a>
-                <a href="#"><i class="fa far fa-comments" aria-hidden="true"></i>5</a>
-                <a></a>
-            </div> --}}
-        </div>
-    </div>
-    <!-- Single Blog Post -->
-    <div class="single-blog-post d-flex">
-        <div class="post-thumbnail">
-            <img src="images/NoiBo/Dataroaming.jpg" alt="">
-        </div>
-        <div class="post-content">
-            <a href="post.html" class="post-title">Gói Data Roaming không giới hạn dung lượng của VinaPhone</a>
-            {{!-- <div class="post-meta d-flex justify-content-between">
-                <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 34</a>
-                <a href="#"><i class="fa far fa-star" aria-hidden="true"></i>5</a>
-                <a></a>
-            </div> --}}
-        </div>
-    </div>
-    <!-- Single Blog Post -->
-    <div class="single-blog-post d-flex">
-        <div class="post-thumbnail">
-            <img src="images/NoiBo/Dataroaming.jpg" alt="">
-        </div>
-        <div class="post-content">
-            <a href="post.html" class="post-title">Gói Data Roaming không giới hạn dung lượng của VinaPhone</a>
-            {{!-- <div class="post-meta d-flex justify-content-between">
-                <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 34</a>
-                <a href="#"><i class="fa far fa-star" aria-hidden="true"></i>5</a>
-                <a></a>
-            </div> --}}
-        </div>
-    </div>
-    <!-- Single Blog Post -->
-    <div class="single-blog-post d-flex">
-        <div class="post-thumbnail">
-            <img src="images/NoiBo/Dataroaming.jpg" alt="">
-        </div>
-        <div class="post-content">
-            <a href="post.html" class="post-title">Gói Data Roaming không giới hạn dung lượng của VinaPhone</a>
-            {{!-- <div class="post-meta d-flex justify-content-between">
-                <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 34</a>
-                <a href="#"><i class="fa far fa-star" aria-hidden="true"></i>5</a>
-                <a></a>
-            </div> --}}
-        </div>
-    </div>
-    <!-- Single Blog Post -->
-    <div class="single-blog-post d-flex">
-        <div class="post-thumbnail">
-            <img src="images/NoiBo/Dataroaming.jpg" alt="">
-        </div>
-        <div class="post-content">
-            <a href="post.html" class="post-title">Gói Data Roaming không giới hạn dung lượng của VinaPhone</a>
-            {{!-- <div class="post-meta d-flex justify-content-between">
-                <a href="#"><i class="fa fa-eye" aria-hidden="true"></i> 34</a>
-                <a href="#"><i class="fa far fa-star" aria-hidden="true"></i>5</a>
-                <a></a>
-            </div> --}}
-        </div>
-    </div>
 </div>
