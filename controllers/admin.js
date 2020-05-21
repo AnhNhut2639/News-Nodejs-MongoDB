@@ -1072,7 +1072,6 @@ async function adminPosted(req, res) {
 
   var loop = Math.ceil(result);
 
-  console.log(loop);
   for (var i = 1; i <= loop; i++) {
     page.push(i);
   }

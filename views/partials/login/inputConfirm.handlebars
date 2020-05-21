@@ -5,22 +5,20 @@
                 <div class="login-content bg-white p-30 box-shadow">
                     <!-- Section Title -->
                     <div class="section-heading">
-                        <h5>Đăng Nhập</h5>
+                        <h5>Điền thông tin xác nhận</h5>
                     </div>
 
 
-                    <form action="/login" method="post">
+                    <form action="/login/forgot" method="post">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="username" id="exampleInputEmail1"
-                                placeholder="Vui lòng nhập tài khoản" value={{values}}>
+                            <input type="text" class="form-control" name="accountForgot" id="exampleInputEmail1"
+                                placeholder="Nhập tài khoản" value={{accountForgot}}>
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" name="password" id="exampleInputPassword1"
-                                placeholder="Mật khẩu">
+                            <input type="text" class="form-control" name="phoneForgot" id="exampleInputPassword1"
+                                placeholder="Số điện thoại của tài khoản" value="{{phoneForgot}}">
                         </div>
-                        <div class="form-group">
-                            <a href="login/forgot">Quên mật khẩu</a>
-                        </div>
+
                         <p>
                             {{#each erorrs}}
                             <div class="alert alert-danger" role="alert">
@@ -29,7 +27,7 @@
                             {{/each}}
                         </p>
 
-                        <button type="submit" class="btn mag-btn mt-30">Đăng Nhập</button>
+                        <button type="submit" class="btn mag-btn mt-30">Xác nhận</button>
                     </form>
 
                 </div>

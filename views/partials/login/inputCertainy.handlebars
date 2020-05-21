@@ -5,22 +5,19 @@
                 <div class="login-content bg-white p-30 box-shadow">
                     <!-- Section Title -->
                     <div class="section-heading">
-                        <h5>Đăng Nhập</h5>
+                        <h5>Xác nhận mã xác thực</h5>
                     </div>
 
 
-                    <form action="/login" method="post">
+
+                    <form action="/login/certainity" method="post">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="username" id="exampleInputEmail1"
-                                placeholder="Vui lòng nhập tài khoản" value={{values}}>
+                            <input type="text" class="form-control" name="certainityCode" id="exampleInputEmail1"
+                                placeholder="Nhập mã xác thực" value={{verifyCode}}>
                         </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" name="password" id="exampleInputPassword1"
-                                placeholder="Mật khẩu">
-                        </div>
-                        <div class="form-group">
-                            <a href="login/forgot">Quên mật khẩu</a>
-                        </div>
+                        <small>Mã xác thực đã được gửi qua email bạn đã đăng ký trong tài khoản</small>
+
+
                         <p>
                             {{#each erorrs}}
                             <div class="alert alert-danger" role="alert">
@@ -29,7 +26,7 @@
                             {{/each}}
                         </p>
 
-                        <button type="submit" class="btn mag-btn mt-30">Đăng Nhập</button>
+                        <button type="submit" class="btn mag-btn mt-30">Xác nhận</button>
                     </form>
 
                 </div>
