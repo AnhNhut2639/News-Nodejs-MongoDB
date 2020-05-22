@@ -67,15 +67,17 @@ async function confirm(req, res) {
     );
     var token = shortid.generate();
     var eventually = token.slice(0, 6);
-
+    console.log(eventually);
     const payload = {
       final: eventually,
       id: user.id,
     };
-    const tokenSecret = jwt.sign({ payload }, process.env.SECRET_KEY);
+    const tokenSecret = jwt.sign({ payload }, process.env.SECRET_KEY, {
+      expiresIn: "5m",
+    });
 
     res.cookie("verify", tokenSecret);
-
+    //#region gmail
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -113,7 +115,7 @@ async function confirm(req, res) {
     							<td>
     							<div style="padding:0 3em;text-align:left">
     								<h2>Mã xác minh</h2>
-    								<p><b>${eventually}</b> là mã xác minh của bạn</p>
+    								<p><b>${eventually}</b> là mã xác minh của bạn. Mã xác minh sẽ hết hiệu lực sau 5 phút</p>
 
     								</div>
     							</td>
@@ -140,7 +142,7 @@ async function confirm(req, res) {
         console.log("Email sent: " + info.response);
       }
     });
-
+    //#endregion
     res.render("certainy", {
       layout: "login",
     });
@@ -158,11 +160,16 @@ async function confirm(req, res) {
 
 async function certainity(req, res) {
   const token = jwt.decode(req.cookies.verify, process.env.SECRET_KEY);
-
   let certainyCode = token.payload.final;
   let code = req.body.certainityCode;
-
-  if (code === certainyCode) {
+  if (Date.now() >= token.exp * 1000) {
+    res.render("certainy", {
+      layout: "login",
+      erorrs: [{ erorr: "Mã xác nhận đã hết hạn" }],
+      verifyCode: code,
+      link: "/login",
+    });
+  } else if (code === certainyCode) {
     res.render("certainyChangepass", {
       layout: "login",
     });

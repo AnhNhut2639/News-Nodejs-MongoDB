@@ -15,13 +15,14 @@
                             <input type="text" class="form-control" name="certainityCode" id="exampleInputEmail1"
                                 placeholder="Nhập mã xác thực" value={{verifyCode}}>
                         </div>
-                        <small>Mã xác thực đã được gửi qua email bạn đã đăng ký trong tài khoản</small>
+                        <small>Mã xác thực đã được gửi qua email bạn đã đăng ký trong tài khoản. Mã xác minh sẽ có hiệu
+                            lực trong 5 phút</small>
 
 
                         <p>
                             {{#each erorrs}}
                             <div class="alert alert-danger" role="alert">
-                                {{erorr}}
+                                {{erorr}}. <a href="{{link}}"> <i class="fa fa-backward">Quay lại</i></a>
                             </div>
                             {{/each}}
                         </p>
