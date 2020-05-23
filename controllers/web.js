@@ -9,6 +9,7 @@ var accessModel = require("../model/accessCountModel");
 var moment = require("moment");
 var ip = require("ip");
 var jwt = require("jsonwebtoken");
+const axios = require("axios");
 function getIDThemes(arr) {
   var temp;
   for (let item of arr) {
@@ -227,6 +228,26 @@ async function home(req, res) {
     };
   });
 
+  const arrData = [];
+  try {
+    const ncov = await axios.get("https://api.covid19api.com/summary");
+    const covid19 = ncov.data.Countries;
+    const sars2 = covid19.find((code) => code.CountryCode === "VN");
+    arrData.push(sars2);
+  } catch (error) {
+    throw error;
+  }
+  const finalInfo = arrData.map((covid) => {
+    return {
+      NewConfirmed: covid.NewConfirmed,
+      TotalConfirmed: covid.TotalConfirmed,
+      NewDeaths: covid.NewDeaths,
+      TotalDeaths: covid.TotalDeaths,
+      NewRecovered: covid.NewRecovered,
+      TotalRecovered: covid.TotalRecovered,
+      Date: moment(covid.Date).format("DD[-]MM[-]YYYY h:mm a"),
+    };
+  });
   return res.render("home", {
     data: data.slice(0, 10),
     dataType: limitTypes,
@@ -245,6 +266,7 @@ async function home(req, res) {
     homeHeader: normal,
     fullname: name,
     paginate: page,
+    dataCovid: finalInfo,
   });
 }
 

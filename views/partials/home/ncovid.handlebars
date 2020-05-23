@@ -1,0 +1,25 @@
+<div>
+
+    <p>
+
+        <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+            Thông tin Covid-19 tại việt nam &ensp; &ensp; &nbsp;
+        </button>
+    </p>
+
+    <div class="collapse" id="collapseExample">
+
+        <ul class="list-group">
+            {{#each dataCovid}}
+            <li class="list-group-item"> <b>Số ca nhiễm:</b> {{this.TotalConfirmed}}</li>
+            <li class="list-group-item"><b>Ca phục hồi:</b> {{this.TotalRecovered}} </li>
+            <li class="list-group-item"><b>Ca tử vong:</b> {{this.TotalDeaths}}</li>
+            <li class="list-group-item"><b>Ca ghi nhận mới:</b> {{this.NewRecovered}}</li>
+            <li class="list-group-item"><b>Thông tin cập nhật ngày:</b> {{this.Date}}</li>
+            {{/each}}
+        </ul>
+
+    </div>
+
+</div>
