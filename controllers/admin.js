@@ -558,7 +558,7 @@ async function adminUpdateProfile(req, res) {
 }
 
 async function adminAccount(req, res) {
-  const userAccount = await usersModel.find({});
+  const userAccount = await usersModel.find({ PQ: { $ne: "admin" } });
   var newsCount = await newsModel.count({ daDuyet: true, deny: false });
   var usersCount = await usersModel.count({});
   var typesCount = await typesModel.count({});

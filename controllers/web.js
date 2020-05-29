@@ -235,7 +235,7 @@ async function home(req, res) {
     const sars2 = covid19.find((code) => code.CountryCode === "VN");
     arrData.push(sars2);
   } catch (error) {
-    throw error;
+    arrData.push("");
   }
   const finalInfo = arrData.map((covid) => {
     return {
