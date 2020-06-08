@@ -451,18 +451,60 @@ async function adminType(req, res) {
     themesCount: themesCount,
   });
 }
-async function adminAddType(req, res) {
-  let position = await typesModel.count({});
-  let viTri = position + 1;
 
-  typesModel.create({
-    idNguoiTao: res.locals.user.id,
-    tenNguoiTao: res.locals.user.tenDayDu,
-    tenTheLoai: req.body.addType,
-    viTri: viTri,
+function typeExistsed(arr, result) {
+  var existed = false;
+  arr.forEach(function (item) {
+    if (item.tenTheLoai.split(" ").join("").toLowerCase() === result) {
+      existed = true;
+    }
   });
+  return existed;
+}
+async function adminAddType(req, res) {
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+  const type = await typesModel.find({});
+  var types = req.body.addType;
+  var result = types.split(" ").join("").toLowerCase();
+  let stt = 0;
 
-  res.redirect("/admin/type");
+  const data = type.map((type) => {
+    stt++;
+    return {
+      id: type.idTheLoai,
+      Type: type.tenTheLoai,
+      position: type.viTri,
+      STT: stt,
+    };
+  });
+  if (typeExistsed(type, result)) {
+    return res.render("admin-type", {
+      layout: "admin",
+      fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
+      types: data,
+      title: "Thể Loại",
+      newsCount: newsCount,
+      usersCount: usersCount,
+      typesCount: typesCount,
+      themesCount: themesCount,
+      message: "Thể loại " + `${types}` + " đã tồn tại",
+    });
+  } else {
+    let position = await typesModel.count({});
+    let viTri = position + 1;
+
+    typesModel.create({
+      idNguoiTao: res.locals.user.id,
+      tenNguoiTao: res.locals.user.tenDayDu,
+      tenTheLoai: req.body.addType,
+      viTri: viTri,
+    });
+
+    res.redirect("/admin/type");
+  }
 }
 
 async function adminTheme(req, res) {
@@ -501,24 +543,73 @@ async function adminTheme(req, res) {
     themesCount: themesCount,
   });
 }
-
-async function adminAddThemes(req, res) {
-  if (req.file === undefined) {
-    req.body.avatarTheme = "uploads/default.jpg";
-  } else if (req.file.path) {
-    req.body.avatarTheme = req.file.path.split("/").slice(1).join("/");
-  }
-
-  let urlTheme = "/" + req.body.avatarTheme;
-  themesModel.create({
-    idNguoiTao: res.locals.user.id,
-    tenNguoiTao: res.locals.user.tenDayDu,
-    tenChuDe: req.body.addTheme,
-    img: urlTheme,
-    idTheLoai: req.body.typeSelected,
+function testExistsed(arr, result) {
+  var existed = false;
+  arr.forEach(function (item) {
+    if (item.tenChuDe.split(" ").join("").toLowerCase() === result) {
+      existed = true;
+    }
   });
+  return existed;
+}
+async function adminAddThemes(req, res) {
+  const created = await themesModel.find({});
+  var newsCount = await newsModel.count({ daDuyet: true, deny: false });
+  var usersCount = await usersModel.count({});
+  var typesCount = await typesModel.count({});
+  var themesCount = await themesModel.count({});
+  let theme = await themesModel.find({});
+  let types = await typesModel.find({});
+  let stt = 0;
 
-  res.redirect("/admin/theme");
+  const dataTypes = types.map((type) => {
+    return {
+      id: type.idTheLoai,
+      type: type.tenTheLoai,
+    };
+  });
+  const data = theme.map((theme) => {
+    stt++;
+    return {
+      theme: theme.tenChuDe,
+      id: theme.idChuDe,
+      img: theme.img,
+      STT: stt,
+    };
+  });
+  var themes = req.body.addTheme;
+  var result = themes.split(" ").join("").toLowerCase();
+  if (testExistsed(created, result)) {
+    res.render("admin-theme", {
+      layout: "admin",
+      fullname: res.locals.user.tenDayDu, //load dữ liệu lên trang thể loại và chủ đề
+      title: "đã tồn tại",
+      themes: data,
+      types: dataTypes,
+      newsCount: newsCount,
+      usersCount: usersCount,
+      typesCount: typesCount,
+      themesCount: themesCount,
+      message: "Chủ đề " + `${themes}` + " đã tồn tại",
+    });
+  } else {
+    if (req.file === undefined) {
+      req.body.avatarTheme = "uploads/default.jpg";
+    } else if (req.file.path) {
+      req.body.avatarTheme = req.file.path.split("/").slice(1).join("/");
+    }
+
+    let urlTheme = "/" + req.body.avatarTheme;
+    themesModel.create({
+      idNguoiTao: res.locals.user.id,
+      tenNguoiTao: res.locals.user.tenDayDu,
+      tenChuDe: req.body.addTheme,
+      img: urlTheme,
+      idTheLoai: req.body.typeSelected,
+    });
+
+    res.redirect("/admin/theme");
+  }
 }
 
 async function adminProfile(req, res) {
@@ -1351,6 +1442,7 @@ async function searchTheme(req, res) {
     return {
       theme: theme.tenChuDe,
       id: theme.idChuDe,
+      img: theme.img,
       STT: stt,
     };
   });

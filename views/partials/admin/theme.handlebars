@@ -12,6 +12,37 @@
     {{message}}
 </div>
 {{/if}}
+{{!-- <div class="section-heading">
+    <h5> Thêm Chủ Đề</h5>
+</div> --}}
+
+<form action="" method="post" enctype="multipart/form-data">
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="typeSelect">Thể Loại</label>
+        </div>
+        <select class="custom-select" id="typeSelect" name="typeSelected" required="true">
+            <option selected>Choose...</option>
+            {{#each types}}
+            <option value="{{this.id}}">{{this.type}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Chủ Đề</label>
+        <input type="text" class="form-control" name="addTheme" required="true">
+    </div>
+
+    <div class="form-group">
+        <label for="avatar2">Hình đại diện (có thể bỏ trống)</label>
+        <input type="file" class="form-control-file" name="avatarTheme" id="avatar2">
+    </div>
+
+    <button type="submit" class="btn btn-info">Thêm Chủ Đề</button>
+
+</form>
+<br>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -41,34 +72,3 @@
         {{/each}}
     </tbody>
 </table>
-
-<div class="section-heading">
-    <h5> Thêm Chủ Đề</h5>
-</div>
-
-<form action="" method="post" enctype="multipart/form-data">
-
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <label class="input-group-text" for="typeSelect">Thể Loại</label>
-        </div>
-        <select class="custom-select" id="typeSelect" name="typeSelected" required="true">
-            <option selected>Choose...</option>
-            {{#each types}}
-            <option value="{{this.id}}">{{this.type}}</option>
-            {{/each}}
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Chủ Đề</label>
-        <input type="text" class="form-control" name="addTheme">
-    </div>
-
-    <div class="form-group">
-        <label for="avatar2">Hình đại diện (có thể bỏ trống)</label>
-        <input type="file" class="form-control-file" name="avatarTheme" id="avatar2">
-    </div>
-
-    <button type="submit" class="btn btn-info">Thêm Chủ Đề</button>
-
-</form>
