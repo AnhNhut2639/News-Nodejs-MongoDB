@@ -2,14 +2,15 @@ const express = require("express");
 const controllers = require("../controllers");
 var multer = require("multer");
 var validate = require("../validate/validate.register");
+var validateDelete = require("../validate/validate.deleteTheme");
 // var upload = multer({ dest: "./public/uploads/" });
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, "./public/uploads/");
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname);
-  }
+  },
 });
 const upload = multer({ storage: storage });
 const adminRouter = express.Router();
@@ -81,7 +82,11 @@ adminRouter.post(
 
 adminRouter.get("/:id", controllers.admin.readNews);
 
-adminRouter.get("/deleteTheme/:id", controllers.admin.deleteThemes);
+adminRouter.get(
+  "/deleteTheme/:id",
+  validateDelete.checkStillNews,
+  controllers.admin.deleteThemes
+);
 adminRouter.get("/deleteType/:id", controllers.admin.deleteTypes);
 adminRouter.get("/update/:id", controllers.admin.getTheme);
 adminRouter.post(

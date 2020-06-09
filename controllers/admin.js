@@ -1421,12 +1421,15 @@ async function searchTheme(req, res) {
   var usersCount = await usersModel.count({});
   var typesCount = await typesModel.count({});
   var themesCount = await themesModel.count({});
+  var message = [];
   var q = req.query.search;
   const searchTheme = await themesModel.find({
     $text: { $search: q },
   });
   if (searchTheme == "") {
-    var message = "Không tìm thấy chủ đề";
+    message.push({
+      error: "Không tìm thấy chủ đề",
+    });
   }
   let types = await typesModel.find({});
   let stt = 0;
