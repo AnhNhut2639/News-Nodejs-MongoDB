@@ -87,7 +87,11 @@ adminRouter.get(
   validateDelete.checkStillNews,
   controllers.admin.deleteThemes
 );
-adminRouter.get("/deleteType/:id", controllers.admin.deleteTypes);
+adminRouter.get(
+  "/deleteType/:id",
+  validateDelete.checkStillThemes,
+  controllers.admin.deleteTypes
+);
 adminRouter.get("/update/:id", controllers.admin.getTheme);
 adminRouter.post(
   "/update/:id",

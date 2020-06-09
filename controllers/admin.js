@@ -1389,8 +1389,11 @@ async function searchType(req, res) {
   const search = await typesModel.find({
     $text: { $search: q },
   });
+  var message = [];
   if (search == "") {
-    var message = "Không tìm thấy thể loại";
+    message.push({
+      error: "Không tìm thấy chủ đề",
+    });
   }
   let stt = 0;
 

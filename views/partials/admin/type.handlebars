@@ -8,11 +8,11 @@
     </div>
     <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-search"></i></button>
 </form>
-{{#if message}}
+{{#each message}}
 <div class="alert alert-danger" role="alert">
-    {{message}}
+    {{this.error}}
 </div>
-{{/if}}
+{{/each}}
 <table class="table table-hover">
     <thead>
         <tr>
