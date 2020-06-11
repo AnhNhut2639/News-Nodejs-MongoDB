@@ -3,6 +3,16 @@
         <div class="row justify-content-center">
             <div class="col-12 col-xl-8">
                 <div class="archive-posts-area bg-white p-30 mb-30 box-shadow">
+
+                    {{#each dataThemes}}
+
+                    <div class="section-heading">
+                        <h5>{{this.name}}</h5>
+                    </div>
+
+                    {{/each}}
+                    <br>
+                    <br>
                     {{#each data}}
                     <!-- Single Catagory Post -->
                     <div class="single-catagory-post d-flex flex-wrap">

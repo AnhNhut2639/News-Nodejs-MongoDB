@@ -1,17 +1,22 @@
+{{>news/breadcrumb}}
+{{!-- {{>news/kindArea}} --}}
 <section class="mag-posts-area d-flex flex-wrap">
 
     {{> news/leftSideBar}}
 
     <div class="mag-posts-content mt-30 mb-30 p-30 box-shadow">
+        {{#each typeName}}
 
+        <h1>{{this.typeName}}</h1>
 
+        {{/each}}
         <!-- Feature Video Posts Area -->
         <div class="feature-video-posts mb-30">
             <!-- Section Title -->
             <h1>
 
-                {{#each theme}}
-                <b><a href="#">{{this}} || </a></b>
+                {{#each dataThemes}}
+                <b><a href="/themes/{{this.id}}">{{this.name}}&emsp; </a></b>
                 {{/each}}
 
             </h1>
@@ -29,14 +34,16 @@
                     </div>
                 </div>
             </div>
-
+            <br>
+            <br>
 
 
             <!-- Section Title -->
+            {{#if down}}
             <div class="section-heading">
                 <h5>Mới nhất</h5>
             </div>
-
+            {{/if}}
             <div class="most-viewed-videos-slide owl-carousel">
 
                 {{> news/typeDown}}
@@ -45,9 +52,11 @@
 
             </div>
         </div>
+        {{#if rest}}
         <div class="section-heading">
             <h5>Có thể bạn quan tâm</h5>
         </div>
+        {{/if}}
         {{#each rest}}
         <div class="single-catagory-post d-flex flex-wrap">
             <div class="post-thumbnail bg-img" style="background-image: url({{this.img}});">

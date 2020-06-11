@@ -113,6 +113,7 @@ async function home(req, res) {
       img: news.firstImage,
       theme: news.chuDe,
       viewsCount: news.luotXem,
+      idTheme: news.idChuDe,
     };
   });
 
@@ -421,7 +422,19 @@ async function comment(req, res) {
   // res.redirect("/news/" + idBantin);
 }
 async function search(req, res) {
-  var normal = 1;
+  let token = jwt.decode(req.cookies.ID, process.env.SECRET_KEY);
+  if (token) {
+    let id = token.payload.id;
+    var user = await usersModel.findOne({ id: id });
+    var name = getLast(user.tenDayDu);
+    if (user.PQ == "admin") {
+      var adminHeader = 1;
+    } else if (user.PQ == "editor") {
+      var editorHeader = 1;
+    }
+  } else {
+    var normal = 1;
+  }
   var q = req.query.search;
   const search = await newsModel.find({
     daDuyet: true,
@@ -446,10 +459,31 @@ async function search(req, res) {
       viewsCount: news.luotXem,
     };
   });
+  const types = await typesModel.find({});
+  types.sort(function (a, b) {
+    return a.viTri - b.viTri;
+  });
 
+  const dataType = types.map((type) => {
+    return {
+      id: type.idTheLoai,
+      type: type.tenTheLoai,
+    };
+  });
+
+  var limitTypes = dataType.slice(0, 10);
+  var restTypes = dataType.slice(10);
   return res.render("search", {
+    layout: "news",
+    dataType: limitTypes,
+    restTypes: restTypes,
     homeHeader: normal,
     data: data,
+    permission: 1,
+    adminHeader: adminHeader,
+    editorHeader: editorHeader,
+    homeHeader: normal,
+    fullname: name,
   });
 }
 
@@ -487,6 +521,7 @@ async function pagination(req, res) {
       img: news.firstImage,
       theme: news.chuDe,
       viewsCount: news.luotXem,
+      idTheme: news.idChuDe,
     };
   });
   const realdata = data.slice(start, end);
@@ -494,6 +529,19 @@ async function pagination(req, res) {
 }
 
 async function getTypes(req, res) {
+  let token = jwt.decode(req.cookies.ID, process.env.SECRET_KEY);
+  if (token) {
+    let id = token.payload.id;
+    var user = await usersModel.findOne({ id: id });
+    var name = getLast(user.tenDayDu);
+    if (user.PQ == "admin") {
+      var adminHeader = 1;
+    } else if (user.PQ == "editor") {
+      var editorHeader = 1;
+    }
+  } else {
+    var normal = 1;
+  }
   let id = req.params.id;
   const theme = await themesModel.find({ idTheLoai: id });
   var idChuDe = [];
@@ -524,7 +572,12 @@ async function getTypes(req, res) {
       viewsCount: news.luotXem,
     };
   });
-
+  const dataThemes = theme.map((theme) => {
+    return {
+      id: theme.idChuDe,
+      name: theme.tenChuDe,
+    };
+  });
   var main = data.slice(0, 1);
   var right = data.slice(1, 4);
   var down = data.slice(4, 7);
@@ -544,15 +597,30 @@ async function getTypes(req, res) {
   var limitTypes = dataType.slice(0, 10);
   var restTypes = dataType.slice(10);
 
+  const typeName = await typesModel.find({ idTheLoai: id }, { tenTheLoai: 1 });
+  const dataTypeName = typeName.map((name) => {
+    return {
+      typeName: name.tenTheLoai,
+    };
+  });
+
   return res.render("types", {
     layout: "news",
     dataType: limitTypes,
     restTypes: restTypes,
-    theme: name,
+    typeName: dataTypeName,
+    // theme: name,
+    // idTheme: idChuDe,
+    dataThemes: dataThemes,
     main: main,
     right: right,
     down: down,
     rest: rest,
+    permission: 1,
+    adminHeader: adminHeader,
+    editorHeader: editorHeader,
+    homeHeader: normal,
+    fullname: name,
   });
 }
 
@@ -578,6 +646,19 @@ async function getComments(req, res) {
 }
 
 async function getNewsThemes(req, res) {
+  let token = jwt.decode(req.cookies.ID, process.env.SECRET_KEY);
+  if (token) {
+    let id = token.payload.id;
+    var user = await usersModel.findOne({ id: id });
+    var name = getLast(user.tenDayDu);
+    if (user.PQ == "admin") {
+      var adminHeader = 1;
+    } else if (user.PQ == "editor") {
+      var editorHeader = 1;
+    }
+  } else {
+    var normal = 1;
+  }
   let id = req.params.id;
 
   const news = await newsModel.find({ idChuDe: id });
@@ -594,10 +675,39 @@ async function getNewsThemes(req, res) {
       img: news.firstImage,
     };
   });
+  const types = await typesModel.find({});
+  types.sort(function (a, b) {
+    return a.viTri - b.viTri;
+  });
+
+  const dataType = types.map((type) => {
+    return {
+      id: type.idTheLoai,
+      type: type.tenTheLoai,
+    };
+  });
+
+  var limitTypes = dataType.slice(0, 10);
+  var restTypes = dataType.slice(10);
+  const theme = await themesModel.find({ idChuDe: id }, { tenChuDe: 1 });
+
+  const dataThemes = theme.map((theme) => {
+    return {
+      name: theme.tenChuDe,
+    };
+  });
 
   return res.render("themes", {
     layout: "news",
     data: data,
+    dataType: limitTypes,
+    restTypes: restTypes,
+    dataThemes: dataThemes,
+    permission: 1,
+    adminHeader: adminHeader,
+    editorHeader: editorHeader,
+    homeHeader: normal,
+    fullname: name,
   });
 }
 
